@@ -1,11 +1,11 @@
-<?php
+32<?php
 /**
  * @author Shashakhmetov Talgat <talgatks@gmail.com>
  */
 
 class ControllerModuleCustomTemplate extends Controller
 {
-	private $_version = '1.3.2';
+	private $_version = '1.3.2.1';
 
 	private $error = array();
 
