@@ -380,20 +380,20 @@ function checkfile(elem_id){
 		type: 'POST',
 		dataType: 'json',
 		data: {path: $(elem).val()},
-	})
-	.success(function(data){
-		if (data['success']) {
-			$(elem).closest('td').append('<div class="success" style="margin:10px 0px;">'+ data['success'] +'<a class="close"><img src="view/image/delete.png"/></a></div>');
-		};
+		success: function(data) {
+			if (data['success']) {
+				$(elem).closest('td').append('<div class="success" style="margin:10px 0px;">'+ data['success'] +'<a class="close"><img src="view/image/delete.png"/></a></div>');
+			};
 
-		if (data['warning']) {
-			$(elem).closest('td').append('<div class="warning" style="margin:10px 0px;">'+ data['warning'] +'<a class="close"><img src="view/image/delete.png"/></a></div>');
+			if (data['warning']) {
+				$(elem).closest('td').append('<div class="warning" style="margin:10px 0px;">'+ data['warning'] +'<a class="close"><img src="view/image/delete.png"/></a></div>');
+			}
+			$('a.close').click(function(event) {
+				event.preventDefault();
+				$(this).parent('div').remove();
+			});
 		}
-		$('a.close').click(function(event) {
-			event.preventDefault();
-			$(this).parent('div').remove();
-		});
-	})
+	});
 }
 //--></script>
 <script type="text/javascript"><!--
