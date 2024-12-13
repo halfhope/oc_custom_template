@@ -31,3 +31,8 @@
 * fix: Added correct disabling of the module when it is removed
 * fix: Library loader unified
 
+#### 1.3.2.1
+
+* fix: Fixed success state handler for ajax
+* fix: Fixed product autocomplete for 3.x
+
