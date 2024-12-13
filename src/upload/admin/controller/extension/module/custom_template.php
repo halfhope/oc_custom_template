@@ -5,7 +5,7 @@
 
 class ControllerExtensionModuleCustomTemplate extends Controller
 {
-	private $_version = '1.3.2';
+	private $_version = '1.3.2.1';
 
 	private $error = array();
 

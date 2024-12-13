@@ -487,7 +487,7 @@ function init_related(){
 		$('.product_autocomplete').autocomplete({
 		'source': function(request, response) {
 			$.ajax({
-				url: 'index.php?route=catalog/product/autocomplete&user_token={{ user_token }} &filter_name=' +  encodeURIComponent(request),
+				url: 'index.php?route=catalog/product/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
 				dataType: 'json',
 				success: function(json) {
 					response($.map(json, function(item) {
@@ -533,17 +533,16 @@ function checkFile(module_id){
 		type: 'POST',
 		dataType: 'json',
 		data: {path: $('#custom_template_module_' + module_id + '_template_name').val(), store_id:$('input[name="selected_store_id"]').val()},
-	})
-	.success(function(data){
-		console.log(data);
-		if (data['success']) {
-			$('.stemplate.module' + module_id + ' .help-block').after('<div class="alert alert-success"><i class="fa fa-exclamation-circle"></i> ' + data['success'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
-		};
+		success: function(data) {
+			if (data['success']) {
+				$('.stemplate.module' + module_id + ' .help-block').after('<div class="alert alert-success"><i class="fa fa-exclamation-circle"></i> ' + data['success'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+			};
 
-		if (data['warning']) {
-			$('.stemplate.module' + module_id + ' .help-block').after('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> ' + data['warning'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+			if (data['warning']) {
+				$('.stemplate.module' + module_id + ' .help-block').after('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> ' + data['warning'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+			}
 		}
-	})
+	});
 }
 function init_form(){
 	$.each($('.select_type'), function(){
