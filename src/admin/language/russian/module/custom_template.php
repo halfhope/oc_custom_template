@@ -22,14 +22,13 @@ $_['module_types'] = array(
 
 //Entry
 $_['entry_module_type']    = 'Тип шаблона:';
-$_['entry_category']       = 'Категориии: <span class="help">Если оставить пустым, то будет выбран шаблон для всех категорий.</span>';
-$_['entry_stores']         = 'Магазины: <span class="help">Если оставить пустым, то будет выбран шаблон для всех магазинов.</span>';
+$_['entry_category']       = 'Категориии:';
 $_['entry_languages']      = 'Языки: <span class="help">Если оставить пустым, то будет выбран шаблон для всех языков.</span>';
 $_['entry_layouts']        = 'Схемы:';
 $_['entry_customer_group'] = 'Группы пользователей: <span class="help">Если оставить пустым, то будет выбран шаблон для всех групп пользователей.</span>';
-$_['entry_information']    = 'Информационные страницы: <span class="help">Если оставить пустым, то будет выбран шаблон для всех информационных страниц.</span>';
-$_['entry_manufacturer']   = 'Производители: <span class="help">Если оставить пустым, то будет выбран шаблон для всех производителей.</span>';
-$_['entry_product']        = 'Товары (автозаполнение): <span class="help">Если оставить пустым, то будет выбран шаблон для всех товаров.</span>';
+$_['entry_information']    = 'Информационные страницы:';
+$_['entry_manufacturer']   = 'Производители:';
+$_['entry_product']        = 'Товары (автозаполнение):';
 $_['entry_template']       = 'Файл нового шаблона: <span class="help"> Путь задается относительно директории:%s <br>Например, default/template/product/category.tpl</span>';
 
 //Buttons

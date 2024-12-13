@@ -4,6 +4,7 @@
 	<version>1.3</version>
 	<vqmver>2.4.1</vqmver>
 	<author>Shashakhmetov Talgat[talgatks@gmail.com]</author>
+	<!-- layout filter for custom pages -->
 	<file name="catalog/controller/checkout/cart.php">
 		<operation error="log">
 			<search position="replace"><![CDATA[$this->template = 'default/template/checkout/cart.tpl';]]></search>
@@ -13,9 +14,9 @@
 			// Custom template module
 			$this->load->model('setting/setting');
 
-			$custom_template_module = $this->model_setting_setting->getSetting('custom_template_module');
+			$custom_template_module = $this->config->get('custom_template_module');
 			
-			if(!empty($custom_template_module['custom_template_module'])){
+			if(!empty($custom_template_module)){
 				
 				$this->load->library('custom_template');
 				$custom_template = new CustomTemplate($this->registry);
@@ -23,7 +24,7 @@
 				
 				$customer_group_id = $this->customer->getCustomerGroupId();
 				
-				foreach ($custom_template_module['custom_template_module'] as $key => $module) {
+				foreach ($custom_template_module as $key => $module) {
 					if($module['type'] == 0){
 						if ($this->custom_template->filterCommon($module, $customer_group_id)){
 							if ($this->custom_template->filterLayouts($module)){
@@ -51,9 +52,9 @@
 			// Custom template module
 			$this->load->model('setting/setting');
 
-			$custom_template_module = $this->model_setting_setting->getSetting('custom_template_module');
+			$custom_template_module = $this->config->get('custom_template_module');
 			
-			if(!empty($custom_template_module['custom_template_module'])){
+			if(!empty($custom_template_module)){
 				
 				$this->load->library('custom_template');
 				$custom_template = new CustomTemplate($this->registry);
@@ -61,7 +62,7 @@
 				
 				$customer_group_id = $this->customer->getCustomerGroupId();
 				
-				foreach ($custom_template_module['custom_template_module'] as $key => $module) {
+				foreach ($custom_template_module as $key => $module) {
 					if($module['type'] == 0){
 						if ($this->custom_template->filterCommon($module, $customer_group_id)){
 							if ($this->custom_template->filterLayouts($module)){
@@ -80,82 +81,7 @@
 			]]></add>
 		</operation>
 	</file>
-	<file name="catalog/controller/product/search.php">
-		<operation error="log">
-			<search position="replace"><![CDATA[$this->template = 'default/template/product/search.tpl';]]></search>
-			<add><![CDATA[$this->template = 'default/template/product/search.tpl';
-			}
-
-			// Custom template module
-			$this->load->model('setting/setting');
-
-			$custom_template_module = $this->model_setting_setting->getSetting('custom_template_module');
-			
-			if(!empty($custom_template_module['custom_template_module'])){
-				
-				$this->load->library('custom_template');
-				$custom_template = new CustomTemplate($this->registry);
-				$this->registry->set('custom_template', $custom_template);
-				
-				$customer_group_id = $this->customer->getCustomerGroupId();
-				
-				foreach ($custom_template_module['custom_template_module'] as $key => $module) {
-					if($module['type'] == 0){
-						if ($this->custom_template->filterCommon($module, $customer_group_id)){
-							if ($this->custom_template->filterLayouts($module)){
-
-								if (file_exists(DIR_TEMPLATE .  $module['template_name'])) {
-									$this->template = $module['template_name'];
-								} else {
-									$this->template = DIR_TEMPLATE . 'default' .DIRECTORY_SEPARATOR. $module['template_name'];
-								}
-
-							}
-						}
-					}
-				}
-			// Custom template module
-			]]></add>
-		</operation>
-	</file>
-	<file name="catalog/controller/product/special.php">
-		<operation error="log">
-			<search position="replace"><![CDATA[$this->template = 'default/template/product/special.tpl';]]></search>
-			<add><![CDATA[$this->template = 'default/template/product/special.tpl';
-			}
-
-			// Custom template module
-			$this->load->model('setting/setting');
-
-			$custom_template_module = $this->model_setting_setting->getSetting('custom_template_module');
-			
-			if(!empty($custom_template_module['custom_template_module'])){
-				
-				$this->load->library('custom_template');
-				$custom_template = new CustomTemplate($this->registry);
-				$this->registry->set('custom_template', $custom_template);
-				
-				$customer_group_id = $this->customer->getCustomerGroupId();
-				
-				foreach ($custom_template_module['custom_template_module'] as $key => $module) {
-					if($module['type'] == 0){
-						if ($this->custom_template->filterCommon($module, $customer_group_id)){
-							if ($this->custom_template->filterLayouts($module)){
-
-								if (file_exists(DIR_TEMPLATE .  $module['template_name'])) {
-									$this->template = $module['template_name'];
-								} else {
-									$this->template = DIR_TEMPLATE . 'default' .DIRECTORY_SEPARATOR. $module['template_name'];
-								}
-
-							}
-						}
-					}
-				}
-			// Custom template module
-			]]></add>
-		</operation>
-	</file>
+	<!-- common filters and pages -->
 	<file name="catalog/controller/common/home.php">
 		<operation error="log">
 			<search position="replace"><![CDATA[$this->template = 'default/template/common/home.tpl';]]></search>
@@ -165,9 +91,9 @@
 			// Custom template module
 			$this->load->model('setting/setting');
 
-			$custom_template_module = $this->model_setting_setting->getSetting('custom_template_module');
+			$custom_template_module = $this->config->get('custom_template_module');
 			
-			if(!empty($custom_template_module['custom_template_module'])){
+			if(!empty($custom_template_module)){
 				
 				$this->load->library('custom_template');
 				$custom_template = new CustomTemplate($this->registry);
@@ -175,7 +101,7 @@
 				
 				$customer_group_id = $this->customer->getCustomerGroupId();
 				
-				foreach ($custom_template_module['custom_template_module'] as $key => $module) {
+				foreach ($custom_template_module as $key => $module) {
 					if($module['type'] == 0){
 						if ($this->custom_template->filterCommon($module, $customer_group_id)){
 							if ($this->custom_template->filterLayouts($module)){
@@ -203,10 +129,10 @@
 			// Custom template module
 			$this->load->model('setting/setting');
 
-			$custom_template_module = $this->model_setting_setting->getSetting('custom_template_module');
+			$custom_template_module = $this->config->get('custom_template_module');
 
 
-			if(!empty($custom_template_module['custom_template_module'])){
+			if(!empty($custom_template_module)){
 				
 				$this->load->library('custom_template');
 				$custom_template = new CustomTemplate($this->registry);
@@ -214,7 +140,7 @@
 				
 				$customer_group_id = $this->customer->getCustomerGroupId();
 				
-				foreach ($custom_template_module['custom_template_module'] as $key => $module) {
+				foreach ($custom_template_module as $key => $module) {
 					if($module['type'] == 0){
 						if ($this->custom_template->filterCommon($module, $customer_group_id)){
 							if ($this->custom_template->filterLayouts($module)){
@@ -229,7 +155,7 @@
 						}
 					}
 				}
-				foreach ($custom_template_module['custom_template_module'] as $key => $module) {
+				foreach ($custom_template_module as $key => $module) {
 					if ($module['type'] == 1) {
 						if ($this->custom_template->filterCommon($module, $customer_group_id)){
 							if ($this->custom_template->filterCategories($module, $category_id)) {								
@@ -257,9 +183,9 @@
 			// Custom template module
 			$this->load->model('setting/setting');
 
-			$custom_template_module = $this->model_setting_setting->getSetting('custom_template_module');
+			$custom_template_module = $this->config->get('custom_template_module');
 
-			if(!empty($custom_template_module['custom_template_module'])){
+			if(!empty($custom_template_module)){
 			
 				$this->load->library('custom_template');
 				$custom_template = new CustomTemplate($this->registry);
@@ -267,7 +193,7 @@
 				
 				$customer_group_id = $this->customer->getCustomerGroupId();
 
-				foreach ($custom_template_module['custom_template_module'] as $key => $module) {
+				foreach ($custom_template_module as $key => $module) {
 					if($module['type'] == 0){
 						if ($this->custom_template->filterCommon($module, $customer_group_id)){
 							if ($this->custom_template->filterLayouts($module)){
@@ -284,7 +210,7 @@
 				}
 
 				if(isset($this->request->get['path'])){
-					foreach ($custom_template_module['custom_template_module'] as $key => $module) {
+					foreach ($custom_template_module as $key => $module) {
 						if ($module['type'] == 5) {
 							if ($this->custom_template->filterCommon($module, $customer_group_id)){
 
@@ -306,13 +232,13 @@
 					}
 				}
 
-				foreach ($custom_template_module['custom_template_module'] as $key => $module) {
+				foreach ($custom_template_module as $key => $module) {
 					if ($module['type'] == 6) {
 						if ($this->custom_template->filterCommon($module, $customer_group_id)){
 
 							$manufacturer_id = $product_info['manufacturer_id'];
 
-							if ($this->custom_template->filterProductManufacturers($manufacturer_id, $module)) {
+							if ($this->custom_template->filterProductManufacturers($module, $manufacturer_id)) {
 
 								if (file_exists(DIR_TEMPLATE . $module['template_name'])) {
 									$this->template = $module['template_name'];
@@ -327,10 +253,10 @@
 					}
 				}	
 
-				foreach ($custom_template_module['custom_template_module'] as $key => $module) {
+				foreach ($custom_template_module as $key => $module) {
 					if (($module['type'] == 2) && !empty($module['products'])) {
 						if ($this->custom_template->filterCommon($module, $customer_group_id)){
-							if ($this->custom_template->filterProducts($module)) {
+							if ($this->custom_template->filterProducts($module, $product_id)) {
 								if (file_exists(DIR_TEMPLATE . $module['template_name'])) {
 									$this->template = $module['template_name'];
 								} else {
@@ -354,10 +280,10 @@
 			// Custom template module
 			$this->load->model('setting/setting');
 
-			$custom_template_module = $this->model_setting_setting->getSetting('custom_template_module');
+			$custom_template_module = $this->config->get('custom_template_module');
 
 
-			if(!empty($custom_template_module['custom_template_module'])){
+			if(!empty($custom_template_module)){
 
 				$this->load->library('custom_template');
 				$custom_template = new CustomTemplate($this->registry);
@@ -365,7 +291,7 @@
 				
 				$customer_group_id = $this->customer->getCustomerGroupId();
 
-				foreach ($custom_template_module['custom_template_module'] as $key => $module) {
+				foreach ($custom_template_module as $key => $module) {
 					if($module['type'] == 0){
 						if ($this->custom_template->filterCommon($module, $customer_group_id)){
 							if ($this->custom_template->filterLayouts($module)){
@@ -381,7 +307,7 @@
 					}
 				}
 
-				foreach ($custom_template_module['custom_template_module'] as $key => $module) {
+				foreach ($custom_template_module as $key => $module) {
 					if ($module['type'] == 3) {
 						if ($this->custom_template->filterCommon($module, $customer_group_id)){
 							if ($this->custom_template->filterInformations($module, $information_id)){
@@ -409,9 +335,9 @@
 			// Custom template module
 			$this->load->model('setting/setting');
 
-			$custom_template_module = $this->model_setting_setting->getSetting('custom_template_module');
+			$custom_template_module = $this->config->get('custom_template_module');
 
-			if(!empty($custom_template_module['custom_template_module'])){
+			if(!empty($custom_template_module)){
 
 				$this->load->library('custom_template');
 				$custom_template = new CustomTemplate($this->registry);
@@ -419,7 +345,7 @@
 				
 				$customer_group_id = $this->customer->getCustomerGroupId();
 				
-				foreach ($custom_template_module['custom_template_module'] as $key => $module) {
+				foreach ($custom_template_module as $key => $module) {
 					if($module['type'] == 0){
 						if ($this->custom_template->filterCommon($module, $customer_group_id)){
 							if ($this->custom_template->filterLayouts($module)){
@@ -435,7 +361,7 @@
 					}
 				}
 
-				foreach ($custom_template_module['custom_template_module'] as $key => $module) {
+				foreach ($custom_template_module as $key => $module) {
 					if ($module['type'] == 4) {
 						if ($this->custom_template->filterCommon($module, $customer_group_id)){
 							if ($this->custom_template->filterManufacturers($module, $manufacturer_id)){

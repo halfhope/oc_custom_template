@@ -22,14 +22,13 @@ $_['module_types'] = array(
 
 //Entry
 $_['entry_module_type']    = 'Template type:';
-$_['entry_category']       = 'Categories: <span class="help">If </span>';
-$_['entry_stores']         = 'Stores: <span class="help">Если оставить пустым, то будет выбран шаблон для всех магазинов.</span>';
+$_['entry_category']       = 'Categories:';
 $_['entry_languages']      = 'Languages: <span class="help">Если оставить пустым, то будет выбран шаблон для всех языков.</span>';
 $_['entry_layouts']        = 'Layouts:';
 $_['entry_customer_group'] = 'Customer groups: <span class="help">If left blank, the template will be selected for all user groups.</span>';
-$_['entry_information']    = 'Information pages: <span class="help">If left blank, the template for all information pages will be selected.</span>';
-$_['entry_manufacturer']   = 'Manufacturers: <span class="help">If left blank, then a template will be selected for all manufacturers.</span>';
-$_['entry_product']        = 'Products (autocomplete): <span class="help">If left blank, the template for all products will be selected..</span>';
+$_['entry_information']    = 'Information pages:';
+$_['entry_manufacturer']   = 'Manufacturers:';
+$_['entry_product']        = 'Products (autocomplete):';
 $_['entry_template']       = 'Template file: <span class="help">The path is relative to the directory:%s <br>E.g. default/template/product/category.tpl</span>';
 
 //Buttons

@@ -13,12 +13,33 @@ class ControllerModuleCustomTemplate extends Controller
         
         $this->load->model('setting/setting');
         
+        if (isset($this->request->get['store_id'])) {
+            $this->data['selected_store_id'] = $this->request->get['store_id'];
+        }else{
+            $this->data['selected_store_id'] = 0;
+        }
+        
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
-            $this->model_setting_setting->editSetting('custom_template_module', $this->request->post);
+            
+            $this->data['selected_store_id'] = $this->request->post['selected_store_id'];
+            
+            unset($this->request->post['selected_store_id']);
+
+            if (isset($this->request->post['custom_template_module'])) {
+                foreach ($this->request->post['custom_template_module'] as $key => $module) {
+                    $this->request->post['custom_template_module'][$key]['template_name'] = str_replace(array(
+                        '//',
+                        '\\'
+                    ), '/', $module['template_name']);
+                }
+                $this->model_setting_setting->editSetting('custom_template_module', $this->request->post, $this->data['selected_store_id']);
+            }else{
+                $this->model_setting_setting->deleteSetting('custom_template_module', $this->data['selected_store_id']);
+            }
             
             $this->session->data['success'] = $this->language->get('text_success');
             
-            $this->redirect($this->url->link('module/custom_template', 'token=' . $this->session->data['token'], 'SSL'));
+            $this->redirect($this->url->link('module/custom_template', 'token=' . $this->session->data['token'] . '&store_id=' . $this->data['selected_store_id'], 'SSL'));
         }
         
         $this->data['heading_title'] = $this->language->get('module_heading_title');
@@ -39,7 +60,6 @@ class ControllerModuleCustomTemplate extends Controller
         //Entry
         $this->data['entry_module_type']    = $this->language->get('entry_module_type');
         $this->data['entry_layouts']        = $this->language->get('entry_layouts');
-        $this->data['entry_stores']         = $this->language->get('entry_stores');
         $this->data['entry_languages']      = $this->language->get('entry_languages');
         $this->data['entry_category']       = $this->language->get('entry_category');
         $this->data['entry_customer_group'] = $this->language->get('entry_customer_group');
@@ -62,7 +82,6 @@ class ControllerModuleCustomTemplate extends Controller
         $this->load->model('setting/store');
         $this->load->model('sale/customer_group');
         $this->load->model('localisation/language');
-        
         
         $this->data['categories']    = $this->model_catalog_category->getCategories(0);
         $this->data['informations']  = $this->model_catalog_information->getInformations();
@@ -89,15 +108,17 @@ class ControllerModuleCustomTemplate extends Controller
         
         $this->data['stores'][] = array(
             'store_id' => 0,
-            'name' => $this->config->get('config_name') . $this->language->get('text_default')
+            'name' => $this->config->get('config_name') . $this->language->get('text_default'),
+            'link' => $this->url->link('module/custom_template', 'token=' . $this->session->data['token'] .'&store_id=0' , 'SSL')
         );
-        
+
         $results = $this->model_setting_store->getStores();
         
         foreach ($results as $result) {
             $this->data['stores'][] = array(
                 'store_id' => $result['store_id'],
-                'name' => $result['name']
+                'name' => $result['name'],
+                'link' => $this->url->link('module/custom_template', 'token=' . $this->session->data['token'] .'&store_id=' . $result['store_id'] , 'SSL')
             );
         }
         
@@ -105,8 +126,9 @@ class ControllerModuleCustomTemplate extends Controller
         
         if (isset($this->request->post['custom_template_module'])) {
             $modules = $this->request->post['custom_template_module'];
-        } elseif ($this->config->get('custom_template_module')) {
-            $modules = $this->config->get('custom_template_module');
+        } else {
+            $setting = $this->model_setting_setting->getSetting('custom_template_module', $this->data['selected_store_id']);
+            $modules = isset($setting['custom_template_module']) ? $setting['custom_template_module'] : array();
         }
         
         $subset = array(
@@ -116,19 +138,18 @@ class ControllerModuleCustomTemplate extends Controller
             'customer_groups' => array(),
             'product_manufacturers' => array(),
             'layouts' => array(),
-            'stores' => array(),
+            'products' => '',
             'languages' => array(),
             'product_categories' => array(),
             'parsed_products' => array()
         );
-        
+
         foreach ($modules as $key => $module) {
             foreach ($subset as $index => $set) {
                 if (!isset($modules[$key][$index])) {
                     $modules[$key][$index] = $set;
                 }
             }
-            
             if (isset($this->request->post['custom_template_module'][$key]['products'])) {
                 $products = explode(',', $this->request->post['custom_template_module'][$key]['products']);
             } else {
@@ -229,7 +250,6 @@ class ControllerModuleCustomTemplate extends Controller
     public function check_file()
     {
         $this->load->language('module/custom_template');
-        $this->load->model('setting/setting');
         
         if (isset($this->request->post['path']) && $this->validate()) {
             

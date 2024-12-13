@@ -14,10 +14,23 @@
   <div class="box">
     <div class="heading">
       <h1><img src="view/image/module.png" alt="" /> <?php echo $heading_title; ?></h1>
-      <div class="buttons"><a onclick="$('#form').submit();" class="button"><?php echo $button_save; ?></a><a onclick="location = '<?php echo $cancel; ?>';" class="button"><?php echo $button_cancel; ?></a></div>
+      <div class="buttons">
+        <?php if (count($stores) > 1): ?>
+        <select name="store_id" id="store_id" style="width:160px;">
+        <?php foreach ($stores as $store_id => $store_data): ?>
+          <?php if ($selected_store_id == $store_id): ?>
+          <option value="<?php echo $store_data['link'] ?>" selected><?php echo $store_data['name'] ?></option>
+          <?php else: ?>
+          <option value="<?php echo $store_data['link'] ?>"><?php echo $store_data['name'] ?></option>
+          <?php endif ?>
+        <?php endforeach ?>
+        </select>
+        <?php endif ?>
+        <a onclick="$('#form').submit();" class="button"><?php echo $button_save; ?></a><a onclick="location = '<?php echo $cancel; ?>';" class="button"><?php echo $button_cancel; ?></a></div>
     </div>
     <div class="content">
       <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form">
+        <input type="hidden" name="selected_store_id" value="<?php echo $selected_store_id ?>">
         <table class="form" id="form">
           <?php $module_row = 0; ?>
           <?php foreach ($modules as $module): ?>
@@ -115,7 +128,7 @@
                 <?php if (isset($module['parsed_products'])): ?>
                   <?php foreach ($module['parsed_products'] as $product): ?>
                   <?php $class = ($class == 'even' ? 'odd' : 'even'); ?>
-                  <div id="custom-template-product<?php echo $module_row ?><?php echo $product['product_id']; ?>" class="<?php echo $class; ?>"><?php echo $product['name']; ?> <img src="view/image/delete.png" class="delete" data-id="<?php echo $module_row ?>" alt="" />
+                  <div id="custom-template-product<?php echo $module_row ?><?php echo $product['product_id']; ?>" class="<?php echo $class; ?>" data-id="<?php echo $module_row ?>"><?php echo $product['name']; ?> <img src="view/image/delete.png" class="delete" data-id="<?php echo $module_row ?>" alt="" />
                     <input type="hidden" value="<?php echo $product['product_id']; ?>" />
                   </div>
                   <?php endforeach ?>
@@ -208,27 +221,6 @@
               <a onclick="$(this).parent().find(':checkbox').attr('checked', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(':checkbox').attr('checked', false);"><?php echo $text_unselect_all; ?></a>
               </td>
             </tr>
-            <tr class="stores module<?php echo $module_row ?> general<?php echo $module_row ?>">
-              <td><?php echo $entry_stores ?></td>
-              <td>
-                <div class="scrollbox">
-                <?php $class = 'odd'; ?>
-                <?php foreach ($stores as $store_key => $store) { ?>
-                <?php $class = ($class == 'even' ? 'odd' : 'even'); ?>
-                <div class="<?php echo $class; ?>">
-                  <?php if (in_array($store['store_id'], $module['stores'])) { ?>
-                  <input type="checkbox" name="custom_template_module[<?php echo $module_row ?>][stores][<?php echo $store['store_id']; ?>]" id="custom_template_module[<?php echo $module_row ?>][stores][<?php echo $store['store_id']; ?>]" value="<?php echo $store['store_id']; ?>" checked="checked" />
-                  <label for="custom_template_module[<?php echo $module_row ?>][stores][<?php echo $store['store_id']; ?>]"><?php echo $store['name']; ?></label>
-                  <?php } else { ?>
-                  <input type="checkbox" name="custom_template_module[<?php echo $module_row ?>][stores][<?php echo $store['store_id']; ?>]" id="custom_template_module[<?php echo $module_row ?>][stores][<?php echo $store['store_id']; ?>]" value="<?php echo $store['store_id']; ?>" />
-                  <label for="custom_template_module[<?php echo $module_row ?>][stores][<?php echo $store['store_id']; ?>]"><?php echo $store['name']; ?></label>
-                  <?php } ?>
-                </div>
-                <?php } ?>
-              </div>
-              <a onclick="$(this).parent().find(':checkbox').attr('checked', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(':checkbox').attr('checked', false);"><?php echo $text_unselect_all; ?></a>
-              </td>
-            </tr>
             <tr class="languages module<?php echo $module_row ?> general<?php echo $module_row ?>">
               <td><?php echo $entry_languages ?></td>
               <td>
@@ -285,6 +277,10 @@ function showActive(value, elem_id){
 }
 
 $(document).ready(function(){
+  $('#store_id').on('change', function(event) {
+    event.preventDefault();
+    window.location = $(this).val();
+  }); 
   init_form();
 });
 
@@ -301,6 +297,58 @@ $('#form').submit(function(event){
     }
   });
 });
+function init_related(){
+  $('.product_autocomplete').autocomplete({
+    delay: 500,
+    source: function(request, response) {
+      $.ajax({
+        url: 'index.php?route=catalog/product/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term),
+        dataType: 'json',
+        success: function(json) {
+          response($.map(json, function(item) {
+            return {
+              label: item.name,
+              value: item.product_id
+            }
+          }));
+        }
+      });
+    },
+    select: function(event, ui) {
+      $('#custom-template-product'+$(this).attr('data-id') + ui.item.value).remove();
+
+      $('#custom-template-product'+$(this).attr('data-id')).append('<div id="custom-template-product'+$(this).attr('data-id') + ui.item.value + '">' + ui.item.label + '<img src="view/image/delete.png" class="delete" data-id="'+$(this).attr('data-id')+'" /><input type="hidden" value="' + ui.item.value + '" /></div>');
+
+      $('#custom-template-product'+$(this).attr('data-id')+' div:odd').attr('class', 'odd');
+      $('#custom-template-product'+$(this).attr('data-id')+' div:even').attr('class', 'even');
+
+      data = $.map($('#custom-template-product'+$(this).attr('data-id')+' input'), function(element){
+        return $(element).attr('value');
+      });
+
+      $('input[name=\'custom_template_module['+$(this).attr('data-id')+'][products]\']').attr('value', data.join());
+
+      return false;
+    },
+    focus: function(event, ui) {
+          return false;
+      }
+  });
+
+  $('img.delete').live('click', function() {
+    var elem_id = $(this).attr('data-id');
+    $(this).parent().remove();
+
+    $('#custom-template-product'+elem_id+' div:odd').attr('class', 'odd');
+    $('#custom-template-product'+elem_id+' div:even').attr('class', 'even');
+
+    data = $.map($('#custom-template-product'+elem_id+' input'), function(element){
+      return $(element).attr('value');
+    });
+
+    $('input[name=\'custom_template_module['+elem_id+'][products]\']').attr('value', data.join());
+  });
+}
 function empty( mixed_var ) {
   return ( mixed_var === "" || mixed_var === 0   || mixed_var === "0" || mixed_var === null  || mixed_var === false );
 }
@@ -315,62 +363,12 @@ function init_form(){
       }
     });
     showActive(parseInt($(this).val()), elem_id);
-
   });
 }
 $('.select_type').change(function(){
   init_form();
 });
-$('.product_autocomplete').autocomplete({
-  delay: 500,
-  source: function(request, response) {
-    $.ajax({
-      url: 'index.php?route=catalog/product/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term),
-      dataType: 'json',
-      success: function(json) {
-        response($.map(json, function(item) {
-          return {
-            label: item.name,
-            value: item.product_id
-          }
-        }));
-      }
-    });
-  },
-  select: function(event, ui) {
-    $('#custom-template-product'+$(this).attr('data-id') + ui.item.value).remove();
-
-    $('#custom-template-product'+$(this).attr('data-id')).append('<div id="custom-template-product'+$(this).attr('data-id') + ui.item.value + '">' + ui.item.label + '<img src="view/image/delete.png" class="delete" data-id="'+$(this).attr('data-id')+'" /><input type="hidden" value="' + ui.item.value + '" /></div>');
-
-    $('#custom-template-product'+$(this).attr('data-id')+' div:odd').attr('class', 'odd');
-    $('#custom-template-product'+$(this).attr('data-id')+' div:even').attr('class', 'even');
-
-    data = $.map($('#custom-template-product'+$(this).attr('data-id')+' input'), function(element){
-      return $(element).attr('value');
-    });
-
-    $('input[name=\'custom_template_module['+$(this).attr('data-id')+'][products]\']').attr('value', data.join());
-
-    return false;
-  },
-  focus: function(event, ui) {
-        return false;
-    }
-});
-
-$('img.delete').live('click', function() {
-  var elem_id = $(this).attr('data-id');
-  $(this).parent().remove();
-
-  $('#custom-template-product'+elem_id+' div:odd').attr('class', 'odd');
-  $('#custom-template-product'+elem_id+' div:even').attr('class', 'even');
-
-  data = $.map($('#custom-template-product'+elem_id+' input'), function(element){
-    return $(element).attr('value');
-  });
-
-  $('input[name=\'custom_template_module['+elem_id+'][products]\']').attr('value', data.join());
-});
+init_related();
 //--></script>
 <script type="text/javascript"><!--
 //custom_template_module[<?php echo $module_row ?>][template_name]
@@ -544,24 +542,7 @@ function addModule() {
   html +='<a onclick="$(this).parent().find(\':checkbox\').attr(\'checked\', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(\':checkbox\').attr(\'checked\', false);"><?php echo $text_unselect_all; ?></a>';
   html +='</td>';
   html +='</tr>';
-  
-  html +='<tr class="stores module'+ module_row +' general'+ module_row +'">';
-  html +='<td><?php echo $entry_stores ?></td>';
-  html +='<td>';
-  html +='<div class="scrollbox">';
-  <?php $class = 'odd'; ?>
-  <?php foreach ($stores as $store_key => $store_data) { ?>
-  <?php $class = ($class == 'even' ? 'odd' : 'even'); ?>
-  html +='<div class="<?php echo $class; ?>">';
-  html +='<input type="checkbox" name="custom_template_module['+ module_row +'][stores][<?php echo $store_data['store_id']; ?>]" id="custom_template_module['+ module_row +'][stores][<?php echo $store_data['store_id']; ?>]" value="<?php echo $store_data['store_id']; ?>" />';
-  html +='<label for="custom_template_module['+ module_row +'][stores][<?php echo $store_data['store_id']; ?>]"><?php echo $store_data['name']; ?></label>';
-  html +='</div>';
-  <?php } ?>
-  html +='</div>';
-  html +='<a onclick="$(this).parent().find(\':checkbox\').attr(\'checked\', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(\':checkbox\').attr(\'checked\', false);"><?php echo $text_unselect_all; ?></a>';
-  html +='</td>';
-  html +='</tr>';
-	
+  	
   html +='<tr class="languages module'+ module_row +' general'+ module_row +'">';
   html +='<td><?php echo $entry_languages ?></td>';
   html +='<td>';
@@ -589,57 +570,8 @@ function addModule() {
   
 	$('#add_module').before(html);
 
-	$('.product_autocomplete').autocomplete({
-  delay: 500,
-  source: function(request, response) {
-    $.ajax({
-      url: 'index.php?route=catalog/product/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term),
-      dataType: 'json',
-      success: function(json) {
-        response($.map(json, function(item) {
-          return {
-            label: item.name,
-            value: item.product_id
-          }
-        }));
-      }
-    });
-  },
-  select: function(event, ui) {
-    $('#custom-template-product'+$(this).attr('data-id') + ui.item.value).remove();
-
-    $('#custom-template-product'+$(this).attr('data-id')).append('<div id="custom-template-product'+$(this).attr('data-id') + ui.item.value + '">' + ui.item.label + '<img src="view/image/delete.png" class="delete" data-id="'+$(this).attr('data-id')+'" /><input type="hidden" value="' + ui.item.value + '" /></div>');
-
-    $('#custom-template-product'+$(this).attr('data-id')+' div:odd').attr('class', 'odd');
-    $('#custom-template-product'+$(this).attr('data-id')+' div:even').attr('class', 'even');
-
-    data = $.map($('#custom-template-product'+$(this).attr('data-id')+' input'), function(element){
-      return $(element).attr('value');
-    });
-
-    $('input[name=\'custom_template_module['+$(this).attr('data-id')+'][products]\']').attr('value', data.join());
-
-    return false;
-  },
-  focus: function(event, ui) {
-        return false;
-    }
-});
-
-$('img.delete').live('click', function() {
-  var elem_id = $(this).attr('data-id');
-  $(this).parent().remove();
-
-  $('#custom-template-product'+elem_id+' div:odd').attr('class', 'odd');
-  $('#custom-template-product'+elem_id+' div:even').attr('class', 'even');
-
-  data = $.map($('#custom-template-product'+elem_id+' input'), function(element){
-    return $(element).attr('value');
-  });
-
-  $('input[name=\'custom_template_module['+elem_id+'][products]\']').attr('value', data.join());
-});
 init_form();
+init_related();
 $('.select_type').change(function(){
   init_form();
 });
@@ -672,10 +604,6 @@ module_row++;
   border-left: 5px solid #4D814A;
 }
 .layouts{
-  background-color: #CFFFD7;
-  border-left: 5px solid #4D814A;
-}
-.common{
   background-color: #CFFFD7;
   border-left: 5px solid #4D814A;
 }
