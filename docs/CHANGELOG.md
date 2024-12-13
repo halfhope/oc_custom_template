@@ -21,3 +21,7 @@
 * fix: Fixed check for the existence of a template file
 * perf: Removed the use of modules for storing settings
 
+#### 1.3.1
+
+* fix: Fixed output of a large list of categories / manufacturers
+
