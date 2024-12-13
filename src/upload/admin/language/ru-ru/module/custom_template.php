@@ -23,18 +23,18 @@ $_['entry_module_type']         = 'Тип шаблона';
 $_['entry_layout']              = 'Схемы:';
 $_['entry_category']            = 'Категории';
 $_['entry_customer_group']      = 'Группы пользователей';
-$_['entry_customer_group_help'] = 'Если оставить пустым, то будет выбран шаблон для всех групп пользователей';
+$_['entry_customer_group_help'] = 'Оставьте пустым, если не используется';
 $_['entry_information']         = 'Информационные страницы';
 $_['entry_manufacturer']        = 'Производители';
 $_['entry_product']             = 'Товары (автозаполнение)';
 $_['entry_language']            = 'Языки:';
-$_['entry_language_help']       = 'Если оставить пустым, то будет выбран шаблон для всех языков';
+$_['entry_language_help']       = 'Оставьте пустым, если не используется';
 $_['entry_template']            = 'Файл нового шаблона:';
 $_['entry_template_help']       = 'Например, product/product_wo_bg';
 
 //Buttons
 $_['button_check_file'] = 'Проверить путь';
-$_['button_add_module'] = 'Добавить модуль';
+$_['button_add_module'] = 'Добавить замену';
 
 //Success
 $_['text_success'] = 'Настройки модуля успешно сохранены.';
