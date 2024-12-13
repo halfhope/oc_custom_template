@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <modification>
-	<id>Custom Templates module</id>
-	<version>1.3</version>
+	<id>Custom Template module</id>
+	<version>1.3.2</version>
 	<vqmver>2.4.1</vqmver>
-	<author>Shashakhmetov Talgat[talgatks@gmail.com]</author>
+	<author>halfhope</author>
 	<!-- layout filter for custom pages -->
 	<file name="catalog/controller/checkout/cart.php">
 		<operation error="log">
