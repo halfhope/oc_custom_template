@@ -25,3 +25,9 @@
 
 * fix: Fixed output of a large list of categories / manufacturers
 
+#### 1.3.2
+
+* feature: Added display of the current version in the panel header
+* fix: Added correct disabling of the module when it is removed
+* fix: Library loader unified
+
