@@ -38,6 +38,46 @@
   width: auto;
   vertical-align: bottom;
 }
+.well-sm {
+  padding: 7px;
+  margin-bottom:10px;
+  max-height:500px;
+  overflow-y:scroll;
+}
+.well-sm .checkbox{
+  min-height:unset;
+  padding-top:0px;
+}
+button.btn{
+  outline: none !important;
+}
+#form-module-custom-template .input-group-btn .btn:last-child{
+  margin-left: 5px;
+  border-radius: 3px;
+}
+#form-module-custom-template .input-group-btn .btn:first-child{
+  border-radius: 0px 3px 3px 0px;
+}
+#form-module-custom-template .table{
+  margin-bottom:0;
+}
+#form-module-custom-template .form-group{
+  padding-top:5px;
+  padding-bottom:5px;
+}
+#form-module-custom-template .form-group{
+  padding-top:5px;
+  padding-bottom:5px;
+}
+#form-module-custom-template > .panel.panel-default > .panel-body{
+  padding: 0 15px;
+}
+#form-module-custom-template > .panel.panel-default > .panel-body > .form-group:first-child{
+  padding-top:10px;
+}
+#form-module-custom-template > .panel.panel-default > .panel-body > .form-group:last-child{
+  padding-bottom:10px;
+}
 </style>
   <div class="page-header">
     <div class="container-fluid">
@@ -105,7 +145,7 @@
               <div class="form-group slayouts module<?php echo $module_row ?>">
                 <label class="col-sm-2 control-label"><?php echo $entry_layout; ?></label>
                 <div class="col-sm-10">
-                  <div class="well well-sm" style="height: 150px; overflow: auto;">
+                  <div class="well well-sm">
                     <?php foreach ($layouts as $layout_key => $layout_data) { ?>
                     <div class="checkbox">
                       <label>
@@ -120,14 +160,14 @@
                     </div>
                     <?php } ?>
                   </div>
-                <a onclick="$(this).parent().find(':checkbox').prop('checked', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(':checkbox').prop('checked', false);"><?php echo $text_unselect_all; ?></a>
+                <a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', true);return false;"><?php echo $text_select_all; ?></a> / <a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', false);return false;"><?php echo $text_unselect_all; ?></a>
                 </div>
               </div>
 
               <div class="form-group scategories module<?php echo $module_row ?>">
                 <label class="col-sm-2 control-label"><?php echo $entry_category; ?></label>
                 <div class="col-sm-10">
-                  <div class="well well-sm" style="height: 150px; overflow: auto;">
+                  <div class="well well-sm">
                     <?php foreach ($categories as $category_key => $category_data) { ?>
                     <div class="checkbox">
                       <label>
@@ -142,14 +182,14 @@
                     </div>
                     <?php } ?>
                   </div>
-                <a onclick="$(this).parent().find(':checkbox').prop('checked', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(':checkbox').prop('checked', false);"><?php echo $text_unselect_all; ?></a>
+                <a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', true);return false;"><?php echo $text_select_all; ?></a> / <a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', false);return false;"><?php echo $text_unselect_all; ?></a>
                 </div>
               </div>
 
               <div class="form-group sinformations module<?php echo $module_row ?>">
                 <label class="col-sm-2 control-label"><?php echo $entry_information; ?></label>
                 <div class="col-sm-10">
-                  <div class="well well-sm" style="height: 150px; overflow: auto;">
+                  <div class="well well-sm">
                     <?php foreach ($informations as $information_key => $information_data) { ?>
                     <div class="checkbox">
                       <label>
@@ -164,14 +204,14 @@
                     </div>
                     <?php } ?>
                   </div>
-                <a onclick="$(this).parent().find(':checkbox').prop('checked', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(':checkbox').prop('checked', false);"><?php echo $text_unselect_all; ?></a>
+                <a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', true);return false;"><?php echo $text_select_all; ?></a> / <a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', false);return false;"><?php echo $text_unselect_all; ?></a>
                 </div>
               </div>
 
               <div class="form-group smanufacturers module<?php echo $module_row ?>">
                 <label class="col-sm-2 control-label"><?php echo $entry_manufacturer; ?></label>
                 <div class="col-sm-10">
-                  <div class="well well-sm" style="height: 150px; overflow: auto;">
+                  <div class="well well-sm">
                     <?php foreach ($manufacturers as $manufacturer_key => $manufacturer_data) { ?>
                     <div class="checkbox">
                       <label>
@@ -186,7 +226,7 @@
                     </div>
                     <?php } ?>
                   </div>
-                <a onclick="$(this).parent().find(':checkbox').prop('checked', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(':checkbox').prop('checked', false);"><?php echo $text_unselect_all; ?></a>
+                <a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', true);return false;"><?php echo $text_select_all; ?></a> / <a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', false);return false;"><?php echo $text_unselect_all; ?></a>
                 </div>
               </div>
 
@@ -194,7 +234,7 @@
                 <label class="col-sm-2 control-label" for="input-related"><?php echo $entry_product; ?></label>
                 <div class="col-sm-10">
                   <input type="text" value="" placeholder="<?php echo $entry_product; ?>" id="input-related" class="form-control product_autocomplete" data-id="<?php echo $module_row ?>" /><br>
-                  <div id="custom-template-product<?php echo $module_row ?>" class="well well-sm product_container" style="height: 150px; overflow: auto;">
+                  <div id="custom-template-product<?php echo $module_row ?>" class="well well-sm product_container">
                     <?php foreach ($module['parsed_products'] as $product): ?>
                     <div id="custom-template-product<?php echo $module_row ?>-<?php echo $product['product_id']; ?>" data-id="<?php echo $module_row ?>"><i data-id="<?php echo $module_row ?>"  class="fa fa-minus-circle"></i> <?php echo $product['name']; ?>
                       <input type="hidden" name="custom_template_module[<?php echo $module_row ?>][tmp_products][]" value="<?php echo $product['product_id']; ?>" />
@@ -208,7 +248,7 @@
               <div class="form-group sproduct_categories module<?php echo $module_row ?>">
                 <label class="col-sm-2 control-label"><?php echo $entry_category; ?></label>
                 <div class="col-sm-10">
-                  <div class="well well-sm" style="height: 150px; overflow: auto;">
+                  <div class="well well-sm">
                     <?php foreach ($categories as $category_key => $category_data) { ?>
                     <div class="checkbox">
                       <label>
@@ -223,14 +263,14 @@
                     </div>
                     <?php } ?>
                   </div>
-                <a onclick="$(this).parent().find(':checkbox').prop('checked', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(':checkbox').prop('checked', false);"><?php echo $text_unselect_all; ?></a>
+                <a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', true);return false;"><?php echo $text_select_all; ?></a> / <a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', false);return false;"><?php echo $text_unselect_all; ?></a>
                 </div>
               </div>
 
               <div class="form-group sproduct_manufacturers module<?php echo $module_row ?>">
                 <label class="col-sm-2 control-label"><?php echo $entry_manufacturer; ?></label>
                 <div class="col-sm-10">
-                  <div class="well well-sm" style="height: 150px; overflow: auto;">
+                  <div class="well well-sm">
                     <?php foreach ($manufacturers as $manufacturer_key => $manufacturer_data) { ?>
                     <div class="checkbox">
                       <label>
@@ -245,14 +285,14 @@
                     </div>
                     <?php } ?>
                   </div>
-                <a onclick="$(this).parent().find(':checkbox').prop('checked', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(':checkbox').prop('checked', false);"><?php echo $text_unselect_all; ?></a>
+                <a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', true);return false;"><?php echo $text_select_all; ?></a> / <a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', false);return false;"><?php echo $text_unselect_all; ?></a>
                 </div>
               </div>
 
               <div class="form-group scustomer_groups module<?php echo $module_row ?> general<?php echo $module_row ?>">
                 <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="<?php echo $entry_customer_group_help; ?>"><?php echo $entry_customer_group; ?></span></label>
                 <div class="col-sm-10">
-                  <div class="well well-sm" style="height: 150px; overflow: auto;">
+                  <div class="well well-sm">
                     <?php foreach ($customer_groups as $customer_group_key => $customer_group_data) { ?>
                     <div class="checkbox">
                       <label>
@@ -267,14 +307,14 @@
                     </div>
                     <?php } ?>
                   </div>
-                <a onclick="$(this).parent().find(':checkbox').prop('checked', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(':checkbox').prop('checked', false);"><?php echo $text_unselect_all; ?></a>
+                <a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', true);return false;"><?php echo $text_select_all; ?></a> / <a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', false);return false;"><?php echo $text_unselect_all; ?></a>
                 </div>
               </div>
 
               <div class="form-group slanguages module<?php echo $module_row ?> general<?php echo $module_row ?>">
                 <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="<?php echo $entry_language_help; ?>"><?php echo $entry_language; ?></span></label>
                 <div class="col-sm-10">
-                  <div class="well well-sm" style="height: 150px; overflow: auto;">
+                  <div class="well well-sm">
                     <?php foreach ($languages as $language_key => $language_data) { ?>
                     <div class="checkbox">
                       <label>
@@ -289,7 +329,7 @@
                     </div>
                     <?php } ?>
                   </div>
-                <a onclick="$(this).parent().find(':checkbox').prop('checked', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(':checkbox').prop('checked', false);"><?php echo $text_unselect_all; ?></a>
+                <a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', true);return false;"><?php echo $text_select_all; ?></a> / <a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', false);return false;"><?php echo $text_unselect_all; ?></a>
                 </div>
               </div>
 
@@ -300,15 +340,10 @@
                     <input type="text" id="custom_template_module_<?php echo $module_row ?>_template_name" name="custom_template_module[<?php echo $module_row ?>][template_name]" value="<?php echo $module['template_name'] ?>" placeholder="<?php echo $entry_template; ?>" class="form-control" />
                     <span class="input-group-btn">
                       <button class="btn btn-default" onClick="checkFile(<?php echo $module_row ?>);" type="button"><?php echo $button_check_file ?></button>
+                      <button class="btn btn-danger" onClick="$('#panel<?php echo $module_row; ?>').remove();" type="button" title="<?php echo $button_remove ?>" data-toggle="tooltip" data-title="<?php echo $button_remove ?>" alt="<?php echo $button_remove ?>"><i class="fa fa-trash-o"></i></button>
                     </span>
                   </div>
                   <br>
-                </div>
-              </div>
-
-              <div class="form-group required module<?php echo $module_row ?> general<?php echo $module_row ?>">
-                <div class="col-sm-12 text-right">
-                  <button class="btn btn-danger" onClick="$('#panel<?php echo $module_row; ?>').remove();" type="button" title="<?php echo $button_remove ?>" alt="<?php echo $button_remove ?>"><i class="fa fa-trash-o"></i></button>
                 </div>
               </div>
 
@@ -318,7 +353,7 @@
           <?php endforeach ?>
           <div class="form-group" id="adder">
             <div class="col-sm-12">
-              <button class="col-sm-12 btn btn-default" onClick="addModule();" type="button" title="<?php echo $button_add_module ?>" alt="<?php echo $button_add_module ?>"><?php echo $button_add_module ?></button>
+              <button class="col-sm-12 btn btn-success" onClick="addModule();" type="button" title="<?php echo $button_add_module ?>" alt="<?php echo $button_add_module ?>"><?php echo $button_add_module ?></button>
             </div>
           </div>
         </form>
@@ -463,7 +498,7 @@ function addModule(){
   html += '<div class="form-group slayouts module' + module_row + '">';
   html += '<label class="col-sm-2 control-label"><?php echo $entry_layout; ?></label>';
   html += '<div class="col-sm-10">';
-  html += '<div class="well well-sm" style="height: 150px; overflow: auto;">';
+  html += '<div class="well well-sm">';
   <?php foreach ($layouts as $layout_key => $layout_data) { ?>
   html += '<div class="checkbox">';
   html += '<label>';
@@ -473,14 +508,14 @@ function addModule(){
   html += '</div>';
   <?php } ?>
   html += '</div>';
-  html += '<a onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', false);"><?php echo $text_unselect_all; ?></a>';
+  html += '<a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', true);return false;"><?php echo $text_select_all; ?></a> / <a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', false);return false;"><?php echo $text_unselect_all; ?></a>';
   html += '</div>';
   html += '</div>';
 
   html += '<div class="form-group scategories module' + module_row + '">';
   html += '<label class="col-sm-2 control-label"><?php echo $entry_category; ?></label>';
   html += '<div class="col-sm-10">';
-  html += '<div class="well well-sm" style="height: 150px; overflow: auto;">';
+  html += '<div class="well well-sm">';
   <?php foreach ($categories as $category_key => $category_data) { ?>
   html += '<div class="checkbox">';
   html += '<label>';
@@ -490,14 +525,14 @@ function addModule(){
   html += '</div>';
   <?php } ?>
   html += '</div>';
-  html += '<a onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', false);"><?php echo $text_unselect_all; ?></a>';
+  html += '<a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', true);return false;"><?php echo $text_select_all; ?></a> / <a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', false);return false;"><?php echo $text_unselect_all; ?></a>';
   html += '</div>';
   html += '</div>';
 
   html += '<div class="form-group sinformations module' + module_row + '">';
   html += '<label class="col-sm-2 control-label"><?php echo $entry_information; ?></label>';
   html += '<div class="col-sm-10">';
-  html += '<div class="well well-sm" style="height: 150px; overflow: auto;">';
+  html += '<div class="well well-sm">';
   <?php foreach ($informations as $information_key => $information_data) { ?>
   html += '<div class="checkbox">';
   html += '<label>';
@@ -507,14 +542,14 @@ function addModule(){
   html += '</div>';
   <?php } ?>
   html += '</div>';
-  html += '<a onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', false);"><?php echo $text_unselect_all; ?></a>';
+  html += '<a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', true);return false;"><?php echo $text_select_all; ?></a> / <a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', false);return false;"><?php echo $text_unselect_all; ?></a>';
   html += '</div>';
   html += '</div>';
 
   html += '<div class="form-group smanufacturers module' + module_row + '">';
   html += '<label class="col-sm-2 control-label"><?php echo $entry_manufacturer; ?></label>';
   html += '<div class="col-sm-10">';
-  html += '<div class="well well-sm" style="height: 150px; overflow: auto;">';
+  html += '<div class="well well-sm">';
   <?php foreach ($manufacturers as $manufacturer_key => $manufacturer_data) { ?>
   html += '<div class="checkbox">';
   html += '<label>';
@@ -524,7 +559,7 @@ function addModule(){
   html += '</div>';
   <?php } ?>
   html += '</div>';
- html += '<a onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', false);"><?php echo $text_unselect_all; ?></a>';
+ html += '<a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', true);return false;"><?php echo $text_select_all; ?></a> / <a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', false);return false;"><?php echo $text_unselect_all; ?></a>';
   html += '</div>';
   html += '</div>';
 
@@ -532,7 +567,7 @@ function addModule(){
   html += '<label class="col-sm-2 control-label" for="input-related"><?php echo $entry_product; ?></label>';
   html += '<div class="col-sm-10">';
   html += '<input type="text" value="" placeholder="<?php echo $entry_product; ?>" id="input-related" class="form-control product_autocomplete" data-id="' + module_row + '" /><br>';
-  html += '<div id="custom-template-product' + module_row + '" class="well well-sm product_container" style="height: 150px; overflow: auto;">';
+  html += '<div id="custom-template-product' + module_row + '" class="well well-sm product_container">';
   html += '</div>';
   html += '</div>';
   html += '<input type="hidden" name="custom_template_module[' + module_row + '][products]" value="" />';
@@ -541,7 +576,7 @@ function addModule(){
   html += '<div class="form-group sproduct_categories module' + module_row + '">';
   html += '<label class="col-sm-2 control-label"><?php echo $entry_category; ?></label>';
   html += '<div class="col-sm-10">';
-  html += '<div class="well well-sm" style="height: 150px; overflow: auto;">';
+  html += '<div class="well well-sm">';
   <?php foreach ($categories as $category_key => $category_data) { ?>
   html += '<div class="checkbox">';
   html += '<label>';
@@ -551,14 +586,14 @@ function addModule(){
   html += '</div>';
   <?php } ?>
   html += '</div>';
-  html += '<a onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', false);"><?php echo $text_unselect_all; ?></a>';
+  html += '<a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', true);return false;"><?php echo $text_select_all; ?></a> / <a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', false);return false;"><?php echo $text_unselect_all; ?></a>';
   html += '</div>';
   html += '</div>';
 
   html += '<div class="form-group sproduct_manufacturers module' + module_row + '">';
   html += '<label class="col-sm-2 control-label"><?php echo $entry_manufacturer; ?></label>';
   html += '<div class="col-sm-10">';
-  html += '<div class="well well-sm" style="height: 150px; overflow: auto;">';
+  html += '<div class="well well-sm">';
   <?php foreach ($manufacturers as $manufacturer_key => $manufacturer_data) { ?>
   html += '<div class="checkbox">';
   html += '<label>';
@@ -568,14 +603,14 @@ function addModule(){
   html += '</div>';
   <?php } ?>
   html += '</div>';
-  html += '<a onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', false);"><?php echo $text_unselect_all; ?></a>';
+  html += '<a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', true);return false;"><?php echo $text_select_all; ?></a> / <a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', false);return false;"><?php echo $text_unselect_all; ?></a>';
   html += '</div>';
   html += '</div>';
 
   html += '<div class="form-group scustomer_groups module' + module_row + ' general' + module_row + '">';
   html += '<label class="col-sm-2 control-label"><span data-toggle="tooltip" title="<?php echo $entry_customer_group_help; ?>"><?php echo $entry_customer_group; ?></span></label>';
   html += '<div class="col-sm-10">';
-  html += '<div class="well well-sm" style="height: 150px; overflow: auto;">';
+  html += '<div class="well well-sm">';
   <?php foreach ($customer_groups as $customer_group_key => $customer_group_data) { ?>
   html += '<div class="checkbox">';
   html += '<label>';
@@ -585,14 +620,14 @@ function addModule(){
   html += '</div>';
   <?php } ?>
   html += '</div>';
-  html += '<a onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', false);"><?php echo $text_unselect_all; ?></a>';
+  html += '<a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', true);return false;"><?php echo $text_select_all; ?></a> / <a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', false);return false;"><?php echo $text_unselect_all; ?></a>';
   html += '</div>';
   html += '</div>';
 
   html += '<div class="form-group slanguages module' + module_row + ' general' + module_row + '">';
   html += '<label class="col-sm-2 control-label"><span data-toggle="tooltip" title="<?php echo $entry_language_help; ?>"><?php echo $entry_language; ?></span></label>';
   html += '<div class="col-sm-10">';
-  html += '<div class="well well-sm" style="height: 150px; overflow: auto;">';
+  html += '<div class="well well-sm">';
   <?php foreach ($languages as $language_key => $language_data) { ?>
   html += '<div class="checkbox">';
   html += '<label>';
@@ -602,7 +637,7 @@ function addModule(){
   html += '</div>';
   <?php } ?>
   html += '</div>';
-  html += '<a onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', false);"><?php echo $text_unselect_all; ?></a>';
+  html += '<a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', true);return false;"><?php echo $text_select_all; ?></a> / <a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', false);return false;"><?php echo $text_unselect_all; ?></a>';
   html += '</div>';
   html += '</div>';
 
@@ -613,23 +648,19 @@ function addModule(){
   html += '<input type="text" id="custom_template_module_' + module_row + '_template_name" name="custom_template_module[' + module_row + '][template_name]" value="" placeholder="<?php echo $entry_template; ?>" class="form-control" />';
   html += '<span class="input-group-btn">';
   html += '<button class="btn btn-default" onClick="checkFile(' + module_row + ');" type="button"><?php echo $button_check_file ?></button>';
+  html += '<button class="btn btn-danger" onClick="$(\'#panel' + module_row + '\').remove();" type="button" title="<?php echo $button_remove ?>" data-toggle="tooltip" data-title="<?php echo $button_remove ?>" alt="<?php echo $button_remove ?>"><i class="fa fa-trash-o"></i></button>';
   html += '</span>';
   html += '</div>';
   html += '<br>';
   html += '</div>';
   html += '</div>';
 
-  html += '<div class="form-group required module' + module_row + ' general' + module_row + '">';
-  html += '<div class="col-sm-12 text-right">';
-  html += '<button class="btn btn-danger" onClick="$(\'#panel<?php echo $module_row; ?>\').remove();" type="button" title="<?php echo $button_remove ?>" alt="<?php echo $button_remove ?>"><i class="fa fa-trash-o"></i></button>';
-  html += '</div>';
-  html += '</div>';
-
   html += '</div>';
   html += '</div>';
   $('#adder').before(html);
-  $('body').tooltip({
-      selector: '[data-toggle=tooltip]'
+  $('#panel' + module_row + ' [data-toggle=tooltip]').tooltip({
+      container: '#panel' + module_row,
+      trigger : 'hover'
   });
   init_form();
   init_related();
