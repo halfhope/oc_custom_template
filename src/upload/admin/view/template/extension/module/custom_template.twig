@@ -1,782 +1,816 @@
-{{ header }}
-{{ column_left }}
+{{ header }}{{ column_left }}
 <div id="content">
-<style>
-.scategories{
-  background-color: #fff4d9;
-  border-left: 5px solid #ffd166;
-}
-.sinformations{
-  background-color: #f4ffed;
-  border-left: 5px solid #b1db95;
-}
-.smanufacturers{
-  background-color: #ebfcff;
-  border-left: 5px solid #4d90fe;
-}
-.sproducts{
-  background-color: #f7f2ff;
-  border-left: 5px solid #c4a0ff;
-}
-.sproduct_categories{
-  background-color: #ffeded;
-  border-left: 5px solid #ffcece;
-}
-.sproduct_manufacturers{
-  background-color: #CFFFD7;
-  border-left: 5px solid #4D814A;
-}
-.slayouts{
-  background-color: #CFFFD7;
-  border-left: 5px solid #4D814A;
-}
-.highlight_error{
-  border-left: 5px solid #CE4C38;
-  background: #ffc9c9;
-}
-.pull-right select.form-control{
-  display: inline-block;
-  width: auto;
-  vertical-align: bottom;
-}
-.well-sm {
-  padding: 7px;
-  margin-bottom:10px;
-  max-height:500px;
-  overflow-y:scroll;
-}
-.well-sm .checkbox{
-  min-height:unset;
-  padding-top: 0px;
-  padding-bottom: 0;
-  border: 0;
-}
-.well-sm .checkbox label{
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding-left: 15px;
-}
-.well-sm .checkbox label input[type="checkbox"]{
-  margin-right: 5px;
-}
-button.btn{
-  outline: none !important;
-}
-#form-module-custom-template .input-group-btn .btn:last-child{
-  margin-left: 5px;
-  border-radius: 3px;
-}
-#form-module-custom-template .input-group-btn .btn:first-child{
-  border-radius: 0px 3px 3px 0px;
-}
-#form-module-custom-template .table{
-  margin-bottom:0;
-}
-#form-module-custom-template .table tbody tr{
-  background:none;
-}
-#form-module-custom-template .form-group{
-  padding-top:5px;
-  padding-bottom:5px;
-}
-#form-module-custom-template .form-group{
-  padding-top:5px;
-  padding-bottom:5px;
-}
-#form-module-custom-template > .panel.panel-default > .panel-body{
-  padding: 0 15px;
-}
-#form-module-custom-template > .panel.panel-default > .panel-body > .form-group:first-child{
-  padding-top:10px;
-}
-#form-module-custom-template > .panel.panel-default > .panel-body > .form-group:last-child{
-  padding-bottom:10px;
-}
+	<style>
+		.scategories {
+			background-color: #fff4d9;
+			border-left: 5px solid #ffd166;
+		}
+		.sinformations {
+			background-color: #f4ffed;
+			border-left: 5px solid #b1db95;
+		}
+		.smanufacturers {
+			background-color: #ebfcff;
+			border-left: 5px solid #4d90fe;
+		}
+		.sproducts {
+			background-color: #f7f2ff;
+			border-left: 5px solid #c4a0ff;
+		}
+		.sproduct_categories {
+			background-color: #ffeded;
+			border-left: 5px solid #ffcece;
+		}
+		.sproduct_manufacturers {
+			background-color: #CFFFD7;
+			border-left: 5px solid #4D814A;
+		}
+		.slayouts {
+			background-color: #CFFFD7;
+			border-left: 5px solid #4D814A;
+		}
+		.highlight_error {
+			border-left: 5px solid #CE4C38;
+			background: #ffc9c9;
+		}
+		.pull-right select.form-control {
+			display: inline-block;
+			width: auto;
+			vertical-align: bottom;
+		}
+		.well-sm {
+			padding: 7px;
+			margin-bottom: 10px;
+			max-height: 500px;
+			overflow-y: scroll;
+		}
+		.well-sm .checkbox {
+			min-height: unset;
+			padding-top: 0;
+			padding-bottom: 0;
+			border: 0;
+		}
+		.well-sm .checkbox label {
+			display: flex;
+			justify-content: flex-start;
+			align-items: center;
+			padding-left: 15px;
+		}
+		.well-sm .checkbox label input[type="checkbox"] {
+			margin-right: 5px;
+		}
+		button.btn {
+			outline: none !important;
+		}
+		#form-module-custom-template .input-group-btn .btn:last-child {
+			margin-left: 5px;
+			border-radius: 3px;
+		}
+		#form-module-custom-template .input-group-btn .btn:first-child {
+			border-radius: 0 3px 3px 0;
+		}
+		#form-module-custom-template .table {
+			margin-bottom: 0;
+		}
+		#form-module-custom-template .table tbody tr {
+			background: none;
+		}
+		#form-module-custom-template .form-group {
+			padding-top: 5px;
+			padding-bottom: 5px;
+		}
+		#form-module-custom-template .form-group {
+			padding-top: 5px;
+			padding-bottom: 5px;
+		}
+		#form-module-custom-template > .panel.panel-default > .panel-body {
+			padding: 0 15px;
+		}
+		#form-module-custom-template > .panel.panel-default > .panel-body > .form-group:first-child {
+			padding-top: 10px;
+		}
+		#form-module-custom-template > .panel.panel-default > .panel-body > .form-group:last-child {
+			padding-bottom: 10px;
+		}
+	</style>
+	<div class="page-header">
+		<div class="container-fluid">
+			<div class="pull-right">
+				{% if stores|length > 1 %}
+					<select name="store_id" id="store_id" class="form-control">
+						{% for store_id, store_data in stores %}
+							{% if selected_store_id == store_id %}
+								<option value="{{ store_data.link }}" selected>{{ store_data.name }}</option>
+							{% else %}
+								<option value="{{ store_data.link }}">{{ store_data.name }}</option>
+							{% endif %}
+						{% endfor %}
+					</select>
+				{% endif %}
+				<button type="submit" form="form-module-custom-template" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary">
+					<i class="fa fa-save"></i>
+				</button>
+				<a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default">
+					<i class="fa fa-reply"></i>
+				</a>
+			</div>
+			<h1>{{ heading_title }}</h1>
+			<ul class="breadcrumb">
+				{% for breadcrumb in breadcrumbs %}
+					<li>
+						<a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+	<div class="container-fluid">
+		{% if error_warning %}
+			<div class="alert alert-danger">
+				<i class="fa fa-exclamation-circle"></i>
+				{{ error_warning }}
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+			</div>
+		{% endif %}
+		{% if success %}
+			<div class="alert alert-success">
+				<i class="fa fa-check-circle"></i>
+				{{ success }}
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+			</div>
+		{% endif %}
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">
+					<i class="fa fa-pencil"></i>
+					{{ text_edit }}</h3>
+				<h3 class="panel-title pull-right">v{{ version }}</h3>
+			</div>
+			<div class="panel-body">
+				<form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-module-custom-template" class="form-horizontal">
+					<input type="hidden" name="selected_store_id" value="{{ selected_store_id }}">
+					{% set module_row = 0 %}
+					{% for module in modules %}
+						<div class="panel panel-default" style="border-left:5px solid #fff;" id="panel{{ module_row }}">
+							<div class="panel-body">
 
-</style>
-  <div class="page-header">
-    <div class="container-fluid">
-      <div class="pull-right">
-        {% if stores|length > 1 %}
-        <select name="store_id" id="store_id" class="form-control">
-        {% for store_id, store_data in stores %}
-        {% if selected_store_id == store_id %}
-          <option value="{{ store_data.link }}" selected>{{ store_data.name }}</option>
-        {% else %}
-          <option value="{{ store_data.link }}">{{ store_data.name }}</option>
-        {% endif %}
-        {% endfor %}
-        </select>
-        {% endif %}
-        <button type="submit" form="form-module-custom-template" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
-        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
-      <h1>{{ heading_title }}</h1>
-      <ul class="breadcrumb">
-        {% for breadcrumb in breadcrumbs %}
-          <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
-        {% endfor %}
-      </ul>
-    </div>
-  </div>
-  <div class="container-fluid">
-    {% if error_warning %}
-    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
-      <button type="button" class="close" data-dismiss="alert">&times;</button>
-    </div>
-    {% endif %}
-    {% if success %}
-    <div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }}
-      <button type="button" class="close" data-dismiss="alert">&times;</button>
-    </div>
-    {% endif %}
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
-      </div>
-      <div class="panel-body">
-        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-module-custom-template" class="form-horizontal">
-          <input type="hidden" name="selected_store_id" value="{{ selected_store_id }}">
-          {% set module_row = 0 %}
-          {% for module in modules %}
-          <div class="panel panel-default" style="border-left:5px solid #fff;" id="panel{{ module_row }}">
-            <div class="panel-body">
+								<div class="form-group module{{ module_row }} general{{ module_row }}">
+									<label class="col-sm-2 control-label" for="custom_template_module_{{ module_row }}_type">{{ entry_module_type }}</label>
+									<div class="col-sm-10">
+										<select class="form-control select_type" data-id="{{ module_row }}" name="custom_template_module[{{ module_row }}][type]" id="custom_template_module_{{ module_row }}_type">
+											{% for type_id, type_caption in module_types %}
+												{% if type_id == module.type %}
+													<option value="{{ type_id }}" selected="selected">{{ type_caption }}</option>
+												{% else %}
+													<option value="{{ type_id }}">{{ type_caption }}</option>
+												{% endif %}
+											{% endfor %}
+										</select>
+									</div>
+								</div>
 
-              <div class="form-group module{{ module_row }} general{{ module_row }}">
-                <label class="col-sm-2 control-label" for="custom_template_module_{{ module_row }}_type">{{ entry_module_type }}</label>
-                <div class="col-sm-10">
-                  <select class="form-control select_type" data-id="{{ module_row }}" name="custom_template_module[{{ module_row }}][type]" id="custom_template_module_{{ module_row }}_type">
-                    {% for type_id, type_caption in module_types %}
-                      {% if type_id == module.type %}
-                        <option value="{{ type_id }}" selected="selected">{{ type_caption }}</option>
-                      {% else %}
-                        <option value="{{ type_id }}">{{ type_caption }}</option>
-                      {% endif %}
-                    {% endfor %}
-                  </select>
-                </div>
-              </div>
+								<div class="form-group slayouts module{{ module_row }}">
+									<label class="col-sm-2 control-label">{{ entry_layout }}</label>
+									<div class="col-sm-10">
+										<div class="well well-sm">
+											<table class="table table-striped">
+												<tr>
+													{% for layout_key, layout_data in layouts %}
+														<td class="checkbox">
+															<label>
+																{% if layout_data.layout_id in module.layouts %}
+																	<input type="checkbox" name="custom_template_module[{{ module_row }}][layouts][{{ layout_data.layout_id }}]" id="custom_template_module[{{ module_row }}][layouts][{{ layout_data.layout_id }}]" value="{{ layout_data.layout_id }}" checked="checked"/>
+																	{{ layout_data.name }}
+																{% else %}
+																	<input type="checkbox" name="custom_template_module[{{ module_row }}][layouts][{{ layout_data.layout_id }}]" id="custom_template_module[{{ module_row }}][layouts][{{ layout_data.layout_id }}]" value="{{ layout_data.layout_id }}"/>
+																	{{ layout_data.name }}
+																{% endif %}
+															</label>
+														</td>
+													{% endfor %}
+												</tr>
+											</table>
+										</div>
+										<a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', true);return false;">{{ text_select_all }}</a>
+										/
+										<a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', false);return false;">{{ text_unselect_all }}</a>
+									</div>
+								</div>
 
-              <div class="form-group slayouts module{{ module_row }}">
-                <label class="col-sm-2 control-label">{{ entry_layout }}</label>
-                <div class="col-sm-10">
-                  <div class="well well-sm">
-                    <table class="table table-striped">
-                    <tr>
-                    {% for layout_key, layout_data in layouts %}
-                    <td class="checkbox">
-                      <label>
-                        {% if layout_data.layout_id in module.layouts %}
-                        <input type="checkbox" name="custom_template_module[{{ module_row }}][layouts][{{ layout_data.layout_id }}]" id="custom_template_module[{{ module_row }}][layouts][{{ layout_data.layout_id }}]" value="{{ layout_data.layout_id }}" checked="checked" />
-                        {{ layout_data.name }}
-                        {% else %}
-                        <input type="checkbox" name="custom_template_module[{{ module_row }}][layouts][{{ layout_data.layout_id }}]" id="custom_template_module[{{ module_row }}][layouts][{{ layout_data.layout_id }}]" value="{{ layout_data.layout_id }}" />
-                        {{ layout_data.name }}
-                        {% endif %}
-                      </label> 
-                    </td>
-                    {% endfor %}
-                    </tr>
-                    </table>
-                  </div>
-                <a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', true);return false;">{{ text_select_all }}</a> / <a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', false);return false;">{{ text_unselect_all }}</a>
-                </div>
-              </div>
+								<div class="form-group scategories module{{ module_row }}">
+									<label class="col-sm-2 control-label">{{ entry_category }}</label>
+									<div class="col-sm-10">
+										<div class="well well-sm">
+											<table class="table table-striped">
+												<tr>
+													{% for category_key, category_data in categories %}
+														<td class="checkbox">
+															<label>
+																{% if category_data.category_id in module.categories %}
+																	<input type="checkbox" name="custom_template_module[{{ module_row }}][categories][{{ category_data.category_id }}]" id="custom_template_module[{{ module_row }}][categories][{{ category_data.category_id }}]" value="{{ category_data.category_id }}" checked="checked"/>
+																	{{ category_data.name }}
+																{% else %}
+																	<input type="checkbox" name="custom_template_module[{{ module_row }}][categories][{{ category_data.category_id }}]" id="custom_template_module[{{ module_row }}][categories][{{ category_data.category_id }}]" value="{{ category_data.category_id }}"/>
+																	{{ category_data.name }}
+																{% endif %}
+															</label>
+														</td>
+													{% endfor %}
+												</tr>
+											</table>
+										</div>
+										<a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', true);return false;">{{ text_select_all }}</a>
+										/
+										<a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', false);return false;">{{ text_unselect_all }}</a>
+									</div>
+								</div>
 
-              <div class="form-group scategories module{{ module_row }}">
-                <label class="col-sm-2 control-label">{{ entry_category }}</label>
-                <div class="col-sm-10">
-                  <div class="well well-sm">
-                    <table class="table table-striped">
-                    <tr>
-                    {% for category_key, category_data in categories %}
-                    <td class="checkbox">
-                      <label>
-                        {% if category_data.category_id in module.categories %}
-                        <input type="checkbox" name="custom_template_module[{{ module_row }}][categories][{{ category_data.category_id }}]" id="custom_template_module[{{ module_row }}][categories][{{ category_data.category_id }}]" value="{{ category_data.category_id }}" checked="checked" />
-                        {{ category_data.name }}
-                        {% else %}
-                        <input type="checkbox" name="custom_template_module[{{ module_row }}][categories][{{ category_data.category_id }}]" id="custom_template_module[{{ module_row }}][categories][{{ category_data.category_id }}]" value="{{ category_data.category_id }}" />
-                        {{ category_data.name }}
-                        {% endif %}
-                      </label> 
-                    </td>
-                    {% endfor %}
-                    </tr>
-                    </table>
-                  </div>
-                <a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', true);return false;">{{ text_select_all }}</a> / <a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', false);return false;">{{ text_unselect_all }}</a>
-                </div>
-              </div>
+								<div class="form-group sinformations module{{ module_row }}">
+									<label class="col-sm-2 control-label">{{ entry_information }}</label>
+									<div class="col-sm-10">
+										<div class="well well-sm">
+											<table class="table table-striped">
+												<tr>
+													{% for information_key, information_data in informations %}
+														<td class="checkbox">
+															<label>
+																{% if information_data.information_id in module.informations %}
+																	<input type="checkbox" name="custom_template_module[{{ module_row }}][informations][{{ information_data.information_id }}]" id="custom_template_module[{{ module_row }}][informations][{{ information_data.information_id }}]" value="{{ information_data.information_id }}" checked="checked"/>
+																	{{ information_data.title }}
+																{% else %}
+																	<input type="checkbox" name="custom_template_module[{{ module_row }}][informations][{{ information_data.information_id }}]" id="custom_template_module[{{ module_row }}][informations][{{ information_data.information_id }}]" value="{{ information_data.information_id }}"/>
+																	{{ information_data.title }}
+																{% endif %}
+															</label>
+														</td>
+													{% endfor %}
+												</tr>
+											</table>
+										</div>
+										<a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', true);return false;">{{ text_select_all }}</a>
+										/
+										<a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', false);return false;">{{ text_unselect_all }}</a>
+									</div>
+								</div>
 
-              <div class="form-group sinformations module{{ module_row }}">
-                <label class="col-sm-2 control-label">{{ entry_information }}</label>
-                <div class="col-sm-10">
-                  <div class="well well-sm">
-                    <table class="table table-striped">
-                    <tr>
-                    {% for information_key, information_data in informations %}
-                      <td class="checkbox">
-                        <label>
-                        {% if information_data.information_id in module.informations %}
-                        <input type="checkbox" name="custom_template_module[{{ module_row }}][informations][{{ information_data.information_id }}]" id="custom_template_module[{{ module_row }}][informations][{{ information_data.information_id }}]" value="{{ information_data.information_id }}" checked="checked" />
-                        {{ information_data.title }}
-                        {% else %}
-                        <input type="checkbox" name="custom_template_module[{{ module_row }}][informations][{{ information_data.information_id }}]" id="custom_template_module[{{ module_row }}][informations][{{ information_data.information_id }}]" value="{{ information_data.information_id }}" />
-                        {{ information_data.title }}
-                        {% endif %}
-                        </label>                        
-                      </td>
-                    {% endfor %}
-                    </tr>
-                    </table>
-                  </div>
-                <a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', true);return false;">{{ text_select_all }}</a> / <a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', false);return false;">{{ text_unselect_all }}</a>
-                </div>
-              </div>
+								<div class="form-group smanufacturers module{{ module_row }}">
+									<label class="col-sm-2 control-label">{{ entry_manufacturer }}</label>
+									<div class="col-sm-10">
+										<div class="well well-sm">
+											<table class="table table-striped">
+												<tr>
+													{% for manufacturer_key, manufacturer_data in manufacturers %}
+														<td class="checkbox">
+															<label>
+																{% if manufacturer_data.manufacturer_id in module.manufacturers %}
+																	<input type="checkbox" name="custom_template_module[{{ module_row }}][manufacturers][{{ manufacturer_data.manufacturer_id }}]" id="custom_template_module[{{ module_row }}][manufacturers][{{ manufacturer_data.manufacturer_id }}]" value="{{ manufacturer_data.manufacturer_id }}" checked="checked"/>
+																	{{ manufacturer_data.name }}
+																{% else %}
+																	<input type="checkbox" name="custom_template_module[{{ module_row }}][manufacturers][{{ manufacturer_data.manufacturer_id }}]" id="custom_template_module[{{ module_row }}][manufacturers][{{ manufacturer_data.manufacturer_id }}]" value="{{ manufacturer_data.manufacturer_id }}"/>
+																	{{ manufacturer_data.name }}
+																{% endif %}
+															</label>
+														</td>
+													{% endfor %}
+												</tr>
+											</table>
+										</div>
+										<a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', true);return false;">{{ text_select_all }}</a>
+										/
+										<a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', false);return false;">{{ text_unselect_all }}</a>
+									</div>
+								</div>
 
-              <div class="form-group smanufacturers module{{ module_row }}">
-                <label class="col-sm-2 control-label">{{ entry_manufacturer }}</label>
-                <div class="col-sm-10">
-                  <div class="well well-sm">
-                    <table class="table table-striped">
-                    <tr>
-                    {% for manufacturer_key, manufacturer_data in manufacturers %}
-                      <td class="checkbox">
-                        <label>
-                        {% if manufacturer_data.manufacturer_id in module.manufacturers %}
-                        <input type="checkbox" name="custom_template_module[{{ module_row }}][manufacturers][{{ manufacturer_data.manufacturer_id }}]" id="custom_template_module[{{ module_row }}][manufacturers][{{ manufacturer_data.manufacturer_id }}]" value="{{ manufacturer_data.manufacturer_id }}" checked="checked" />
-                        {{ manufacturer_data.name }}
-                        {% else %}
-                        <input type="checkbox" name="custom_template_module[{{ module_row }}][manufacturers][{{ manufacturer_data.manufacturer_id }}]" id="custom_template_module[{{ module_row }}][manufacturers][{{ manufacturer_data.manufacturer_id }}]" value="{{ manufacturer_data.manufacturer_id }}" />
-                        {{ manufacturer_data.name }}
-                        {% endif %}
-                        </label>                        
-                      </td>
-                    {% endfor %}
-                    </tr>
-                    </table>
-                  </div>
-                <a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', true);return false;">{{ text_select_all }}</a> / <a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', false);return false;">{{ text_unselect_all }}</a>
-                </div>
-              </div>
+								<div class="form-group sproducts module{{ module_row }}">
+									<label class="col-sm-2 control-label" for="input-related">{{ entry_product }}</label>
+									<div class="col-sm-10">
+										<input type="text" value="" placeholder="{{ entry_product }}" id="input-related" class="form-control product_autocomplete" data-id="{{ module_row }}"/><br>
+										<div id="custom-template-product{{ module_row }}" class="well well-sm product_container">
+											{% for product in module.parsed_products %}
+												<div id="custom-template-product{{ module_row }}-{{ product.product_id }}" data-id="{{ module_row }}">
+													<i data-id="{{ module_row }}" class="fa fa-minus-circle"></i>
+													{{ product.name }}
+													<input type="hidden" name="custom_template_module[{{ module_row }}][tmp_products][]" value="{{ product.product_id }}"/>
+												</div>
+											{% endfor %}
+										</div>
+									</div>
+									<input type="hidden" name="custom_template_module[{{ module_row }}][products]" value="{{ module.products }}"/>
+								</div>
 
-              <div class="form-group sproducts module{{ module_row }}">
-                <label class="col-sm-2 control-label" for="input-related">{{ entry_product }}</label>
-                <div class="col-sm-10">
-                  <input type="text" value="" placeholder="{{ entry_product }}" id="input-related" class="form-control product_autocomplete" data-id="{{ module_row }}" /><br>
-                  <div id="custom-template-product{{ module_row }}" class="well well-sm product_container">
-                    {% for product in module.parsed_products %}
-                    <div id="custom-template-product{{ module_row }}-{{ product.product_id }}" data-id="{{ module_row }}"><i data-id="{{ module_row }}" class="fa fa-minus-circle"></i> {{ product.name }}
-                      <input type="hidden" name="custom_template_module[{{ module_row }}][tmp_products][]" value="{{ product.product_id }}" />
-                    </div>
-                    {% endfor %}
-                  </div>
-                </div>
-                <input type="hidden" name="custom_template_module[{{ module_row }}][products]" value="{{ module.products }}" />
-              </div>
+								<div class="form-group sproduct_categories module{{ module_row }}">
+									<label class="col-sm-2 control-label">{{ entry_category }}</label>
+									<div class="col-sm-10">
+										<div class="well well-sm">
+											<table class="table table-striped">
+												<tr>
+													{% for category_key, category_data in categories %}
+														<td class="checkbox">
+															<label>
+																{% if category_data.category_id in module.product_categories %}
+																	<input type="checkbox" name="custom_template_module[{{ module_row }}][product_categories][{{ category_data.category_id }}]" id="custom_template_module[{{ module_row }}][product_categories][{{ category_data.category_id }}]" value="{{ category_data.category_id }}" checked="checked"/>
+																	{{ category_data.name }}
+																{% else %}
+																	<input type="checkbox" name="custom_template_module[{{ module_row }}][product_categories][{{ category_data.category_id }}]" id="custom_template_module[{{ module_row }}][product_categories][{{ category_data.category_id }}]" value="{{ category_data.category_id }}"/>
+																	{{ category_data.name }}
+																{% endif %}
+															</label>
+														</td>
+													{% endfor %}
+												</tr>
+											</table>
+										</div>
+										<a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', true);return false;">{{ text_select_all }}</a>
+										/
+										<a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', false);return false;">{{ text_unselect_all }}</a>
+									</div>
+								</div>
 
-              <div class="form-group sproduct_categories module{{ module_row }}">
-                <label class="col-sm-2 control-label">{{ entry_category }}</label>
-                <div class="col-sm-10">
-                  <div class="well well-sm">
-                    <table class="table table-striped">
-                    <tr>
-                    {% for category_key, category_data in categories %}
-                      <td class="checkbox">
-                        <label>
-                        {% if category_data.category_id in module.product_categories %}
-                        <input type="checkbox" name="custom_template_module[{{ module_row }}][product_categories][{{ category_data.category_id }}]" id="custom_template_module[{{ module_row }}][product_categories][{{ category_data.category_id }}]" value="{{ category_data.category_id }}" checked="checked" />
-                        {{ category_data.name }}
-                        {% else %}
-                        <input type="checkbox" name="custom_template_module[{{ module_row }}][product_categories][{{ category_data.category_id }}]" id="custom_template_module[{{ module_row }}][product_categories][{{ category_data.category_id }}]" value="{{ category_data.category_id }}" />
-                        {{ category_data.name }}
-                        {% endif %}
-                        </label>                        
-                      </td>
-                    {% endfor %}
-                    </tr>
-                    </table>
-                  </div>
-                <a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', true);return false;">{{ text_select_all }}</a> / <a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', false);return false;">{{ text_unselect_all }}</a>
-                </div>
-              </div>
+								<div class="form-group sproduct_manufacturers module{{ module_row }}">
+									<label class="col-sm-2 control-label">{{ entry_manufacturer }}</label>
+									<div class="col-sm-10">
+										<div class="well well-sm">
+											<table class="table table-striped">
+												<tr>
+													{% for manufacturer_key, manufacturer_data in manufacturers %}
+														<td class="checkbox">
+															<label>
+																{% if manufacturer_data.manufacturer_id in module.product_manufacturers %}
+																	<input type="checkbox" name="custom_template_module[{{ module_row }}][product_manufacturers][{{ manufacturer_data.manufacturer_id }}]" id="custom_template_module[{{ module_row }}][product_manufacturers][{{ manufacturer_data.manufacturer_id }}]" value="{{ manufacturer_data.manufacturer_id }}" checked="checked"/>
+																	{{ manufacturer_data.name }}
+																{% else %}
+																	<input type="checkbox" name="custom_template_module[{{ module_row }}][product_manufacturers][{{ manufacturer_data.manufacturer_id }}]" id="custom_template_module[{{ module_row }}][product_manufacturers][{{ manufacturer_data.manufacturer_id }}]" value="{{ manufacturer_data.manufacturer_id }}"/>
+																	{{ manufacturer_data.name }}
+																{% endif %}
+															</label>
+														</td>
+													{% endfor %}
+												</tr>
+											</table>
+										</div>
+										<a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', true);return false;">{{ text_select_all }}</a>
+										/
+										<a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', false);return false;">{{ text_unselect_all }}</a>
+									</div>
+								</div>
 
-              <div class="form-group sproduct_manufacturers module{{ module_row }}">
-                <label class="col-sm-2 control-label">{{ entry_manufacturer }}</label>
-                <div class="col-sm-10">
-                  <div class="well well-sm">
-                    <table class="table table-striped">
-                    <tr>
-                    {% for manufacturer_key, manufacturer_data in manufacturers %}
-                      <td class="checkbox">
-                        <label>
-                        {% if manufacturer_data.manufacturer_id in module.product_manufacturers %}
-                        <input type="checkbox" name="custom_template_module[{{ module_row }}][product_manufacturers][{{ manufacturer_data.manufacturer_id }}]" id="custom_template_module[{{ module_row }}][product_manufacturers][{{ manufacturer_data.manufacturer_id }}]" value="{{ manufacturer_data.manufacturer_id }}" checked="checked" />
-                        {{ manufacturer_data.name }}
-                        {% else %}
-                        <input type="checkbox" name="custom_template_module[{{ module_row }}][product_manufacturers][{{ manufacturer_data.manufacturer_id }}]" id="custom_template_module[{{ module_row }}][product_manufacturers][{{ manufacturer_data.manufacturer_id }}]" value="{{ manufacturer_data.manufacturer_id }}" />
-                        {{ manufacturer_data.name }}
-                        {% endif %}
-                        </label>                        
-                      </td>
-                    {% endfor %}
-                    </tr>
-                    </table>
-                  </div>
-                <a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', true);return false;">{{ text_select_all }}</a> / <a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', false);return false;">{{ text_unselect_all }}</a>
-                </div>
-              </div>
+								<div class="form-group scustomer_groups module{{ module_row }} general{{ module_row }}">
+									<label class="col-sm-2 control-label">
+										<span data-toggle="tooltip" title="{{ entry_customer_group_help }}">{{ entry_customer_group }}</span>
+									</label>
+									<div class="col-sm-10">
+										<div class="well well-sm">
+											<table class="table table-striped">
+												<tr>
+													{% for customer_group_key, customer_group_data in customer_groups %}
+														<td class="checkbox">
+															<label>
+																{% if customer_group_data.customer_group_id in module.customer_groups %}
+																	<input type="checkbox" name="custom_template_module[{{ module_row }}][customer_groups][{{ customer_group_data.customer_group_id }}]" id="custom_template_module[{{ module_row }}][customer_groups][{{ customer_group_data.customer_group_id }}]" value="{{ customer_group_data.customer_group_id }}" checked="checked"/>
+																	{{ customer_group_data.name }}
+																{% else %}
+																	<input type="checkbox" name="custom_template_module[{{ module_row }}][customer_groups][{{ customer_group_data.customer_group_id }}]" id="custom_template_module[{{ module_row }}][customer_groups][{{ customer_group_data.customer_group_id }}]" value="{{ customer_group_data.customer_group_id }}"/>
+																	{{ customer_group_data.name }}
+																{% endif %}
+															</label>
+														</td>
+													{% endfor %}
+												</tr>
+											</table>
+										</div>
+										<a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', true);return false;">{{ text_select_all }}</a>
+										/
+										<a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', false);return false;">{{ text_unselect_all }}</a>
+									</div>
+								</div>
 
-              <div class="form-group scustomer_groups module{{ module_row }} general{{ module_row }}">
-                <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ entry_customer_group_help }}">{{ entry_customer_group }}</span></label>
-                <div class="col-sm-10">
-                  <div class="well well-sm">
-                    <table class="table table-striped">
-                    <tr>
-                    {% for customer_group_key, customer_group_data in customer_groups %}
-                      <td class="checkbox">
-                        <label>
-                        {% if customer_group_data.customer_group_id in module.customer_groups %}
-                        <input type="checkbox" name="custom_template_module[{{ module_row }}][customer_groups][{{ customer_group_data.customer_group_id }}]" id="custom_template_module[{{ module_row }}][customer_groups][{{ customer_group_data.customer_group_id }}]" value="{{ customer_group_data.customer_group_id }}" checked="checked" />
-                        {{ customer_group_data.name }}
-                        {% else %}
-                        <input type="checkbox" name="custom_template_module[{{ module_row }}][customer_groups][{{ customer_group_data.customer_group_id }}]" id="custom_template_module[{{ module_row }}][customer_groups][{{ customer_group_data.customer_group_id }}]" value="{{ customer_group_data.customer_group_id }}" />
-                        {{ customer_group_data.name }}
-                        {% endif %}
-                        </label>                        
-                      </td>
-                    {% endfor %}
-                    </tr>
-                    </table>
-                  </div>
-                <a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', true);return false;">{{ text_select_all }}</a> / <a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', false);return false;">{{ text_unselect_all }}</a>
-                </div>
-              </div>
+								<div class="form-group slanguages module{{ module_row }} general{{ module_row }}">
+									<label class="col-sm-2 control-label">
+										<span data-toggle="tooltip" title="{{ entry_language_help }}">{{ entry_language }}</span>
+									</label>
+									<div class="col-sm-10">
+										<div class="well well-sm">
+											<table class="table table-striped">
+												<tr>
+													{% for language_key, language in languages %}
+														<td class="checkbox">
+															<label>
+																{% if language.language_id in module.languages %}
+																	<input type="checkbox" name="custom_template_module[{{ module_row }}][languages][{{ language.language_id }}]" id="custom_template_module[{{ module_row }}][languages][{{ language.language_id }}]" value="{{ language.language_id }}" checked="checked"/>
+																	{{ language.name }}
+																{% else %}
+																	<input type="checkbox" name="custom_template_module[{{ module_row }}][languages][{{ language.language_id }}]" id="custom_template_module[{{ module_row }}][languages][{{ language.language_id }}]" value="{{ language.language_id }}"/>
+																	{{ language.name }}
+																{% endif %}
+															</label>
+														</td>
+													{% endfor %}
+												</tr>
+											</table>
+										</div>
+										<a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', true);return false;">{{ text_select_all }}</a>
+										/
+										<a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', false);return false;">{{ text_unselect_all }}</a>
+									</div>
+								</div>
 
-              <div class="form-group slanguages module{{ module_row }} general{{ module_row }}">
-                <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ entry_language_help }}">{{ entry_language }}</span></label>
-                <div class="col-sm-10">
-                  <div class="well well-sm">
-                    <table class="table table-striped">
-                    <tr>
-                    {% for language_key, language in languages %}
-                      <td class="checkbox">
-                        <label>
-                        {% if language.language_id in module.languages %}
-                        <input type="checkbox" name="custom_template_module[{{ module_row }}][languages][{{ language.language_id }}]" id="custom_template_module[{{ module_row }}][languages][{{ language.language_id }}]" value="{{ language.language_id }}" checked="checked" />
-                        {{ language.name }}
-                        {% else %}
-                        <input type="checkbox" name="custom_template_module[{{ module_row }}][languages][{{ language.language_id }}]" id="custom_template_module[{{ module_row }}][languages][{{ language.language_id }}]" value="{{ language.language_id }}" />
-                        {{ language.name }}
-                        {% endif %}
-                        </label>                        
-                      </td>
-                    {% endfor %}
-                    </tr>
-                    </table>
-                  </div>
-                <a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', true);return false;">{{ text_select_all }}</a> / <a href="#" onclick="$(this).parent().find(':checkbox').prop('checked', false);return false;">{{ text_unselect_all }}</a>
-                </div>
-              </div>
+								<div class="form-group required stemplate module{{ module_row }} general{{ module_row }}">
+									<label class="col-sm-2 control-label" for="custom_template_module_{{ module_row }}_template_name">{{ entry_template }}</label>
+									<div class="col-sm-10">
+										<div class="input-group">
+											<input type="text" id="custom_template_module_{{ module_row }}_template_name" name="custom_template_module[{{ module_row }}][template_name]" value="{{ module.template_name }}" placeholder="{{ entry_template }}" class="form-control"/>
+											<span class="input-group-btn">
+												<button class="btn btn-default" onclick="checkFile({{ module_row }});" type="button">{{ button_check_file }}</button>
+												<button class="btn btn-danger" onclick="$('#panel{{ module_row }}').remove();" type="button" title="{{ button_remove }}" data-toggle="tooltip" data-title="{{ button_remove }}" alt="{{ button_remove }}">
+													<i class="fa fa-trash-o"></i>
+												</button>
+											</span>
+										</div>
+										<div class="help-block">{{ entry_template_help }}</div>
+									</div>
+								</div>
 
-              <div class="form-group required stemplate module{{ module_row }} general{{ module_row }}">
-                <label class="col-sm-2 control-label" for="custom_template_module_{{ module_row }}_template_name"><span data-toggle="tooltip" title="{{ entry_template_help }}">{{ entry_template }}</span></label>
-                <div class="col-sm-10">
-                  <div class="input-group">
-                    <input type="text" id="custom_template_module_{{ module_row }}_template_name" name="custom_template_module[{{ module_row }}][template_name]" value="{{ module.template_name }}" placeholder="{{ entry_template }}" class="form-control" />
-                    <span class="input-group-btn">
-                      <button class="btn btn-default" onClick="checkFile({{ module_row }});" type="button">{{ button_check_file }}</button>
-                      <button class="btn btn-danger" onClick="$('#panel{{ module_row }}').remove();" type="button" title="{{ button_remove }}" data-toggle="tooltip" data-title="{{ button_remove }}" alt="{{ button_remove }}"><i class="fa fa-trash-o"></i></button>
-                    </span>
-                  </div>
-                  <br>
-                </div>
-              </div>
-
-            </div>
-          </div>
-          {% set module_row = module_row + 1 %}
-          {% endfor %}
-          <div class="form-group" id="adder">
-            <div class="col-sm-12">
-              <button class="col-sm-12 btn btn-success" onClick="addModule();" type="button" title="{{ button_add_module }}" alt="{{ button_add_module }}">{{ button_add_module }}</button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
+							</div>
+						</div>
+						{% set module_row = module_row + 1 %}
+					{% endfor %}
+					<div class="form-group" id="adder">
+						<div class="col-sm-12">
+							<button class="col-sm-12 btn btn-success" onclick="addModule();" type="button" title="{{ button_add_module }}" alt="{{ button_add_module }}">{{ button_add_module }}</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>
 <script type="text/javascript"><!--
 var toc = ['slayouts', 'scategories', 'sproducts', 'sinformations', 'smanufacturers', 'sproduct_categories', 'sproduct_manufacturers'];
 function showActive(value, elem_id){
-  $.each(toc, function(index, val) {
-    if(value == index){
-      $('.general'+elem_id).addClass(val);
-      $.each(toc, function(index2, val2) {
-        if(index2 !== index){
-          $('.general'+elem_id).removeClass(val2);
-          $('.'+val2+'.module'+elem_id).hide();
-        }
-        $('.'+val+'.module'+elem_id).show();
-      });
-    }
-  });
+	$.each(toc, function(index, val) {
+		if(value == index){
+			$('.general'+elem_id).addClass(val);
+			$.each(toc, function(index2, val2) {
+				if(index2 !== index){
+					$('.general'+elem_id).removeClass(val2);
+					$('.'+val2+'.module'+elem_id).hide();
+				}
+				$('.'+val+'.module'+elem_id).show();
+			});
+		}
+	});
 }
-var module_row = {{ module_row }};
+var module_row = {{ module_row }} ;
 $(document).ready(function(){
-  $('#store_id').on('change', function(event) {
-    event.preventDefault();
-    window.location = $(this).val();
-  });
-  init_form();
-  init_related();
+	$('#store_id').on('change', function(event) {
+		event.preventDefault();
+		window.location = $(this).val();
+	});
+	init_form();
+	init_related();
 });
 
-$('#form').submit(function(event){
-  $.each($('.select_type'), function(){
-    var elem_id = $(this).attr('data-id');
-    var elem = $('input[name=\'custom_template_module['+elem_id+'][template_name]\']');
-    if (empty($(elem).val())) {
-      $(elem).parents('.form-group').addClass('highlight_error');
-      $(elem).focus();
-      //alert('<?php echo $text_empty_field; ?>');
-      event.preventDefault();
-    }else{
-      return;
-    }
-  });
+$('#form-module-custom-template').submit(function(event){
+	$.each($('.select_type'), function(){
+		var elem_id = $(this).attr('data-id');
+		var elem = $('input[name=\'custom_template_module['+elem_id+'][template_name]\']');
+		if (empty($(elem).val())) {
+			$(elem).parents('.form-group').addClass('highlight_error');
+			$(elem).focus();
+			event.preventDefault();
+		}else{
+			return;
+		}
+	});
 });
 function init_related(){
-    $('.product_autocomplete').autocomplete({
-    'source': function(request, response) {
-      $.ajax({
-        url: 'index.php?route=catalog/product/autocomplete&user_token={{ user_token }}&filter_name=' +  encodeURIComponent(request),
-        dataType: 'json',
-        success: function(json) {
-          response($.map(json, function(item) {
-            return {
-              label: item['name'],
-              value: item['product_id']
-            }
-          }));
-        }
-      });
-    },
-    'select': function(item) {
-      $('#custom-template-product'+$(this).attr('data-id') +'-'+ item.value).remove();
+		$('.product_autocomplete').autocomplete({
+		'source': function(request, response) {
+			$.ajax({
+				url: 'index.php?route=catalog/product/autocomplete&user_token={{ user_token }} &filter_name=' +  encodeURIComponent(request),
+				dataType: 'json',
+				success: function(json) {
+					response($.map(json, function(item) {
+						return {
+							label: item['name'],
+							value: item['product_id']
+						}
+					}));
+				}
+			});
+		},
+		'select': function(item) {
+			$('#custom-template-product'+$(this).attr('data-id') +'-'+ item.value).remove();
 
-      $('#custom-template-product'+$(this).attr('data-id')).append('<div id="custom-template-product' + $(this).attr('data-id') + '-' + item['value'] + '" data-id="' + $(this).attr('data-id') + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="custom_template_module['+$(this).attr('data-id')+'][tmp_products][]" value="' + item['value'] + '" /></div>');
+			$('#custom-template-product'+$(this).attr('data-id')).append('<div id="custom-template-product' + $(this).attr('data-id') + '-' + item['value'] + '" data-id="' + $(this).attr('data-id') + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="custom_template_module['+$(this).attr('data-id')+'][tmp_products][]" value="' + item['value'] + '" /></div>');
 
-      data = $.map($('#custom-template-product'+$(this).attr('data-id')+' input'), function(element){
-        return $(element).attr('value');
-      });
-      $('input[name=\'custom_template_module['+$(this).attr('data-id')+'][products]\']').attr('value', data.join());
-    }
-  });
+			data = $.map($('#custom-template-product'+$(this).attr('data-id')+' input'), function(element){
+				return $(element).attr('value');
+			});
+			$('input[name=\'custom_template_module['+$(this).attr('data-id')+'][products]\']').attr('value', data.join());
+		}
+	});
 
-  $('.product_container').delegate('.fa-minus-circle', 'click', function() {
-    var row_id = $(this).parent().attr('data-id');
-    $(this).parent().remove();
-    var data = $.map($('#custom-template-product' + row_id + ' input'), function(element){
-      return $(element).attr('value');
-    });
-    $('input[name=\'custom_template_module[' + row_id + '][products]\']').attr('value', data.join());
-  });
+	$('.product_container').delegate('.fa-minus-circle', 'click', function() {
+		var row_id = $(this).parent().attr('data-id');
+		$(this).parent().remove();
+		var data = $.map($('#custom-template-product' + row_id + ' input'), function(element){
+			return $(element).attr('value');
+		});
+		$('input[name=\'custom_template_module[' + row_id + '][products]\']').attr('value', data.join());
+	});
 }
 function deleteModule(module_id){
 
 }
 function empty( mixed_var ) {
-  return ( mixed_var === "" || mixed_var === 0   || mixed_var === "0" || mixed_var === null  || mixed_var === false );
+	return ( mixed_var === "" || mixed_var === 0   || mixed_var === "0" || mixed_var === null  || mixed_var === false );
 }
 function checkFile(module_id){
-  console.log($('#custom_template_module_' + module_id + '_template_name').val());
-  $.ajax({
-    url: 'index.php?route=extension/module/custom_template/check_file&user_token={{ user_token }}',
-    type: 'POST',
-    dataType: 'json',
-    data: {path: $('#custom_template_module_' + module_id + '_template_name').val(), store_id:$('input[name="selected_store_id"]').val()},
-  })
-  .success(function(data){
-    console.log(data);
-    if (data['success']) {
-      $('.stemplate.module' + module_id + ' br').after('<div class="alert alert-success"><i class="fa fa-exclamation-circle"></i> ' + data['success'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
-    };
+	console.log($('#custom_template_module_' + module_id + '_template_name').val());
+	$.ajax({
+		url: 'index.php?route=extension/module/custom_template/check_file&user_token={{ user_token }} ',
+		type: 'POST',
+		dataType: 'json',
+		data: {path: $('#custom_template_module_' + module_id + '_template_name').val(), store_id:$('input[name="selected_store_id"]').val()},
+	})
+	.success(function(data){
+		console.log(data);
+		if (data['success']) {
+			$('.stemplate.module' + module_id + ' .help-block').after('<div class="alert alert-success"><i class="fa fa-exclamation-circle"></i> ' + data['success'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+		};
 
-    if (data['warning']) {
-      $('.stemplate.module' + module_id + ' br').after('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> ' + data['warning'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
-    }
-  })
+		if (data['warning']) {
+			$('.stemplate.module' + module_id + ' .help-block').after('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> ' + data['warning'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+		}
+	})
 }
 function init_form(){
-  $.each($('.select_type'), function(){
-    var elem_id = $(this).attr('data-id');
-    $('.stemplate').find('input').on('change keyup paste', function(event){
-      if (empty($(this).val())) {
-        $(this).parents('.form-group').addClass('highlight_error');
-      }else{
-        $(this).parents('.form-group').removeClass('highlight_error');
-      }
-    });
-    showActive(parseInt($(this).val()), elem_id);
-  });
+	$.each($('.select_type'), function(){
+		var elem_id = $(this).attr('data-id');
+		$('.stemplate').find('input').on('change keyup paste', function(event){
+			if (empty($(this).val())) {
+				$(this).parents('.form-group').addClass('highlight_error');
+			}else{
+				$(this).parents('.form-group').removeClass('highlight_error');
+			}
+		});
+		showActive(parseInt($(this).val()), elem_id);
+	});
 }
 $('.select_type').change(function(){
-  init_form();
+	init_form();
 });
 function addModule(){
-  html = '';
-  html += '<div class="panel panel-default" style="border-left:5px solid #fff;" id="panel' + module_row + '">';
-  html += '<div class="panel-body">';
+	html = '';
+	html += '<div class="panel panel-default" style="border-left:5px solid #fff;" id="panel' + module_row + '">';
+	html += '<div class="panel-body">';
 
-  html += '<div class="form-group module' + module_row + ' general' + module_row + '">';
-  html += '<label class="col-sm-2 control-label" for="custom_template_module_' + module_row + '_type">{{ entry_module_type }}</label>';
-  html += '<div class="col-sm-10">';
-  html += '<select class="form-control select_type" data-id="' + module_row + '" name="custom_template_module[' + module_row + '][type]" id="custom_template_module_' + module_row + '_type">';
-  {% for type_id, type_caption in module_types %}
-  html += '<option value="{{ type_id }}">{{ type_caption }}</option>';
-  {% endfor %}
-  html += '</select>';
-  html += '</div>';
-  html += '</div>';
+	html += '<div class="form-group module' + module_row + ' general' + module_row + '">';
+	html += '<label class="col-sm-2 control-label" for="custom_template_module_' + module_row + '_type">{{ entry_module_type }} </label>';
+	html += '<div class="col-sm-10">';
+	html += '<select class="form-control select_type" data-id="' + module_row + '" name="custom_template_module[' + module_row + '][type]" id="custom_template_module_' + module_row + '_type">';
+	{% for type_id, type_caption in module_types %} 
+	html += '<option value="{{ type_id }} ">{{ type_caption }} </option>';
+	{% endfor %} 
+	html += '</select>';
+	html += '</div>';
+	html += '</div>';
 
-  html += '<div class="form-group slayouts module' + module_row + '">';
-  html += '<label class="col-sm-2 control-label">{{ entry_layout }}</label>';
-  html += '<div class="col-sm-10">';
+	html += '<div class="form-group slayouts module' + module_row + '">';
+	html += '<label class="col-sm-2 control-label">{{ entry_layout }} </label>';
+	html += '<div class="col-sm-10">';
 
-  html += '<div class="well well-sm">';
-  html += '<table class="table table-striped">';
-  html += '<tr>';
-  {% for layout_key, layout_data in layouts %}
-  html += '<td class="checkbox">';
-  html += '<label>';
-  html += '<input type="checkbox" name="custom_template_module[' + module_row + '][layouts][{{ layout_data.layout_id }}]" id="custom_template_module[' + module_row + '][layouts][{{ layout_data.layout_id }}]" value="{{ layout_data.layout_id }}" />';
-  {% autoescape 'js' %}
-  html += '{{ layout_data.name }}';
-  {% endautoescape %}
-  html += '</label>';
-  html += '</td>';
-  {% endfor %}
-  html += '</tr>';
-  html += '</table>';
-  html += '</div>';
+	html += '<div class="well well-sm">';
+	html += '<table class="table table-striped">';
+	html += '<tr>';
+	{% for layout_key, layout_data in layouts %} 
+	html += '<td class="checkbox">';
+	html += '<label>';
+	html += '<input type="checkbox" name="custom_template_module[' + module_row + '][layouts][{{ layout_data.layout_id }} ]" id="custom_template_module[' + module_row + '][layouts][{{ layout_data.layout_id }} ]" value="{{ layout_data.layout_id }} " />';
+	{% autoescape 'js' %} 
+	html += '{{ layout_data.name }} ';
+	{% endautoescape %} 
+	html += '</label>';
+	html += '</td>';
+	{% endfor %} 
+	html += '</tr>';
+	html += '</table>';
+	html += '</div>';
 
-  html += '<a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', true);return false;">{{ text_select_all }}</a> / <a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', false);return false;">{{ text_unselect_all }}</a>';
-  html += '</div>';
-  html += '</div>';
+	html += '<a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', true);return false;">{{ text_select_all }} </a> / <a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', false);return false;">{{ text_unselect_all }} </a>';
+	html += '</div>';
+	html += '</div>';
 
-  html += '<div class="form-group scategories module' + module_row + '">';
-  html += '<label class="col-sm-2 control-label">{{ entry_category }}</label>';
-  html += '<div class="col-sm-10">';
+	html += '<div class="form-group scategories module' + module_row + '">';
+	html += '<label class="col-sm-2 control-label">{{ entry_category }} </label>';
+	html += '<div class="col-sm-10">';
 
-  html += '<div class="well well-sm">';
-  html += '<table class="table table-striped">';
-  html += '<tr>';
-  {% for category_key, category_data in categories %}
-  html += '<td class="checkbox">';
-  html += '<label>';
-  html += '<input type="checkbox" name="custom_template_module[' + module_row + '][categories][{{ category_data.category_id }}]" id="custom_template_module[' + module_row + '][categories][{{ category_data.category_id }}]" value="{{ category_data.category_id }}" />';
-  {% autoescape 'js' %}
-  html += '{{ category_data.name }}';
-  {% endautoescape %}
-  html += '</label>';
-  html += '</td>';
-  {% endfor %}
-  html += '</tr>';
-  html += '</table>';
-  html += '</div>';
+	html += '<div class="well well-sm">';
+	html += '<table class="table table-striped">';
+	html += '<tr>';
+	{% for category_key, category_data in categories %} 
+	html += '<td class="checkbox">';
+	html += '<label>';
+	html += '<input type="checkbox" name="custom_template_module[' + module_row + '][categories][{{ category_data.category_id }} ]" id="custom_template_module[' + module_row + '][categories][{{ category_data.category_id }} ]" value="{{ category_data.category_id }} " />';
+	{% autoescape 'js' %} 
+	html += '{{ category_data.name }} ';
+	{% endautoescape %} 
+	html += '</label>';
+	html += '</td>';
+	{% endfor %} 
+	html += '</tr>';
+	html += '</table>';
+	html += '</div>';
 
-  html += '<a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', true);return false;">{{ text_select_all }}</a> / <a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', false);return false;">{{ text_unselect_all }}</a>';
-  html += '</div>';
-  html += '</div>';
+	html += '<a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', true);return false;">{{ text_select_all }} </a> / <a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', false);return false;">{{ text_unselect_all }} </a>';
+	html += '</div>';
+	html += '</div>';
 
-  html += '<div class="form-group sinformations module' + module_row + '">';
-  html += '<label class="col-sm-2 control-label">{{ entry_information }}</label>';
-  html += '<div class="col-sm-10">';
+	html += '<div class="form-group sinformations module' + module_row + '">';
+	html += '<label class="col-sm-2 control-label">{{ entry_information }} </label>';
+	html += '<div class="col-sm-10">';
 
-  html += '<div class="well well-sm">';
-  html += '<table class="table table-striped">';
-  html += '<tr>';
-  {% for information_key, information_data in informations %}
-  html += '<td class="checkbox">';
-  html += '<label>';
-  html += '<input type="checkbox" name="custom_template_module[' + module_row + '][informations][{{ information_data.information_id }}]" id="custom_template_module[' + module_row + '][informations][{{ information_data.information_id }}]" value="{{ information_data.information_id }}" />';
-  {% autoescape 'js' %}
-  html += '{{ information_data.title }}';
-  {% endautoescape %}
-  html += '</label>';
-  html += '</td>';
-  {% endfor %}
-  html += '</tr>';
-  html += '</table>';
-  html += '</div>';
-  
-  html += '<a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', true);return false;">{{ text_select_all }}</a> / <a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', false);return false;">{{ text_unselect_all }}</a>';
-  html += '</div>';
-  html += '</div>';
+	html += '<div class="well well-sm">';
+	html += '<table class="table table-striped">';
+	html += '<tr>';
+	{% for information_key, information_data in informations %} 
+	html += '<td class="checkbox">';
+	html += '<label>';
+	html += '<input type="checkbox" name="custom_template_module[' + module_row + '][informations][{{ information_data.information_id }} ]" id="custom_template_module[' + module_row + '][informations][{{ information_data.information_id }} ]" value="{{ information_data.information_id }} " />';
+	{% autoescape 'js' %} 
+	html += '{{ information_data.title }} ';
+	{% endautoescape %} 
+	html += '</label>';
+	html += '</td>';
+	{% endfor %} 
+	html += '</tr>';
+	html += '</table>';
+	html += '</div>';
+	
+	html += '<a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', true);return false;">{{ text_select_all }} </a> / <a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', false);return false;">{{ text_unselect_all }} </a>';
+	html += '</div>';
+	html += '</div>';
 
-  html += '<div class="form-group smanufacturers module' + module_row + '">';
-  html += '<label class="col-sm-2 control-label">{{ entry_manufacturer }}</label>';
-  html += '<div class="col-sm-10">';
+	html += '<div class="form-group smanufacturers module' + module_row + '">';
+	html += '<label class="col-sm-2 control-label">{{ entry_manufacturer }} </label>';
+	html += '<div class="col-sm-10">';
 
-  html += '<div class="well well-sm">';
-  html += '<table class="table table-striped">';
-  html += '<tr>';
-  {% for manufacturer_key, manufacturer_data in manufacturers %}
-  html += '<td class="checkbox">';
-  html += '<label>';
-  html += '<input type="checkbox" name="custom_template_module[' + module_row + '][manufacturers][{{ manufacturer_data.manufacturer_id }}]" id="custom_template_module[' + module_row + '][manufacturers][{{ manufacturer_data.manufacturer_id }}]" value="{{ manufacturer_data.manufacturer_id }}" />';
-  {% autoescape 'js' %}
-  html += '{{ manufacturer_data.name }}';
-  {% endautoescape %}
-  html += '</label>';
-  html += '</td>';
-  {% endfor %}
-  html += '</tr>';
-  html += '</table>';
-  html += '</div>';  
+	html += '<div class="well well-sm">';
+	html += '<table class="table table-striped">';
+	html += '<tr>';
+	{% for manufacturer_key, manufacturer_data in manufacturers %} 
+	html += '<td class="checkbox">';
+	html += '<label>';
+	html += '<input type="checkbox" name="custom_template_module[' + module_row + '][manufacturers][{{ manufacturer_data.manufacturer_id }} ]" id="custom_template_module[' + module_row + '][manufacturers][{{ manufacturer_data.manufacturer_id }} ]" value="{{ manufacturer_data.manufacturer_id }} " />';
+	{% autoescape 'js' %} 
+	html += '{{ manufacturer_data.name }} ';
+	{% endautoescape %} 
+	html += '</label>';
+	html += '</td>';
+	{% endfor %} 
+	html += '</tr>';
+	html += '</table>';
+	html += '</div>';  
 
-  html += '<a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', true);return false;">{{ text_select_all }}</a> / <a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', false);return false;">{{ text_unselect_all }}</a>';
-  html += '</div>';
-  html += '</div>';
+	html += '<a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', true);return false;">{{ text_select_all }} </a> / <a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', false);return false;">{{ text_unselect_all }} </a>';
+	html += '</div>';
+	html += '</div>';
 
-  html += '<div class="form-group sproducts module' + module_row + '">';
-  html += '<label class="col-sm-2 control-label" for="input-related">{{ entry_product }}</label>';
-  html += '<div class="col-sm-10">';
-  html += '<input type="text" value="" placeholder="{{ entry_product }}" id="input-related" class="form-control product_autocomplete" data-id="' + module_row + '" /><br>';
-  html += '<div id="custom-template-product' + module_row + '" class="well well-sm product_container">';
-  html += '</div>';
-  html += '</div>';
-  html += '<input type="hidden" name="custom_template_module[' + module_row + '][products]" value="" />';
-  html += '</div>';
+	html += '<div class="form-group sproducts module' + module_row + '">';
+	html += '<label class="col-sm-2 control-label" for="input-related">{{ entry_product }} </label>';
+	html += '<div class="col-sm-10">';
+	html += '<input type="text" value="" placeholder="{{ entry_product }} " id="input-related" class="form-control product_autocomplete" data-id="' + module_row + '" /><br>';
+	html += '<div id="custom-template-product' + module_row + '" class="well well-sm product_container">';
+	html += '</div>';
+	html += '</div>';
+	html += '<input type="hidden" name="custom_template_module[' + module_row + '][products]" value="" />';
+	html += '</div>';
 
-  html += '<div class="form-group sproduct_categories module' + module_row + '">';
-  html += '<label class="col-sm-2 control-label">{{ entry_category }}</label>';
-  html += '<div class="col-sm-10">';
+	html += '<div class="form-group sproduct_categories module' + module_row + '">';
+	html += '<label class="col-sm-2 control-label">{{ entry_category }} </label>';
+	html += '<div class="col-sm-10">';
 
-  html += '<div class="well well-sm">';
-  html += '<table class="table table-striped">';
-  html += '<tr>';
-  {% for category_key, category_data in categories %}
-  html += '<td class="checkbox">';
-  html += '<label>';
-  html += '<input type="checkbox" name="custom_template_module[' + module_row + '][product_categories][{{ category_data.category_id }}]" id="custom_template_module[' + module_row + '][product_categories][{{ category_data.category_id }}]" value="{{ category_data.category_id }}" />';
-  {% autoescape 'js' %}
-  html += '{{ category_data.name }}';
-  {% endautoescape %}
-  html += '</label>';
-  html += '</td>';
-  {% endfor %}
-  html += '</tr>';
-  html += '</table>';
-  html += '</div>'; 
+	html += '<div class="well well-sm">';
+	html += '<table class="table table-striped">';
+	html += '<tr>';
+	{% for category_key, category_data in categories %} 
+	html += '<td class="checkbox">';
+	html += '<label>';
+	html += '<input type="checkbox" name="custom_template_module[' + module_row + '][product_categories][{{ category_data.category_id }} ]" id="custom_template_module[' + module_row + '][product_categories][{{ category_data.category_id }} ]" value="{{ category_data.category_id }} " />';
+	{% autoescape 'js' %} 
+	html += '{{ category_data.name }} ';
+	{% endautoescape %} 
+	html += '</label>';
+	html += '</td>';
+	{% endfor %} 
+	html += '</tr>';
+	html += '</table>';
+	html += '</div>'; 
 
-  html += '<a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', true);return false;">{{ text_select_all }}</a> / <a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', false);return false;">{{ text_unselect_all }}</a>';
-  html += '</div>';
-  html += '</div>';
+	html += '<a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', true);return false;">{{ text_select_all }} </a> / <a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', false);return false;">{{ text_unselect_all }} </a>';
+	html += '</div>';
+	html += '</div>';
 
-  html += '<div class="form-group sproduct_manufacturers module' + module_row + '">';
-  html += '<label class="col-sm-2 control-label">{{ entry_manufacturer }}</label>';
-  html += '<div class="col-sm-10">';
+	html += '<div class="form-group sproduct_manufacturers module' + module_row + '">';
+	html += '<label class="col-sm-2 control-label">{{ entry_manufacturer }} </label>';
+	html += '<div class="col-sm-10">';
 
-  html += '<div class="well well-sm">';
-  html += '<table class="table table-striped">';
-  html += '<tr>';
-  {% for manufacturer_key, manufacturer_data in manufacturers %}
-  html += '<td class="checkbox">';
-  html += '<label>';
-  html += '<input type="checkbox" name="custom_template_module[' + module_row + '][product_manufacturers][{{ manufacturer_data.manufacturer_id }}]" id="custom_template_module[' + module_row + '][product_manufacturers][{{ manufacturer_data.manufacturer_id }}]" value="{{ manufacturer_data.manufacturer_id }}" />';
-  {% autoescape 'js' %}
-  html += '{{ manufacturer_data.name }}';
-  {% endautoescape %}
-  html += '</label>';
-  html += '</td>';
-  {% endfor %}
-  html += '</tr>';
-  html += '</table>';
-  html += '</div>'; 
+	html += '<div class="well well-sm">';
+	html += '<table class="table table-striped">';
+	html += '<tr>';
+	{% for manufacturer_key, manufacturer_data in manufacturers %} 
+	html += '<td class="checkbox">';
+	html += '<label>';
+	html += '<input type="checkbox" name="custom_template_module[' + module_row + '][product_manufacturers][{{ manufacturer_data.manufacturer_id }} ]" id="custom_template_module[' + module_row + '][product_manufacturers][{{ manufacturer_data.manufacturer_id }} ]" value="{{ manufacturer_data.manufacturer_id }} " />';
+	{% autoescape 'js' %} 
+	html += '{{ manufacturer_data.name }} ';
+	{% endautoescape %} 
+	html += '</label>';
+	html += '</td>';
+	{% endfor %} 
+	html += '</tr>';
+	html += '</table>';
+	html += '</div>'; 
 
-  html += '<a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', true);return false;">{{ text_select_all }}</a> / <a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', false);return false;">{{ text_unselect_all }}</a>';
-  html += '</div>';
-  html += '</div>';
+	html += '<a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', true);return false;">{{ text_select_all }} </a> / <a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', false);return false;">{{ text_unselect_all }} </a>';
+	html += '</div>';
+	html += '</div>';
 
-  html += '<div class="form-group scustomer_groups module' + module_row + ' general' + module_row + '">';
-  html += '<label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ entry_customer_group_help }}">{{ entry_customer_group }}</span></label>';
-  html += '<div class="col-sm-10">';
+	html += '<div class="form-group scustomer_groups module' + module_row + ' general' + module_row + '">';
+	html += '<label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ entry_customer_group_help }} ">{{ entry_customer_group }} </span></label>';
+	html += '<div class="col-sm-10">';
 
-  html += '<div class="well well-sm">';
-  html += '<table class="table table-striped">';
-  html += '<tr>';
-  {% for customer_group_key, customer_group_data in customer_groups %}
-  html += '<td class="checkbox">';
-  html += '<label>';
-  html += '<input type="checkbox" name="custom_template_module[' + module_row + '][customer_groups][{{ customer_group_data.customer_group_id }}]" id="custom_template_module[' + module_row + '][customer_groups][{{ customer_group_data.customer_group_id }}]" value="{{ customer_group_data.customer_group_id }}" />';
-  {% autoescape 'js' %}
-  html += '{{ customer_group_data.name }}';
-  {% endautoescape %}
-  html += '</label>';
-  html += '</td>';
-  {% endfor %}
-  html += '</tr>';
-  html += '</table>';
-  html += '</div>';
-  html += '<a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', true);return false;">{{ text_select_all }}</a> / <a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', false);return false;">{{ text_unselect_all }}</a>';
-  html += '</div>';
-  html += '</div>';
+	html += '<div class="well well-sm">';
+	html += '<table class="table table-striped">';
+	html += '<tr>';
+	{% for customer_group_key, customer_group_data in customer_groups %} 
+	html += '<td class="checkbox">';
+	html += '<label>';
+	html += '<input type="checkbox" name="custom_template_module[' + module_row + '][customer_groups][{{ customer_group_data.customer_group_id }} ]" id="custom_template_module[' + module_row + '][customer_groups][{{ customer_group_data.customer_group_id }} ]" value="{{ customer_group_data.customer_group_id }} " />';
+	{% autoescape 'js' %} 
+	html += '{{ customer_group_data.name }} ';
+	{% endautoescape %} 
+	html += '</label>';
+	html += '</td>';
+	{% endfor %} 
+	html += '</tr>';
+	html += '</table>';
+	html += '</div>';
+	html += '<a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', true);return false;">{{ text_select_all }} </a> / <a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', false);return false;">{{ text_unselect_all }} </a>';
+	html += '</div>';
+	html += '</div>';
 
-  html += '<div class="form-group slanguages module' + module_row + ' general' + module_row + '">';
-  html += '<label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ entry_language_help }}">{{ entry_language }}</span></label>';
-  html += '<div class="col-sm-10">';
+	html += '<div class="form-group slanguages module' + module_row + ' general' + module_row + '">';
+	html += '<label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ entry_language_help }} ">{{ entry_language }} </span></label>';
+	html += '<div class="col-sm-10">';
 
-  html += '<div class="well well-sm">';
-  html += '<table class="table table-striped">';
-  html += '<tr>';
-  {% for language_key, language_data in languages %}
-  html += '<td class="checkbox">';
-  html += '<label>';
-  html += '<input type="checkbox" name="custom_template_module[' + module_row + '][languages][{{ language_data.language_id }}]" id="custom_template_module[' + module_row + '][languages][{{ language_data.language_id }}]" value="{{ language_data.language_id }}" />';
-  {% autoescape 'js' %}
-  html += '{{ language_data.name }}';
-  {% endautoescape %}
-  html += '</label>';
-  html += '</td>';
-  {% endfor %}
-  html += '</tr>';
-  html += '</table>';
-  html += '</div>';
-  html += '<a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', true);return false;">{{ text_select_all }}</a> / <a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', false);return false;">{{ text_unselect_all }}</a>';
-  html += '</div>';
-  html += '</div>';
+	html += '<div class="well well-sm">';
+	html += '<table class="table table-striped">';
+	html += '<tr>';
+	{% for language_key, language_data in languages %} 
+	html += '<td class="checkbox">';
+	html += '<label>';
+	html += '<input type="checkbox" name="custom_template_module[' + module_row + '][languages][{{ language_data.language_id }} ]" id="custom_template_module[' + module_row + '][languages][{{ language_data.language_id }} ]" value="{{ language_data.language_id }} " />';
+	{% autoescape 'js' %} 
+	html += '{{ language_data.name }} ';
+	{% endautoescape %} 
+	html += '</label>';
+	html += '</td>';
+	{% endfor %} 
+	html += '</tr>';
+	html += '</table>';
+	html += '</div>';
+	html += '<a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', true);return false;">{{ text_select_all }} </a> / <a href="#" onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', false);return false;">{{ text_unselect_all }} </a>';
+	html += '</div>';
+	html += '</div>';
 
-  html += '<div class="form-group required stemplate module' + module_row + ' general' + module_row + '">';
-  html += '<label class="col-sm-2 control-label" for="custom_template_module_' + module_row + '_template_name"><span data-toggle="tooltip" title="{{ entry_template_help }}">{{ entry_template }}</span></label>';
-  html += '<div class="col-sm-10">';
-  html += '<div class="input-group">';
-  html += '<input type="text" id="custom_template_module_' + module_row + '_template_name" name="custom_template_module[' + module_row + '][template_name]" value="" placeholder="{{ entry_template }}" class="form-control" />';
-  html += '<span class="input-group-btn">';
-  html += '<button class="btn btn-default" onClick="checkFile(' + module_row + ');" type="button">{{ button_check_file }}</button>';
-  html += '<button class="btn btn-danger" onClick="$(\'#panel' + module_row + '\').remove();" type="button" title="{{ button_remove }}" data-toggle="tooltip" data-title="{{ button_remove }}" alt="{{ button_remove }}"><i class="fa fa-trash-o"></i></button>';
-  html += '</span>';
-  html += '</div>';
-  html += '<br>';
-  html += '</div>';
-  html += '</div>';
+	html += '<div class="form-group required stemplate module' + module_row + ' general' + module_row + '">';
+	html += '<label class="col-sm-2 control-label" for="custom_template_module_' + module_row + '_template_name">{{ entry_template }}</label>';
+	html += '<div class="col-sm-10">';
+	html += '<div class="input-group">';
+	html += '<input type="text" id="custom_template_module_' + module_row + '_template_name" name="custom_template_module[' + module_row + '][template_name]" value="" placeholder="{{ entry_template }} " class="form-control" />';
+	html += '<span class="input-group-btn">';
+	html += '<button class="btn btn-default" onClick="checkFile(' + module_row + ');" type="button">{{ button_check_file }} </button>';
+	html += '<button class="btn btn-danger" onClick="$(\'#panel' + module_row + '\').remove();" type="button" title="{{ button_remove }} " data-toggle="tooltip" data-title="{{ button_remove }} " alt="{{ button_remove }} "><i class="fa fa-trash-o"></i></button>';
+	html += '</span>';
+	html += '</div>';
+	html += '<div class="help-block">{{ entry_template_help }}</div>';
+	html += '</div>';
+	html += '</div>';
 
-  html += '</div>';
-  html += '</div>';
-  $('#adder').before(html);
-  $('#panel' + module_row + ' [data-toggle=tooltip]').tooltip({
-      container: '#panel' + module_row,
-      trigger : 'hover'
-  });
-  init_form();
-  init_related();
-  $('.select_type').change(function(){
-    init_form();
-  });
-  module_row++;
+	html += '</div>';
+	html += '</div>';
+	$('#adder').before(html);
+	$('#panel' + module_row + ' [data-toggle=tooltip]').tooltip({
+			container: '#panel' + module_row,
+			trigger : 'hover'
+	});
+	init_form();
+	init_related();
+	$('.select_type').change(function(){
+		init_form();
+	});
+	module_row++;
 }
-</script>
-{{ footer }}
+</script>{{ footer }}
