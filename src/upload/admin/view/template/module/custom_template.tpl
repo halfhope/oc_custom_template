@@ -1,10 +1,61 @@
 <?php echo $header; ?><?php echo $column_left; ?>
 <div id="content">
+<style>
+.scategories{
+  background-color: #fff4d9;
+  border-left: 5px solid #ffd166;
+}
+.sinformations{
+  background-color: #f4ffed;
+  border-left: 5px solid #b1db95;
+}
+.smanufacturers{
+  background-color: #ebfcff;
+  border-left: 5px solid #4d90fe;
+}
+.sproducts{
+  background-color: #f7f2ff;
+  border-left: 5px solid #c4a0ff;
+}
+.sproduct_categories{
+  background-color: #ffeded;
+  border-left: 5px solid #ffcece;
+}
+.sproduct_manufacturers{
+  background-color: #CFFFD7;
+  border-left: 5px solid #4D814A;
+}
+.slayouts{
+  background-color: #CFFFD7;
+  border-left: 5px solid #4D814A;
+}
+.highlight_error{
+  border-left: 5px solid #CE4C38;
+  background: #ffc9c9;
+}
+.pull-right select.form-control{
+  display: inline-block;
+  width: auto;
+  vertical-align: bottom;
+}
+</style>
   <div class="page-header">
     <div class="container-fluid">
       <div class="pull-right">
+        <?php if (count($stores) > 1): ?>
+        <select name="store_id" id="store_id" class="form-control">
+        <?php foreach ($stores as $store_id => $store_data): ?>
+          <?php if ($selected_store_id == $store_id): ?>
+          <option value="<?php echo $store_data['link'] ?>" selected><?php echo $store_data['name'] ?></option>
+          <?php else: ?>
+          <option value="<?php echo $store_data['link'] ?>"><?php echo $store_data['name'] ?></option>
+          <?php endif ?>
+        <?php endforeach ?>
+        </select>
+        <?php endif ?>
         <button type="submit" form="form-module-custom-template" data-toggle="tooltip" title="<?php echo $button_save; ?>" class="btn btn-primary"><i class="fa fa-save"></i></button>
-        <a href="<?php echo $cancel; ?>" data-toggle="tooltip" title="<?php echo $button_cancel; ?>" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+        <a href="<?php echo $cancel; ?>" data-toggle="tooltip" title="<?php echo $button_cancel; ?>" class="btn btn-default"><i class="fa fa-reply"></i></a>
+      </div>
       <h1><?php echo $heading_title; ?></h1>
       <ul class="breadcrumb">
         <?php foreach ($breadcrumbs as $breadcrumb) { ?>
@@ -19,18 +70,24 @@
       <button type="button" class="close" data-dismiss="alert">&times;</button>
     </div>
     <?php } ?>
+    <?php if ($success) { ?>
+    <div class="alert alert-success"><i class="fa fa-check-circle"></i> <?php echo $success; ?>
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    <?php } ?>
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title"><i class="fa fa-pencil"></i> <?php echo $text_edit; ?></h3>
       </div>
       <div class="panel-body">
         <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-module-custom-template" class="form-horizontal">
+          <input type="hidden" name="selected_store_id" value="<?php echo $selected_store_id ?>">
           <?php $module_row = 0; ?>
           <?php foreach ($modules as $module): ?>
           <div class="panel panel-default" id="panel<?php echo $module_row ?>">
             <div class="panel-body">
 
-              <div class="form-group module<?php echo $module_row ?> common<?php echo $module_row ?>">
+              <div class="form-group module<?php echo $module_row ?> general<?php echo $module_row ?>">
                 <label class="col-sm-2 control-label" for="custom_template_module_<?php echo $module_row ?>_type"><?php echo $entry_module_type; ?></label>
                 <div class="col-sm-10">
                   <select class="form-control select_type" data-id="<?php echo $module_row ?>" name="custom_template_module[<?php echo $module_row ?>][type]" id="custom_template_module_<?php echo $module_row ?>_type">
@@ -45,8 +102,30 @@
                 </div>
               </div>
 
+              <div class="form-group slayouts module<?php echo $module_row ?>">
+                <label class="col-sm-2 control-label"><?php echo $entry_layout; ?></label>
+                <div class="col-sm-10">
+                  <div class="well well-sm" style="height: 150px; overflow: auto;">
+                    <?php foreach ($layouts as $layout_key => $layout_data) { ?>
+                    <div class="checkbox">
+                      <label>
+                        <?php if (in_array($layout_data['layout_id'], $module['layouts'])) { ?>
+                        <input type="checkbox" name="custom_template_module[<?php echo $module_row ?>][layouts][<?php echo $layout_data['layout_id']; ?>]" id="custom_template_module[<?php echo $module_row ?>][layouts][<?php echo $layout_data['layout_id']; ?>]" value="<?php echo $layout_data['layout_id']; ?>" checked="checked" />
+                        <?php echo $layout_data['name']; ?>
+                        <?php } else { ?>
+                        <input type="checkbox" name="custom_template_module[<?php echo $module_row ?>][layouts][<?php echo $layout_data['layout_id']; ?>]" id="custom_template_module[<?php echo $module_row ?>][layouts][<?php echo $layout_data['layout_id']; ?>]" value="<?php echo $layout_data['layout_id']; ?>" />
+                        <?php echo $layout_data['name']; ?>
+                        <?php } ?>
+                      </label>
+                    </div>
+                    <?php } ?>
+                  </div>
+                <a onclick="$(this).parent().find(':checkbox').prop('checked', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(':checkbox').prop('checked', false);"><?php echo $text_unselect_all; ?></a>
+                </div>
+              </div>
+
               <div class="form-group scategories module<?php echo $module_row ?>">
-                <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="<?php echo $entry_category_help; ?>"><?php echo $entry_category; ?></span></label>
+                <label class="col-sm-2 control-label"><?php echo $entry_category; ?></label>
                 <div class="col-sm-10">
                   <div class="well well-sm" style="height: 150px; overflow: auto;">
                     <?php foreach ($categories as $category_key => $category_data) { ?>
@@ -68,7 +147,7 @@
               </div>
 
               <div class="form-group sinformations module<?php echo $module_row ?>">
-                <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="<?php echo $entry_information_help; ?>"><?php echo $entry_information; ?></span></label>
+                <label class="col-sm-2 control-label"><?php echo $entry_information; ?></label>
                 <div class="col-sm-10">
                   <div class="well well-sm" style="height: 150px; overflow: auto;">
                     <?php foreach ($informations as $information_key => $information_data) { ?>
@@ -90,7 +169,7 @@
               </div>
 
               <div class="form-group smanufacturers module<?php echo $module_row ?>">
-                <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="<?php echo $entry_manufacturer_help; ?>"><?php echo $entry_manufacturer; ?></span></label>
+                <label class="col-sm-2 control-label"><?php echo $entry_manufacturer; ?></label>
                 <div class="col-sm-10">
                   <div class="well well-sm" style="height: 150px; overflow: auto;">
                     <?php foreach ($manufacturers as $manufacturer_key => $manufacturer_data) { ?>
@@ -112,12 +191,12 @@
               </div>
 
               <div class="form-group sproducts module<?php echo $module_row ?>">
-                <label class="col-sm-2 control-label" for="input-related"><span data-toggle="tooltip" title="<?php echo $entry_product_help; ?>"><?php echo $entry_product; ?></span></span></label>
+                <label class="col-sm-2 control-label" for="input-related"><?php echo $entry_product; ?></label>
                 <div class="col-sm-10">
                   <input type="text" value="" placeholder="<?php echo $entry_product; ?>" id="input-related" class="form-control product_autocomplete" data-id="<?php echo $module_row ?>" /><br>
                   <div id="custom-template-product<?php echo $module_row ?>" class="well well-sm product_container" style="height: 150px; overflow: auto;">
                     <?php foreach ($module['parsed_products'] as $product): ?>
-                    <div id="custom-template-product<?php echo $module_row ?>-<?php echo $product['product_id']; ?>"><i data-id="<?php echo $module_row ?>"  class="fa fa-minus-circle"></i> <?php echo $product['name']; ?>
+                    <div id="custom-template-product<?php echo $module_row ?>-<?php echo $product['product_id']; ?>" data-id="<?php echo $module_row ?>"><i data-id="<?php echo $module_row ?>"  class="fa fa-minus-circle"></i> <?php echo $product['name']; ?>
                       <input type="hidden" name="custom_template_module[<?php echo $module_row ?>][tmp_products][]" value="<?php echo $product['product_id']; ?>" />
                     </div>
                     <?php endforeach ?>
@@ -170,7 +249,7 @@
                 </div>
               </div>
 
-              <div class="form-group scustomer_groups module<?php echo $module_row ?> common<?php echo $module_row ?>">
+              <div class="form-group scustomer_groups module<?php echo $module_row ?> general<?php echo $module_row ?>">
                 <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="<?php echo $entry_customer_group_help; ?>"><?php echo $entry_customer_group; ?></span></label>
                 <div class="col-sm-10">
                   <div class="well well-sm" style="height: 150px; overflow: auto;">
@@ -192,12 +271,32 @@
                 </div>
               </div>
 
+              <div class="form-group slanguages module<?php echo $module_row ?> general<?php echo $module_row ?>">
+                <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="<?php echo $entry_language_help; ?>"><?php echo $entry_language; ?></span></label>
+                <div class="col-sm-10">
+                  <div class="well well-sm" style="height: 150px; overflow: auto;">
+                    <?php foreach ($languages as $language_key => $language_data) { ?>
+                    <div class="checkbox">
+                      <label>
+                        <?php if (in_array($language_data['language_id'], $module['languages'])) { ?>
+                        <input type="checkbox" name="custom_template_module[<?php echo $module_row ?>][languages][<?php echo $language_data['language_id']; ?>]" id="custom_template_module[<?php echo $module_row ?>][languages][<?php echo $language_data['language_id']; ?>]" value="<?php echo $language_data['language_id']; ?>" checked="checked" />
+                        <?php echo $language_data['name']; ?>
+                        <?php } else { ?>
+                        <input type="checkbox" name="custom_template_module[<?php echo $module_row ?>][languages][<?php echo $language_data['language_id']; ?>]" id="custom_template_module[<?php echo $module_row ?>][languages][<?php echo $language_data['language_id']; ?>]" value="<?php echo $language_data['language_id']; ?>" />
+                        <?php echo $language_data['name']; ?>
+                        <?php } ?>
+                      </label>
+                    </div>
+                    <?php } ?>
+                  </div>
+                <a onclick="$(this).parent().find(':checkbox').prop('checked', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(':checkbox').prop('checked', false);"><?php echo $text_unselect_all; ?></a>
+                </div>
+              </div>
 
-              <div class="form-group required stemplate module<?php echo $module_row ?> common<?php echo $module_row ?>">
+              <div class="form-group required stemplate module<?php echo $module_row ?> general<?php echo $module_row ?>">
                 <label class="col-sm-2 control-label" for="custom_template_module_<?php echo $module_row ?>_template_name"><span data-toggle="tooltip" title="<?php echo $entry_template_help; ?>"><?php echo $entry_template; ?></span></label>
                 <div class="col-sm-10">
                   <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1"><?php echo $template_addon ?></span>
                     <input type="text" id="custom_template_module_<?php echo $module_row ?>_template_name" name="custom_template_module[<?php echo $module_row ?>][template_name]" value="<?php echo $module['template_name'] ?>" placeholder="<?php echo $entry_template; ?>" class="form-control" />
                     <span class="input-group-btn">
                       <button class="btn btn-default" onClick="checkFile(<?php echo $module_row ?>);" type="button"><?php echo $button_check_file ?></button>
@@ -207,7 +306,7 @@
                 </div>
               </div>
 
-              <div class="form-group required module<?php echo $module_row ?> common<?php echo $module_row ?>">
+              <div class="form-group required module<?php echo $module_row ?> general<?php echo $module_row ?>">
                 <div class="col-sm-12 text-right">
                   <button class="btn btn-danger" onClick="$('#panel<?php echo $module_row; ?>').remove();" type="button" title="<?php echo $button_remove ?>" alt="<?php echo $button_remove ?>"><i class="fa fa-trash-o"></i></button>
                 </div>
@@ -228,11 +327,47 @@
   </div>
 </div>
 <script type="text/javascript"><!--
+var toc = ['slayouts', 'scategories', 'sproducts', 'sinformations', 'smanufacturers', 'sproduct_categories', 'sproduct_manufacturers'];
+function showActive(value, elem_id){
+  $.each(toc, function(index, val) {
+    if(value == index){
+      $('.general'+elem_id).addClass(val);
+      $.each(toc, function(index2, val2) {
+        if(index2 !== index){
+          $('.general'+elem_id).removeClass(val2);
+          $('.'+val2+'.module'+elem_id).hide();
+        }
+        $('.'+val+'.module'+elem_id).show();
+      });
+    }
+  });
+}
 var module_row = <?php echo $module_row; ?>;
 $(document).ready(function(){
+  $('#store_id').on('change', function(event) {
+    event.preventDefault();
+    window.location = $(this).val();
+  });
   init_form();
-  // Related
-  $('.product_autocomplete').autocomplete({
+  init_related();
+});
+
+$('#form').submit(function(event){
+  $.each($('.select_type'), function(){
+    var elem_id = $(this).attr('data-id');
+    var elem = $('input[name=\'custom_template_module['+elem_id+'][template_name]\']');
+    if (empty($(elem).val())) {
+      $(elem).parents('.form-group').addClass('highlight_error');
+      $(elem).focus();
+      //alert('<?php echo $text_empty_field; ?>');
+      event.preventDefault();
+    }else{
+      return;
+    }
+  });
+});
+function init_related(){
+    $('.product_autocomplete').autocomplete({
     'source': function(request, response) {
       $.ajax({
         url: 'index.php?route=catalog/product/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request),
@@ -267,23 +402,7 @@ $(document).ready(function(){
     });
     $('input[name=\'custom_template_module[' + row_id + '][products]\']').attr('value', data.join());
   });
-  //end Related
-});
-
-$('#form').submit(function(event){
-  $.each($('.select_type'), function(){
-    var elem_id = $(this).attr('data-id');
-    var elem = $('input[name=\'custom_template_module['+elem_id+'][template_name]\']');
-    if (empty($(elem).val())) {
-      $(elem).parents('.form-group').addClass('highlight_error');
-      $(elem).focus();
-      //alert('<?php echo $text_empty_field; ?>');
-      event.preventDefault();
-    }else{
-      return;
-    }
-  });
-});
+}
 function deleteModule(module_id){
 
 }
@@ -319,45 +438,7 @@ function init_form(){
         $(this).parents('.form-group').removeClass('highlight_error');
       }
     });
-
-    switch (parseInt($(this).val())) {
-      case 0:
-        $('#panel'+elem_id).addClass('categories');
-        $('#panel'+elem_id).removeClass('products informations manufacturers product_categories product_manufacturers');
-        $('.scategories.module'+elem_id).show();
-        $('.sproducts.module'+elem_id+', .sinformations.module'+elem_id+', .smanufacturers.module'+elem_id+', .sproduct_categories.module'+elem_id+', .sproduct_manufacturers.module'+elem_id).hide();
-      break;
-      case 1:
-        $('#panel'+elem_id).addClass('products');
-        $('#panel'+elem_id).removeClass('categories informations manufacturers product_categories product_manufacturers');
-        $('.sproducts.module'+elem_id).show();
-        $('.scategories.module'+elem_id+', .sinformations.module'+elem_id+', .smanufacturers.module'+elem_id+', .sproduct_categories.module'+elem_id+', .sproduct_manufacturers.module'+elem_id).hide();
-      break;
-      case 2:
-        $('#panel'+elem_id).addClass('informations');
-        $('#panel'+elem_id).removeClass('categories products manufacturers product_categories product_manufacturers');
-        $('.sinformations.module'+elem_id).show();
-        $('.scategories.module'+elem_id+', .sproducts.module'+elem_id+', .smanufacturers.module'+elem_id+', .sproduct_categories.module'+elem_id+', .sproduct_manufacturers.module'+elem_id).hide();
-      break;
-      case 3:
-        $('#panel'+elem_id).addClass('manufacturers');
-        $('#panel'+elem_id).removeClass('categories products informations product_categories product_manufacturers');
-        $('.smanufacturers.module'+elem_id).show();
-        $('.scategories.module'+elem_id+', .sproducts.module'+elem_id+', .sinformations.module'+elem_id+', .sproduct_categories.module'+elem_id+', .sproduct_manufacturers.module'+elem_id).hide();
-      break;
-      case 4:
-        $('#panel'+elem_id).addClass('product_categories');
-        $('#panel'+elem_id).removeClass('products informations manufacturers categories product_manufacturers');
-        $('.sproduct_categories.module'+elem_id).show();
-        $('.scategories.module'+elem_id+', .sproducts.module'+elem_id+', .sinformations.module'+elem_id+', .smanufacturers.module'+elem_id+', .sproduct_manufacturers.module'+elem_id).hide();
-      break;
-      case 5:
-        $('#panel'+elem_id).addClass('product_manufacturers');
-        $('#panel'+elem_id).removeClass('products informations manufacturers categories product_categories');
-        $('.sproduct_manufacturers.module'+elem_id).show();
-        $('.scategories.module'+elem_id+', .sproducts.module'+elem_id+', .sinformations.module'+elem_id+', .smanufacturers.module'+elem_id+', .sproduct_categories.module'+elem_id).hide();
-      break;
-    }
+    showActive(parseInt($(this).val()), elem_id);
   });
 }
 $('.select_type').change(function(){
@@ -368,7 +449,7 @@ function addModule(){
   html += '<div class="panel panel-default" id="panel' + module_row + '">';
   html += '<div class="panel-body">';
 
-  html += '<div class="form-group module' + module_row + ' common' + module_row + '">';
+  html += '<div class="form-group module' + module_row + ' general' + module_row + '">';
   html += '<label class="col-sm-2 control-label" for="custom_template_module_' + module_row + '_type"><?php echo $entry_module_type; ?></label>';
   html += '<div class="col-sm-10">';
   html += '<select class="form-control select_type" data-id="' + module_row + '" name="custom_template_module[' + module_row + '][type]" id="custom_template_module_' + module_row + '_type">';
@@ -379,8 +460,25 @@ function addModule(){
   html += '</div>';
   html += '</div>';
 
+  html += '<div class="form-group slayouts module' + module_row + '">';
+  html += '<label class="col-sm-2 control-label"><?php echo $entry_layout; ?></label>';
+  html += '<div class="col-sm-10">';
+  html += '<div class="well well-sm" style="height: 150px; overflow: auto;">';
+  <?php foreach ($layouts as $layout_key => $layout_data) { ?>
+  html += '<div class="checkbox">';
+  html += '<label>';
+  html += '<input type="checkbox" name="custom_template_module[' + module_row + '][layouts][<?php echo $layout_data['layout_id']; ?>]" id="custom_template_module[' + module_row + '][layouts][<?php echo $layout_data['layout_id']; ?>]" value="<?php echo $layout_data['layout_id']; ?>" />';
+  html += ' <?php echo addslashes($layout_data['name']); ?>';
+  html += '</label>';
+  html += '</div>';
+  <?php } ?>
+  html += '</div>';
+  html += '<a onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', false);"><?php echo $text_unselect_all; ?></a>';
+  html += '</div>';
+  html += '</div>';
+
   html += '<div class="form-group scategories module' + module_row + '">';
-  html += '<label class="col-sm-2 control-label"><span data-toggle="tooltip" title="<?php echo $entry_category_help; ?>"><?php echo $entry_category; ?></span></label>';
+  html += '<label class="col-sm-2 control-label"><?php echo $entry_category; ?></label>';
   html += '<div class="col-sm-10">';
   html += '<div class="well well-sm" style="height: 150px; overflow: auto;">';
   <?php foreach ($categories as $category_key => $category_data) { ?>
@@ -397,7 +495,7 @@ function addModule(){
   html += '</div>';
 
   html += '<div class="form-group sinformations module' + module_row + '">';
-  html += '<label class="col-sm-2 control-label"><span data-toggle="tooltip" title="<?php echo $entry_information_help; ?>"><?php echo $entry_information; ?></span></label>';
+  html += '<label class="col-sm-2 control-label"><?php echo $entry_information; ?></label>';
   html += '<div class="col-sm-10">';
   html += '<div class="well well-sm" style="height: 150px; overflow: auto;">';
   <?php foreach ($informations as $information_key => $information_data) { ?>
@@ -414,7 +512,7 @@ function addModule(){
   html += '</div>';
 
   html += '<div class="form-group smanufacturers module' + module_row + '">';
-  html += '<label class="col-sm-2 control-label"><span data-toggle="tooltip" title="<?php echo $entry_manufacturer_help; ?>"><?php echo $entry_manufacturer; ?></span></label>';
+  html += '<label class="col-sm-2 control-label"><?php echo $entry_manufacturer; ?></label>';
   html += '<div class="col-sm-10">';
   html += '<div class="well well-sm" style="height: 150px; overflow: auto;">';
   <?php foreach ($manufacturers as $manufacturer_key => $manufacturer_data) { ?>
@@ -431,7 +529,7 @@ function addModule(){
   html += '</div>';
 
   html += '<div class="form-group sproducts module' + module_row + '">';
-  html += '<label class="col-sm-2 control-label" for="input-related"><span data-toggle="tooltip" title="<?php echo $entry_product_help; ?>"><?php echo $entry_product; ?></span></span></label>';
+  html += '<label class="col-sm-2 control-label" for="input-related"><?php echo $entry_product; ?></label>';
   html += '<div class="col-sm-10">';
   html += '<input type="text" value="" placeholder="<?php echo $entry_product; ?>" id="input-related" class="form-control product_autocomplete" data-id="' + module_row + '" /><br>';
   html += '<div id="custom-template-product' + module_row + '" class="well well-sm product_container" style="height: 150px; overflow: auto;">';
@@ -474,7 +572,7 @@ function addModule(){
   html += '</div>';
   html += '</div>';
 
-  html += '<div class="form-group scustomer_groups module' + module_row + ' common' + module_row + '">';
+  html += '<div class="form-group scustomer_groups module' + module_row + ' general' + module_row + '">';
   html += '<label class="col-sm-2 control-label"><span data-toggle="tooltip" title="<?php echo $entry_customer_group_help; ?>"><?php echo $entry_customer_group; ?></span></label>';
   html += '<div class="col-sm-10">';
   html += '<div class="well well-sm" style="height: 150px; overflow: auto;">';
@@ -491,11 +589,27 @@ function addModule(){
   html += '</div>';
   html += '</div>';
 
-  html += '<div class="form-group required stemplate module' + module_row + ' common' + module_row + '">';
+  html += '<div class="form-group slanguages module' + module_row + ' general' + module_row + '">';
+  html += '<label class="col-sm-2 control-label"><span data-toggle="tooltip" title="<?php echo $entry_language_help; ?>"><?php echo $entry_language; ?></span></label>';
+  html += '<div class="col-sm-10">';
+  html += '<div class="well well-sm" style="height: 150px; overflow: auto;">';
+  <?php foreach ($languages as $language_key => $language_data) { ?>
+  html += '<div class="checkbox">';
+  html += '<label>';
+  html += '<input type="checkbox" name="custom_template_module[' + module_row + '][languages][<?php echo $language_data['language_id']; ?>]" id="custom_template_module[' + module_row + '][languages][<?php echo $language_data['language_id']; ?>]" value="<?php echo $language_data['language_id']; ?>" />';
+  html += ' <?php echo addslashes($language_data['name']); ?>';
+  html += '</label>';
+  html += '</div>';
+  <?php } ?>
+  html += '</div>';
+  html += '<a onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(\':checkbox\').prop(\'checked\', false);"><?php echo $text_unselect_all; ?></a>';
+  html += '</div>';
+  html += '</div>';
+
+  html += '<div class="form-group required stemplate module' + module_row + ' general' + module_row + '">';
   html += '<label class="col-sm-2 control-label" for="custom_template_module_' + module_row + '_template_name"><span data-toggle="tooltip" title="<?php echo $entry_template_help; ?>"><?php echo $entry_template; ?></span></label>';
   html += '<div class="col-sm-10">';
   html += '<div class="input-group">';
-  html += '<span class="input-group-addon" id="basic-addon1"><?php echo $js_template_addon ?></span>';
   html += '<input type="text" id="custom_template_module_' + module_row + '_template_name" name="custom_template_module[' + module_row + '][template_name]" value="" placeholder="<?php echo $entry_template; ?>" class="form-control" />';
   html += '<span class="input-group-btn">';
   html += '<button class="btn btn-default" onClick="checkFile(' + module_row + ');" type="button"><?php echo $button_check_file ?></button>';
@@ -505,7 +619,7 @@ function addModule(){
   html += '</div>';
   html += '</div>';
 
-  html += '<div class="form-group required module' + module_row + ' common' + module_row + '">';
+  html += '<div class="form-group required module' + module_row + ' general' + module_row + '">';
   html += '<div class="col-sm-12 text-right">';
   html += '<button class="btn btn-danger" onClick="$(\'#panel<?php echo $module_row; ?>\').remove();" type="button" title="<?php echo $button_remove ?>" alt="<?php echo $button_remove ?>"><i class="fa fa-trash-o"></i></button>';
   html += '</div>';
@@ -518,77 +632,11 @@ function addModule(){
       selector: '[data-toggle=tooltip]'
   });
   init_form();
-  // Related
-  $('.product_autocomplete').autocomplete({
-    'source': function(request, response) {
-      $.ajax({
-        url: 'index.php?route=catalog/product/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request),
-        dataType: 'json',
-        success: function(json) {
-          response($.map(json, function(item) {
-            return {
-              label: item['name'],
-              value: item['product_id']
-            }
-          }));
-        }
-      });
-    },
-    'select': function(item) {
-      $('#custom-template-product'+$(this).attr('data-id') +'-'+ item.value).remove();
-
-      $('#custom-template-product'+$(this).attr('data-id')).append('<div id="custom-template-product' + $(this).attr('data-id') + '-' + item['value'] + '" data-id="' + $(this).attr('data-id') + '"><i class="fa fa-minus-circle"></i> ' + item['label'] + '<input type="hidden" name="custom_template_module['+$(this).attr('data-id')+'][tmp_products][]" value="' + item['value'] + '" /></div>');
-
-      data = $.map($('#custom-template-product'+$(this).attr('data-id')+' input'), function(element){
-        return $(element).attr('value');
-      });
-      $('input[name=\'custom_template_module['+$(this).attr('data-id')+'][products]\']').attr('value', data.join());
-    }
-  });
-
-  $('.product_container').delegate('.fa-minus-circle', 'click', function() {
-    var row_id = $(this).parent().attr('data-id');
-    $(this).parent().remove();
-    var data = $.map($('#custom-template-product' + row_id + ' input'), function(element){
-      return $(element).attr('value');
-    });
-    $('input[name=\'custom_template_module[' + row_id + '][products]\']').attr('value', data.join());
-  });
-  //end Related
+  init_related();
   $('.select_type').change(function(){
     init_form();
   });
   module_row++;
 }
 </script>
-<style>
-.categories{
-  background-color: #fff4d9;
-  border-left: 5px solid #ffd166;
-}
-.informations{
-  background-color: #f4ffed;
-  border-left: 5px solid #b1db95;
-}
-.manufacturers{
-  background-color: #ebfcff;
-  border-left: 5px solid #4d90fe;
-}
-.products{
-  background-color: #f7f2ff;
-  border-left: 5px solid #c4a0ff;
-}
-.product_categories{
-  background-color: #ffeded;
-  border-left: 5px solid #ffcece;
-}
-.product_manufacturers{
-  background-color: #CFFFD7;
-  border-left: 5px solid #4D814A;
-}
-.highlight_error{
-  border-left: 5px solid #CE4C38;
-  background: #ffc9c9;
-}
-</style>
 <?php echo $footer; ?>
