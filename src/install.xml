@@ -1,50 +1,161 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <modification>
     <name>Custom Templates module</name>
-    <version>1.2</version>
+    <version>1.3</version>
     <author>shtt.blog</author>
     <code>Custom Templates module</code>
     <link>https://opencartforum.com/files/file/1986-%D0%BF%D0%B5%D1%80%D1%81%D0%BE%D0%BD%D0%B0%D0%BB%D0%B8%D0%B7%D0%BE%D0%B2%D0%B0%D0%BD%D0%BD%D1%8B%D0%B5-%D1%88%D0%B0%D0%B1%D0%BB%D0%BE%D0%BD%D1%8B/</link>
-    <file path="catalog/controller/product/category.php">
+    <file path="catalog/controller/checkout/cart.php">
         <operation error="skip">
-            <search><![CDATA[$this->response->setOutput($this->load->view('product/category', $data));]]></search>
+            <search><![CDATA[$this->response->setOutput($this->load->view('checkout/cart', $data));]]></search>
             <add position="replace"><![CDATA[
-            $template = 'product/category';
+            $template = 'checkout/cart';
 
             // Custom template module
-            $this->load->model('setting/setting');
 
-            $custom_template_module = $this->model_setting_setting->getSetting('custom_template_module');
+            $custom_template_module = $this->config->get('custom_template_module');
 
-            $customer_group_id = $this->customer->getGroupId();
+            if(!empty($custom_template_module)){
 
-            if ($this->config->get('config_theme') == 'theme_default') {
-                $directory = $this->config->get('theme_default_directory');
-            } else {
-                $directory = $this->config->get('config_theme');
-            }
+                library('custom_template');
+                $custom_template = new CustomTemplate($this->registry);
+                $this->registry->set('custom_template', $custom_template);
+                
+                $customer_group_id = $this->customer->getGroupId();
+                
+                foreach ($custom_template_module as $key => $module) {
+                    if($module['type'] == 0){
+                        if ($this->custom_template->filterCommon($module, $customer_group_id)){
+                            if ($this->custom_template->filterLayouts($module)){
 
-            if(!empty($custom_template_module['custom_template_module'])){
-                foreach ($custom_template_module['custom_template_module'] as $key => $module) {
-                    if (($module['type'] == 0) && !empty($module['categories'])) {
-                        if ((isset($module['customer_groups']) && in_array($customer_group_id, $module['customer_groups'])) || !isset($module['customer_groups']) || empty($module['customer_groups'])){
+                                $template = $module['template_name'];
 
-                            if (in_array($category_id, $module['categories'])) {
-                                if (file_exists(DIR_TEMPLATE . $directory . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . $module['template_name'] . '.tpl')) {
-                                    $template = $module['template_name'];
-                                }
                             }
-
-                        } // customer groups
-
+                        }
                     }
                 }
+
             }
-
-            $template = str_replace('\\', '/', $template);
-
             $this->response->setOutput($this->load->view($template, $data));
             // Custom template module
+            ]]></add>
+        </operation>
+    </file>
+    <file path="catalog/controller/information/contact.php">
+        <operation error="skip">
+            <search><![CDATA[$this->response->setOutput($this->load->view('information/contact', $data));]]></search>
+            <add position="replace"><![CDATA[
+            $template = 'information/contact';
+
+            // Custom template module
+
+            $custom_template_module = $this->config->get('custom_template_module');
+
+            if(!empty($custom_template_module)){
+
+                library('custom_template');
+                $custom_template = new CustomTemplate($this->registry);
+                $this->registry->set('custom_template', $custom_template);
+                
+                $customer_group_id = $this->customer->getGroupId();
+                
+                foreach ($custom_template_module as $key => $module) {
+                    if($module['type'] == 0){
+                        if ($this->custom_template->filterCommon($module, $customer_group_id)){
+                            if ($this->custom_template->filterLayouts($module)){
+
+                                $template = $module['template_name'];
+
+                            }
+                        }
+                    }
+                }
+
+            }
+            $this->response->setOutput($this->load->view($template, $data));
+            // Custom template module
+            ]]></add>
+        </operation>
+    </file>
+    <file path="catalog/controller/common/home.php">
+        <operation error="skip">
+            <search><![CDATA[$this->response->setOutput($this->load->view('common/home', $data));]]></search>
+            <add position="replace"><![CDATA[
+            $template = 'common/home';
+
+            // Custom template module
+
+            $custom_template_module = $this->config->get('custom_template_module');
+
+            if(!empty($custom_template_module)){
+
+                library('custom_template');
+                $custom_template = new CustomTemplate($this->registry);
+                $this->registry->set('custom_template', $custom_template);
+                
+                $customer_group_id = $this->customer->getGroupId();
+                
+                foreach ($custom_template_module as $key => $module) {
+                    if($module['type'] == 0){
+                        if ($this->custom_template->filterCommon($module, $customer_group_id)){
+                            if ($this->custom_template->filterLayouts($module)){
+
+                                $template = $module['template_name'];
+
+                            }
+                        }
+                    }
+                }
+
+            }
+            $this->response->setOutput($this->load->view($template, $data));
+            // Custom template module
+            ]]></add>
+        </operation>
+    </file>
+    <file path="catalog/controller/product/category.php">
+        <operation error="log">
+            <search position="replace"><![CDATA[$this->response->setOutput($this->load->view('product/category', $data));]]></search>
+            <add><![CDATA[
+                $template = 'product/category';
+
+                // Custom template module
+
+                $custom_template_module = $this->config->get('custom_template_module');
+
+                if(!empty($custom_template_module)){
+                    
+                    library('custom_template');
+                    $custom_template = new CustomTemplate($this->registry);
+                    $this->registry->set('custom_template', $custom_template);
+                    
+                    $customer_group_id = $this->customer->getGroupId();
+                    
+                    foreach ($custom_template_module as $key => $module) {
+                        if($module['type'] == 0){
+                            if ($this->custom_template->filterCommon($module, $customer_group_id)){
+                                if ($this->custom_template->filterLayouts($module)){
+
+                                    $template = $module['template_name'];
+
+                                }
+                            }
+                        }
+                    }
+                    foreach ($custom_template_module as $key => $module) {
+                        if ($module['type'] == 1) {
+                            if ($this->custom_template->filterCommon($module, $customer_group_id)){
+                                if ($this->custom_template->filterCategories($module, $category_id)) { 
+
+                                    $template = $module['template_name'];
+
+                                }
+                            }
+                        }
+                    }
+                }            
+                $this->response->setOutput($this->load->view($template, $data));
+                // Custom template module
             ]]></add>
         </operation>
     </file>
@@ -55,75 +166,78 @@
             $template = 'product/product';
 
             // Custom template module
-            $this->load->model('setting/setting');
 
-            $custom_template_module = $this->model_setting_setting->getSetting('custom_template_module');
+            $custom_template_module = $this->config->get('custom_template_module');
 
-            $customer_group_id = $this->customer->getGroupId();
+            if(!empty($custom_template_module)){
+            
+                library('custom_template');
+                $custom_template = new CustomTemplate($this->registry);
+                $this->registry->set('custom_template', $custom_template);
+                
+                $customer_group_id = $this->customer->getGroupId();
 
-            if ($this->config->get('config_theme') == 'theme_default') {
-                $directory = $this->config->get('theme_default_directory');
-            } else {
-                $directory = $this->config->get('config_theme');
-            }
+                foreach ($custom_template_module as $key => $module) {
+                    if($module['type'] == 0){
+                        if ($this->custom_template->filterCommon($module, $customer_group_id)){
+                            if ($this->custom_template->filterLayouts($module)){
 
-            if(!empty($custom_template_module['custom_template_module'])){
-                if(isset($this->request->get['path'])){
-                    foreach ($custom_template_module['custom_template_module'] as $key => $module) {
-                        if (($module['type'] == 4) && !empty($module['product_categories'])) {
-                            if ((isset($module['customer_groups']) && in_array($customer_group_id, $module['customer_groups'])) || !isset($module['customer_groups']) || empty($module['customer_groups'])){
+                                $template = $module['template_name'];
 
-                                $category_id = explode('_', $this->request->get['path']);
-                                $category_id = (int)end($category_id);
-                                if (in_array($category_id, $module['product_categories'])) {
-                                    if (file_exists(DIR_TEMPLATE . $directory . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . $module['template_name'] . '.tpl')) {
-                                        $template = $module['template_name'];
-                                    }
-                                }
-
-                            } // customer groups
-
+                            }
                         }
                     }
                 }
 
-                foreach ($custom_template_module['custom_template_module'] as $key => $module) {
-                    if (($module['type'] == 5) && !empty($module['product_manufacturers'])) {
+                if(isset($this->request->get['path'])){
+                    foreach ($custom_template_module as $key => $module) {
+                        if ($module['type'] == 5) {
+                            if ($this->custom_template->filterCommon($module, $customer_group_id)){
 
-                        if ((isset($module['customer_groups']) && in_array($customer_group_id, $module['customer_groups'])) || !isset($module['customer_groups']) || empty($module['customer_groups'])){
+                                $category_id = explode('_', $this->request->get['path']);
+                                $category_id = (int)end($category_id);
+                                
+                                if ($this->custom_template->filterProductCategories($module, $category_id)){
 
-                            $manufacturer_id = $product_info['manufacturer_id'];
-                            if (in_array($manufacturer_id, $module['product_manufacturers'])) {
-                                if (file_exists(DIR_TEMPLATE . $directory . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . $module['template_name'] . '.tpl')) {
                                     $template = $module['template_name'];
+
                                 }
+
                             }
-
-                        } // customer groups
-
+                        }
                     }
                 }
 
-                foreach ($custom_template_module['custom_template_module'] as $key => $module) {
-                    if (($module['type'] == 1) && !empty($module['products'])) {
-                        if ((isset($module['customer_groups']) && in_array($customer_group_id, $module['customer_groups'])) || !isset($module['customer_groups']) || empty($module['customer_groups'])){
+                foreach ($custom_template_module as $key => $module) {
+                    if ($module['type'] == 6) {
+                        if ($this->custom_template->filterCommon($module, $customer_group_id)){
 
-                            $products = explode(',', $module['products']);
-                            if (in_array($product_id, $products)) {
-                                if (file_exists(DIR_TEMPLATE . $directory . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . $module['template_name'] . '.tpl')) {
-                                    $template = $module['template_name'];
-                                }
+                            $manufacturer_id = $product_info['manufacturer_id'];
+
+                            if ($this->custom_template->filterProductManufacturers($module, $manufacturer_id)) {
+
+                                $template = $module['template_name'];
+
                             }
 
-                        } // customer groups
+                        }
 
+                    }
+                }   
+
+                foreach ($custom_template_module as $key => $module) {
+                    if (($module['type'] == 2) && !empty($module['products'])) {
+                        if ($this->custom_template->filterCommon($module, $customer_group_id)){
+                            if ($this->custom_template->filterProducts($module, $product_id)) {
+
+                                $template = $module['template_name'];
+
+                            }
+                        }
                     }
                 }
             }
-
-            $template = str_replace('\\', '/', $template);
-
-            $this->response->setOutput($this->load->view($template, $data));
+            $this->response->setOutput($this->load->view($template, $data));                
             // Custom template module
             ]]></add>
         </operation>
@@ -135,36 +249,41 @@
             $template = 'information/information';
 
             // Custom template module
-            $this->load->model('setting/setting');
 
-            $customer_group_id = $this->customer->getGroupId();
+            $custom_template_module = $this->config->get('custom_template_module');
 
-            if ($this->config->get('config_theme') == 'theme_default') {
-                $directory = $this->config->get('theme_default_directory');
-            } else {
-                $directory = $this->config->get('config_theme');
-            }
+            if(!empty($custom_template_module)){
 
-            $custom_template_module = $this->model_setting_setting->getSetting('custom_template_module');
-            if(!empty($custom_template_module['custom_template_module'])){
-                foreach ($custom_template_module['custom_template_module'] as $key => $module) {
-                    if (($module['type'] == 2) && !empty($module['informations'])) {
-                        if ((isset($module['customer_groups']) && in_array($customer_group_id, $module['customer_groups'])) || !isset($module['customer_groups']) || empty($module['customer_groups'])){
+                library('custom_template');
+                $custom_template = new CustomTemplate($this->registry);
+                $this->registry->set('custom_template', $custom_template);
+                
+                $customer_group_id = $this->customer->getGroupId();
 
-                            if (in_array($information_id, $module['informations'])) {
-                                if (file_exists(DIR_TEMPLATE . $directory . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . $module['template_name'] . '.tpl')) {
-                                    $template = $module['template_name'];
-                                }
+                foreach ($custom_template_module as $key => $module) {
+                    if($module['type'] == 0){
+                        if ($this->custom_template->filterCommon($module, $customer_group_id)){
+                            if ($this->custom_template->filterLayouts($module)){
+
+                                $template = $module['template_name'];
+
                             }
+                        }
+                    }
+                }
 
-                        } // customer groups
+                foreach ($custom_template_module as $key => $module) {
+                    if ($module['type'] == 3) {
+                        if ($this->custom_template->filterCommon($module, $customer_group_id)){
+                            if ($this->custom_template->filterInformations($module, $information_id)){
 
+                                $template = $module['template_name'];
+
+                            }
+                        }
                     }
                 }
             }
-
-            $template = str_replace('\\', '/', $template);
-
             $this->response->setOutput($this->load->view($template, $data));
             // Custom template module
             ]]></add>
@@ -177,36 +296,41 @@
             $template = 'product/manufacturer_info';
 
             // Custom template module
-            $this->load->model('setting/setting');
 
-            $customer_group_id = $this->customer->getGroupId();
+            $custom_template_module = $this->config->get('custom_template_module');
 
-            if ($this->config->get('config_theme') == 'theme_default') {
-                $directory = $this->config->get('theme_default_directory');
-            } else {
-                $directory = $this->config->get('config_theme');
-            }
+            if(!empty($custom_template_module)){
 
-            $custom_template_module = $this->model_setting_setting->getSetting('custom_template_module');
-            if(!empty($custom_template_module['custom_template_module'])){
-                foreach ($custom_template_module['custom_template_module'] as $key => $module) {
-                    if (($module['type'] == 3) && !empty($module['manufacturers'])) {
-                        if ((isset($module['customer_groups']) && in_array($customer_group_id, $module['customer_groups'])) || !isset($module['customer_groups']) || empty($module['customer_groups'])){
+                library('custom_template');
+                $custom_template = new CustomTemplate($this->registry);
+                $this->registry->set('custom_template', $custom_template);
+                
+                $customer_group_id = $this->customer->getGroupId();
+                
+                foreach ($custom_template_module as $key => $module) {
+                    if($module['type'] == 0){
+                        if ($this->custom_template->filterCommon($module, $customer_group_id)){
+                            if ($this->custom_template->filterLayouts($module)){
 
-                            if (in_array($manufacturer_id, $module['manufacturers'])) {
-                                if (file_exists(DIR_TEMPLATE . $directory . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . $module['template_name'] . '.tpl')) {
-                                    $template = $this->config->get('config_theme') .DIRECTORY_SEPARATOR. $module['template_name'];
-                                }
+                                $template = $module['template_name'];
+
                             }
+                        }
+                    }
+                }
 
-                        } // customer groups
+                foreach ($custom_template_module as $key => $module) {
+                    if ($module['type'] == 4) {
+                        if ($this->custom_template->filterCommon($module, $customer_group_id)){
+                            if ($this->custom_template->filterManufacturers($module, $manufacturer_id)){
 
+                                $template = $module['template_name'];
+
+                            }
+                        }
                     }
                 }
             }
-
-            $template = str_replace('\\', '/', $template);
-
             $this->response->setOutput($this->load->view($template, $data));
             // Custom template module
             ]]></add>
