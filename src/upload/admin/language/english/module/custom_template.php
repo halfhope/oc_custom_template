@@ -14,7 +14,7 @@ $_['module_type0'] = 'Layout template';
 $_['module_type1'] = 'Category template';
 $_['module_type2'] = 'Product template';
 $_['module_type3'] = 'Information template';
-$_['module_type4'] = 'Manufactuerer template';
+$_['module_type4'] = 'Manufacturer template';
 $_['module_type5'] = 'Product template on custom categories (SEO only)';
 $_['module_type6'] = 'Product template on custom manufacturers';
 
@@ -23,18 +23,18 @@ $_['entry_module_type']         = 'Template type:';
 $_['entry_layout']              = 'Layouts:';
 $_['entry_category']            = 'Categories:';
 $_['entry_customer_group']      = 'Customer Groups:';
-$_['entry_customer_group_help'] = 'If left empty, the template is assigned to all Customer Groups';
+$_['entry_customer_group_help'] = 'Left empty if not used';
 $_['entry_information']         = 'Informations:';
-$_['entry_manufacturer']        = 'Manufactuerers:';
+$_['entry_manufacturer']        = 'Manufacturers:';
 $_['entry_product']             = 'Products (autocomplete):';
 $_['entry_language']            = 'Languages:';
-$_['entry_language_help']       = 'If left empty, the template is assigned to all Languages';
+$_['entry_language_help']       = 'Left empty if not used';
 $_['entry_template']            = 'New template path';
 $_['entry_template_help']       = 'E.g. default/template/product/empty.tpl';
 
 //Buttons
 $_['button_check_file'] = 'Check path';
-$_['button_add_module'] = 'Add module';
+$_['button_add_module'] = 'Add replacement';
 
 //Success
 $_['text_success'] = 'Success: You have modified module custom template!';
