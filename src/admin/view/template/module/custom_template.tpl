@@ -8,6 +8,9 @@
   <?php if ($error_warning) { ?>
   <div class="warning"><?php echo $error_warning; ?></div>
   <?php } ?>
+  <?php if ($success) { ?>
+  <div class="success"><?php echo $success; ?></div>
+  <?php } ?>
   <div class="box">
     <div class="heading">
       <h1><img src="view/image/module.png" alt="" /> <?php echo $heading_title; ?></h1>
@@ -23,7 +26,7 @@
           <input class="module<?php echo $module_row ?>" type="hidden" name="custom_template_module[<?php echo $module_row ?>][layout_id]" value="0">
             <td colspan="2"></td>
           </tr>
-            <tr class="module<?php echo $module_row ?> common<?php echo $module_row ?>">
+            <tr class="module<?php echo $module_row ?> general<?php echo $module_row ?>">
               <td><?php echo $entry_module_type ?></td>
               <td>
                 <select class="select_type" data-id="<?php echo $module_row ?>" name="custom_template_module[<?php echo $module_row ?>][type]" id="custom_template_module[<?php echo $module_row ?>][type]">
@@ -163,12 +166,96 @@
               <a onclick="$(this).parent().find(':checkbox').attr('checked', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(':checkbox').attr('checked', false);"><?php echo $text_unselect_all; ?></a>
               </td>
             </tr>
-          <tr class="template module<?php echo $module_row ?> common<?php echo $module_row ?>">
-            <td><?php printf($entry_template, $template_dir) ?></td>
-            <td><input type="text" name="custom_template_module[<?php echo $module_row ?>][template_name]" value="<?php echo $module['template_name'] ?>">
-            <a style="float:right;" onclick="$('.module<?php echo $module_row; ?>').remove();" class="button"><?php echo $button_remove; ?></a>
-            </td>
-          </tr>
+            <tr class="layouts module<?php echo $module_row ?>">
+              <td><?php echo $entry_layouts ?></td>
+              <td>
+                <div class="scrollbox">
+                <?php $class = 'odd'; ?>
+                <?php foreach ($layouts as $layout_key => $layout) { ?>
+                <?php $class = ($class == 'even' ? 'odd' : 'even'); ?>
+                <div class="<?php echo $class; ?>">
+                  <?php if (in_array($layout['layout_id'], $module['layouts'])) { ?>
+                  <input type="checkbox" name="custom_template_module[<?php echo $module_row ?>][layouts][<?php echo $layout['layout_id']; ?>]" id="custom_template_module[<?php echo $module_row ?>][layouts][<?php echo $layout['layout_id']; ?>]" value="<?php echo $layout['layout_id']; ?>" checked="checked" />
+                  <label for="custom_template_module[<?php echo $module_row ?>][layouts][<?php echo $layout['layout_id']; ?>]"><?php echo $layout['name']; ?></label>
+                  <?php } else { ?>
+                  <input type="checkbox" name="custom_template_module[<?php echo $module_row ?>][layouts][<?php echo $layout['layout_id']; ?>]" id="custom_template_module[<?php echo $module_row ?>][layouts][<?php echo $layout['layout_id']; ?>]" value="<?php echo $layout['layout_id']; ?>" />
+                  <label for="custom_template_module[<?php echo $module_row ?>][layouts][<?php echo $layout['layout_id']; ?>]"><?php echo $layout['name']; ?></label>
+                  <?php } ?>
+                </div>
+                <?php } ?>
+              </div>
+              <a onclick="$(this).parent().find(':checkbox').attr('checked', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(':checkbox').attr('checked', false);"><?php echo $text_unselect_all; ?></a>
+              </td>
+            </tr>
+            <tr class="customer_groups module<?php echo $module_row ?> general<?php echo $module_row ?>">
+              <td><?php echo $entry_customer_group ?></td>
+              <td>
+                <div class="scrollbox">
+                <?php $class = 'odd'; ?>
+                <?php foreach ($customer_groups as $customer_group_key => $customer_group_data) { ?>
+                <?php $class = ($class == 'even' ? 'odd' : 'even'); ?>
+                <div class="<?php echo $class; ?>">
+                  <?php if (in_array($customer_group_data['customer_group_id'], $module['customer_groups'])) { ?>
+                  <input type="checkbox" name="custom_template_module[<?php echo $module_row ?>][customer_groups][<?php echo $customer_group_data['customer_group_id']; ?>]" id="custom_template_module[<?php echo $module_row ?>][customer_groups][<?php echo $customer_group_data['customer_group_id']; ?>]" value="<?php echo $customer_group_data['customer_group_id']; ?>" checked="checked" />
+                  <label for="custom_template_module[<?php echo $module_row ?>][customer_groups][<?php echo $customer_group_data['customer_group_id']; ?>]"><?php echo $customer_group_data['name']; ?></label>
+                  <?php } else { ?>
+                  <input type="checkbox" name="custom_template_module[<?php echo $module_row ?>][customer_groups][<?php echo $customer_group_data['customer_group_id']; ?>]" id="custom_template_module[<?php echo $module_row ?>][customer_groups][<?php echo $customer_group_data['customer_group_id']; ?>]" value="<?php echo $customer_group_data['customer_group_id']; ?>" />
+                  <label for="custom_template_module[<?php echo $module_row ?>][customer_groups][<?php echo $customer_group_data['customer_group_id']; ?>]"><?php echo $customer_group_data['name']; ?></label>
+                  <?php } ?>
+                </div>
+                <?php } ?>
+              </div>
+              <a onclick="$(this).parent().find(':checkbox').attr('checked', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(':checkbox').attr('checked', false);"><?php echo $text_unselect_all; ?></a>
+              </td>
+            </tr>
+            <tr class="stores module<?php echo $module_row ?> general<?php echo $module_row ?>">
+              <td><?php echo $entry_stores ?></td>
+              <td>
+                <div class="scrollbox">
+                <?php $class = 'odd'; ?>
+                <?php foreach ($stores as $store_key => $store) { ?>
+                <?php $class = ($class == 'even' ? 'odd' : 'even'); ?>
+                <div class="<?php echo $class; ?>">
+                  <?php if (in_array($store['store_id'], $module['stores'])) { ?>
+                  <input type="checkbox" name="custom_template_module[<?php echo $module_row ?>][stores][<?php echo $store['store_id']; ?>]" id="custom_template_module[<?php echo $module_row ?>][stores][<?php echo $store['store_id']; ?>]" value="<?php echo $store['store_id']; ?>" checked="checked" />
+                  <label for="custom_template_module[<?php echo $module_row ?>][stores][<?php echo $store['store_id']; ?>]"><?php echo $store['name']; ?></label>
+                  <?php } else { ?>
+                  <input type="checkbox" name="custom_template_module[<?php echo $module_row ?>][stores][<?php echo $store['store_id']; ?>]" id="custom_template_module[<?php echo $module_row ?>][stores][<?php echo $store['store_id']; ?>]" value="<?php echo $store['store_id']; ?>" />
+                  <label for="custom_template_module[<?php echo $module_row ?>][stores][<?php echo $store['store_id']; ?>]"><?php echo $store['name']; ?></label>
+                  <?php } ?>
+                </div>
+                <?php } ?>
+              </div>
+              <a onclick="$(this).parent().find(':checkbox').attr('checked', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(':checkbox').attr('checked', false);"><?php echo $text_unselect_all; ?></a>
+              </td>
+            </tr>
+            <tr class="languages module<?php echo $module_row ?> general<?php echo $module_row ?>">
+              <td><?php echo $entry_languages ?></td>
+              <td>
+                <div class="scrollbox">
+                <?php $class = 'odd'; ?>
+                <?php foreach ($languages as $language_key => $language) { ?>
+                <?php $class = ($class == 'even' ? 'odd' : 'even'); ?>
+                <div class="<?php echo $class; ?>">
+                  <?php if (in_array($language['language_id'], $module['languages'])) { ?>
+                  <input type="checkbox" name="custom_template_module[<?php echo $module_row ?>][languages][<?php echo $language['language_id']; ?>]" id="custom_template_module[<?php echo $module_row ?>][languages][<?php echo $language['language_id']; ?>]" value="<?php echo $language['language_id']; ?>" checked="checked" />
+                  <label for="custom_template_module[<?php echo $module_row ?>][languages][<?php echo $language['language_id']; ?>]"><?php echo $language['name']; ?></label>
+                  <?php } else { ?>
+                  <input type="checkbox" name="custom_template_module[<?php echo $module_row ?>][languages][<?php echo $language['language_id']; ?>]" id="custom_template_module[<?php echo $module_row ?>][languages][<?php echo $language['language_id']; ?>]" value="<?php echo $language['language_id']; ?>" />
+                  <label for="custom_template_module[<?php echo $module_row ?>][languages][<?php echo $language['language_id']; ?>]"><?php echo $language['name']; ?></label>
+                  <?php } ?>
+                </div>
+                <?php } ?>
+              </div>
+              <a onclick="$(this).parent().find(':checkbox').attr('checked', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(':checkbox').attr('checked', false);"><?php echo $text_unselect_all; ?></a>
+              </td>
+            </tr>
+            <tr class="template module<?php echo $module_row ?> general<?php echo $module_row ?>">
+              <td><?php printf($entry_template, $template_dir) ?></td>
+              <td><input type="text" name="custom_template_module[<?php echo $module_row ?>][template_name]" value="<?php echo $module['template_name'] ?>">
+              <a onclick="checkfile(<?php echo $module_row ?>);" class="button"><?php echo $button_check_file; ?></a><a style="float:right;" onclick="$('.module<?php echo $module_row; ?>').remove();" class="button"><?php echo $button_remove; ?></a>
+              </td>
+            </tr>
           <?php $module_row++ ?>
 
           <?php endforeach ?>
@@ -176,25 +263,27 @@
             <td class="left" colspan="2"><a onclick="addModule();" class="button"><?php echo $button_add_module; ?></a></td>
           </tr>
         </table>
-        <table class="form">
-          <tr>
-            <td colspan="2">
-              Вы так же можете поддержить автора модуля: <br>
-              <ul>
-                <li>VISA: 4693 9571 4399 2670 </li>
-                <li>QIWI: +79525210034</li>
-                <li>Яндекс.Деньги: 410012109593638</li>
-                <li>WebMoney:R342987398998</li>
-                <li>PayPal: talgatks@gmail.com</li>
-              </ul>
-            </td>
-          </tr>
-        </table>
       </form>
     </div>
   </div>
 </div>
 <script type="text/javascript"><!--
+var toc = ['layouts', 'categories', 'products', 'informations', 'manufacturers', 'product_categories', 'product_manufacturers'];
+function showActive(value, elem_id){
+  $.each(toc, function(index, val) {
+    if(value == index){
+      $('.general'+elem_id).addClass(val);
+      $.each(toc, function(index2, val2) {
+        if(index2 !== index){
+          $('.general'+elem_id).removeClass(val2);
+          $('.'+val2+'.module'+elem_id).hide();
+        }
+        $('.'+val+'.module'+elem_id).show();
+      });
+    }
+  });
+}
+
 $(document).ready(function(){
   init_form();
 });
@@ -206,7 +295,6 @@ $('#form').submit(function(event){
     if (empty($(elem).val())) {
       $(elem).parents('tr').addClass('highlight_error');
       $(elem).focus();
-      //alert('<?php echo $text_empty_field; ?>');
       event.preventDefault();
     }else{
       return;
@@ -226,44 +314,8 @@ function init_form(){
         $(this).parents('tr').removeClass('highlight_error');
       }
     });
-      switch (parseInt($(this).val())) {
-        case 0:
-          $('.common'+elem_id).addClass('categories');
-          $('.common'+elem_id).removeClass('products informations manufacturers product_categories product_manufacturers');
-          $('.categories.module'+elem_id).show();
-          $('.products.module'+elem_id+', .informations.module'+elem_id+', .manufacturers.module'+elem_id+', .product_categories.module'+elem_id+', .product_manufacturers.module'+elem_id).hide();
-        break;
-        case 1:
-          $('.common'+elem_id).addClass('products');
-          $('.common'+elem_id).removeClass('categories informations manufacturers product_categories product_manufacturers');
-          $('.products.module'+elem_id).show();
-          $('.categories.module'+elem_id+', .informations.module'+elem_id+', .manufacturers.module'+elem_id+', .product_categories.module'+elem_id+', .product_manufacturers.module'+elem_id).hide();
-        break;
-        case 2:
-          $('.common'+elem_id).addClass('informations');
-          $('.common'+elem_id).removeClass('categories products manufacturers product_categories product_manufacturers');
-          $('.informations.module'+elem_id).show();
-          $('.categories.module'+elem_id+', .products.module'+elem_id+', .manufacturers.module'+elem_id+', .product_categories.module'+elem_id+', .product_manufacturers.module'+elem_id).hide();
-        break;
-        case 3:
-          $('.common'+elem_id).addClass('manufacturers');
-          $('.common'+elem_id).removeClass('categories products informations product_categories product_manufacturers');
-          $('.manufacturers.module'+elem_id).show();
-          $('.categories.module'+elem_id+', .products.module'+elem_id+', .informations.module'+elem_id+', .product_categories.module'+elem_id+', .product_manufacturers.module'+elem_id).hide();
-        break; 
-        case 4:
-          $('.common'+elem_id).addClass('product_categories');
-          $('.common'+elem_id).removeClass('products informations manufacturers categories product_manufacturers');
-          $('.product_categories.module'+elem_id).show();
-          $('.categories.module'+elem_id+', .products.module'+elem_id+', .informations.module'+elem_id+', .manufacturers.module'+elem_id+', .product_manufacturers.module'+elem_id).hide();
-        break;
-        case 5:
-          $('.common'+elem_id).addClass('product_manufacturers');
-          $('.common'+elem_id).removeClass('products informations manufacturers categories product_categories');
-          $('.product_manufacturers.module'+elem_id).show();
-          $('.categories.module'+elem_id+', .products.module'+elem_id+', .informations.module'+elem_id+', .manufacturers.module'+elem_id+', .product_categories.module'+elem_id).hide();
-        break;
-      }
+    showActive(parseInt($(this).val()), elem_id);
+
   });
 }
 $('.select_type').change(function(){
@@ -321,6 +373,32 @@ $('img.delete').live('click', function() {
 });
 //--></script>
 <script type="text/javascript"><!--
+//custom_template_module[<?php echo $module_row ?>][template_name]
+function checkfile(elem_id){
+  var elem = $('input[name=\'custom_template_module['+elem_id+'][template_name]\']');
+  event.preventDefault();
+  $.ajax({
+    url: 'index.php?route=module/custom_template/check_file&token=<?php echo $token ?>',
+    type: 'POST',
+    dataType: 'json',
+    data: {path: $(elem).val()},
+  })
+  .success(function(data){
+    if (data['success']) {
+      $(elem).parent('td').append('<div class="success" style="margin:10px 0px;">'+ data['success'] +'<a class="close"><img src="view/image/delete.png"/></a></div>');
+    };
+
+    if (data['warning']) {
+      $(elem).parent('td').append('<div class="warning" style="margin:10px 0px;">'+ data['warning'] +'<a class="close"><img src="view/image/delete.png"/></a></div>');
+    }
+    $('a.close').click(function(event) {
+      event.preventDefault();
+      $(this).parent('div').remove();
+    });
+  })
+}
+//--></script>
+<script type="text/javascript"><!--
 var module_row = <?php echo $module_row; ?>;
 
 function addModule() {
@@ -330,7 +408,7 @@ function addModule() {
   html += '<input class="module'+ module_row +'" type="hidden" name="custom_template_module['+ module_row +'][layout_id]" value="0">';        
   html += '<td colspan="2"></td>';
   html += '</tr>';
-  html += '<tr class="module'+ module_row +' common'+ module_row +'">';
+  html += '<tr class="module'+ module_row +' general'+ module_row +'">';
   html +='<td><?php echo $entry_module_type ?></td>';
   html +='<td>';
   html +='<select class="select_type" data-id="'+ module_row +'" name="custom_template_module['+ module_row +'][type]" id="custom_template_module['+ module_row +'][type]">';
@@ -415,6 +493,7 @@ function addModule() {
   html +='<a onclick="$(this).parent().find(\':checkbox\').attr(\'checked\', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(\':checkbox\').attr(\'checked\', false);"><?php echo $text_unselect_all; ?></a>';
   html +='</td>';
   html +='</tr>';
+
   html +='<tr class="product_manufacturers module'+ module_row +'">';
   html +='<td><?php echo $entry_manufacturer ?></td>';
   html +='<td>';
@@ -431,14 +510,83 @@ function addModule() {
   html +='<a onclick="$(this).parent().find(\':checkbox\').attr(\'checked\', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(\':checkbox\').attr(\'checked\', false);"><?php echo $text_unselect_all; ?></a>';
   html +='</td>';
   html +='</tr>';
-  html +='<tr class="template module'+ module_row +' common'+ module_row +'">';
-  html +='<td><?php echo $js_entry_template ?></td>';
-  html +='<td><input type="text" name="custom_template_module['+ module_row +'][template_name]">';
-  html +='<a style="float:right;" onclick="$(\'.module<?php echo $module_row; ?>\').remove();" class="button"><?php echo $button_remove; ?></a>';
+
+  html +='<tr class="layouts module'+ module_row +'">';
+  html +='<td><?php echo $entry_layouts ?></td>';
+  html +='<td>';
+  html +='<div class="scrollbox">';
+  <?php $class = 'odd'; ?>
+  <?php foreach ($layouts as $layout_key => $layout_data) : ?>
+    <?php $class = ($class == 'even' ? 'odd' : 'even'); ?>
+    html +='<div class="<?php echo $class; ?>">';
+    html +='<input type="checkbox" name="custom_template_module['+ module_row +'][layouts][<?php echo $layout_data['layout_id'] ?>]" id="custom_template_module['+ module_row +'][layouts][<?php echo $layout_data['layout_id'] ?>]" value="<?php echo $layout_data['layout_id']; ?>" />';
+    html +='<label for="custom_template_module['+ module_row +'][layouts][<?php echo $layout_data['layout_id'] ?>]"><?php echo addslashes($layout_data['name']); ?></label>';
+    html +='</div>';
+  <?php endforeach ?>
+  html +='</div>';
+  html +='<a onclick="$(this).parent().find(\':checkbox\').attr(\'checked\', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(\':checkbox\').attr(\'checked\', false);"><?php echo $text_unselect_all; ?></a>';
   html +='</td>';
   html +='</tr>';
 
+  html +='<tr class="customer_groups module'+ module_row +' general'+ module_row +'">';
+  html +='<td><?php echo $entry_customer_group ?></td>';
+  html +='<td>';
+  html +='<div class="scrollbox">';
+  <?php $class = 'odd'; ?>
+  <?php foreach ($customer_groups as $customer_group_key => $customer_group_data) { ?>
+  <?php $class = ($class == 'even' ? 'odd' : 'even'); ?>
+  html +='<div class="<?php echo $class; ?>">';
+  html +='<input type="checkbox" name="custom_template_module['+ module_row +'][customer_groups][<?php echo $customer_group_data['customer_group_id']; ?>]" id="custom_template_module['+ module_row +'][customer_groups][<?php echo $customer_group_data['customer_group_id']; ?>]" value="<?php echo $customer_group_data['customer_group_id']; ?>" />';
+  html +='<label for="custom_template_module['+ module_row +'][customer_groups][<?php echo $customer_group_data['customer_group_id']; ?>]"><?php echo $customer_group_data['name']; ?></label>';
+  html +='</div>';
+  <?php } ?>
+  html +='</div>';
+  html +='<a onclick="$(this).parent().find(\':checkbox\').attr(\'checked\', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(\':checkbox\').attr(\'checked\', false);"><?php echo $text_unselect_all; ?></a>';
+  html +='</td>';
+  html +='</tr>';
+  
+  html +='<tr class="stores module'+ module_row +' general'+ module_row +'">';
+  html +='<td><?php echo $entry_stores ?></td>';
+  html +='<td>';
+  html +='<div class="scrollbox">';
+  <?php $class = 'odd'; ?>
+  <?php foreach ($stores as $store_key => $store_data) { ?>
+  <?php $class = ($class == 'even' ? 'odd' : 'even'); ?>
+  html +='<div class="<?php echo $class; ?>">';
+  html +='<input type="checkbox" name="custom_template_module['+ module_row +'][stores][<?php echo $store_data['store_id']; ?>]" id="custom_template_module['+ module_row +'][stores][<?php echo $store_data['store_id']; ?>]" value="<?php echo $store_data['store_id']; ?>" />';
+  html +='<label for="custom_template_module['+ module_row +'][stores][<?php echo $store_data['store_id']; ?>]"><?php echo $store_data['name']; ?></label>';
+  html +='</div>';
+  <?php } ?>
+  html +='</div>';
+  html +='<a onclick="$(this).parent().find(\':checkbox\').attr(\'checked\', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(\':checkbox\').attr(\'checked\', false);"><?php echo $text_unselect_all; ?></a>';
+  html +='</td>';
+  html +='</tr>';
 	
+  html +='<tr class="languages module'+ module_row +' general'+ module_row +'">';
+  html +='<td><?php echo $entry_languages ?></td>';
+  html +='<td>';
+  html +='<div class="scrollbox">';
+  <?php $class = 'odd'; ?>
+  <?php foreach ($languages as $language_key => $language_data) { ?>
+  <?php $class = ($class == 'even' ? 'odd' : 'even'); ?>
+  html +='<div class="<?php echo $class; ?>">';
+  html +='<input type="checkbox" name="custom_template_module['+ module_row +'][languages][<?php echo $language_data['language_id']; ?>]" id="custom_template_module['+ module_row +'][languages][<?php echo $language_data['language_id']; ?>]" value="<?php echo $language_data['language_id']; ?>" />';
+  html +='<label for="custom_template_module['+ module_row +'][languages][<?php echo $language_data['language_id']; ?>]"><?php echo $language_data['name']; ?></label>';
+  html +='</div>';
+  <?php } ?>
+  html +='</div>';
+  html +='<a onclick="$(this).parent().find(\':checkbox\').attr(\'checked\', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(\':checkbox\').attr(\'checked\', false);"><?php echo $text_unselect_all; ?></a>';
+  html +='</td>';
+  html +='</tr>';
+
+  html +='<tr class="template module'+ module_row +' general'+ module_row +'">';
+  html +='<td><?php echo $js_entry_template ?></td>';
+  html +='<td><input type="text" name="custom_template_module['+ module_row +'][template_name]">';
+  html +='<a onclick="checkfile('+ module_row +');" class="button"><?php echo $button_check_file; ?></a>';
+  html +='<a style="float:right;" onclick="$(\'.module'+ module_row +'\').remove();" class="button"><?php echo $button_remove; ?></a>';
+  html +='</td>';
+  html +='</tr>';
+  
 	$('#add_module').before(html);
 
 	$('.product_autocomplete').autocomplete({
@@ -523,9 +671,20 @@ module_row++;
   background-color: #CFFFD7;
   border-left: 5px solid #4D814A;
 }
+.layouts{
+  background-color: #CFFFD7;
+  border-left: 5px solid #4D814A;
+}
+.common{
+  background-color: #CFFFD7;
+  border-left: 5px solid #4D814A;
+}
 .highlight_error{
   border-left: 5px solid #CE4C38;
   background: #ffc9c9;
+}
+a.close{
+  float: right;
 }
 select{
   width: 350px;

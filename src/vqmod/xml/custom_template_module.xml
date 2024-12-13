@@ -1,9 +1,199 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <modification>
 	<id>Custom Templates module</id>
-	<version>1.0</version>
+	<version>1.3</version>
 	<vqmver>2.4.1</vqmver>
 	<author>Shashakhmetov Talgat[talgatks@gmail.com]</author>
+	<file name="catalog/controller/checkout/cart.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->template = 'default/template/checkout/cart.tpl';]]></search>
+			<add><![CDATA[$this->template = 'default/template/checkout/cart.tpl';
+			}
+
+			// Custom template module
+			$this->load->model('setting/setting');
+
+			$custom_template_module = $this->model_setting_setting->getSetting('custom_template_module');
+			
+			if(!empty($custom_template_module['custom_template_module'])){
+				
+				$this->load->library('custom_template');
+				$custom_template = new CustomTemplate($this->registry);
+				$this->registry->set('custom_template', $custom_template);
+				
+				$customer_group_id = $this->customer->getCustomerGroupId();
+				
+				foreach ($custom_template_module['custom_template_module'] as $key => $module) {
+					if($module['type'] == 0){
+						if ($this->custom_template->filterCommon($module, $customer_group_id)){
+							if ($this->custom_template->filterLayouts($module)){
+
+								if (file_exists(DIR_TEMPLATE .  $module['template_name'])) {
+									$this->template = $module['template_name'];
+								} else {
+									$this->template = DIR_TEMPLATE . 'default' .DIRECTORY_SEPARATOR. $module['template_name'];
+								}
+
+							}
+						}
+					}
+				}
+			// Custom template module
+			]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/information/contact.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->template = 'default/template/information/contact.tpl';]]></search>
+			<add><![CDATA[$this->template = 'default/template/information/contact.tpl';
+			}
+
+			// Custom template module
+			$this->load->model('setting/setting');
+
+			$custom_template_module = $this->model_setting_setting->getSetting('custom_template_module');
+			
+			if(!empty($custom_template_module['custom_template_module'])){
+				
+				$this->load->library('custom_template');
+				$custom_template = new CustomTemplate($this->registry);
+				$this->registry->set('custom_template', $custom_template);
+				
+				$customer_group_id = $this->customer->getCustomerGroupId();
+				
+				foreach ($custom_template_module['custom_template_module'] as $key => $module) {
+					if($module['type'] == 0){
+						if ($this->custom_template->filterCommon($module, $customer_group_id)){
+							if ($this->custom_template->filterLayouts($module)){
+
+								if (file_exists(DIR_TEMPLATE .  $module['template_name'])) {
+									$this->template = $module['template_name'];
+								} else {
+									$this->template = DIR_TEMPLATE . 'default' .DIRECTORY_SEPARATOR. $module['template_name'];
+								}
+
+							}
+						}
+					}
+				}
+			// Custom template module
+			]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/product/search.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->template = 'default/template/product/search.tpl';]]></search>
+			<add><![CDATA[$this->template = 'default/template/product/search.tpl';
+			}
+
+			// Custom template module
+			$this->load->model('setting/setting');
+
+			$custom_template_module = $this->model_setting_setting->getSetting('custom_template_module');
+			
+			if(!empty($custom_template_module['custom_template_module'])){
+				
+				$this->load->library('custom_template');
+				$custom_template = new CustomTemplate($this->registry);
+				$this->registry->set('custom_template', $custom_template);
+				
+				$customer_group_id = $this->customer->getCustomerGroupId();
+				
+				foreach ($custom_template_module['custom_template_module'] as $key => $module) {
+					if($module['type'] == 0){
+						if ($this->custom_template->filterCommon($module, $customer_group_id)){
+							if ($this->custom_template->filterLayouts($module)){
+
+								if (file_exists(DIR_TEMPLATE .  $module['template_name'])) {
+									$this->template = $module['template_name'];
+								} else {
+									$this->template = DIR_TEMPLATE . 'default' .DIRECTORY_SEPARATOR. $module['template_name'];
+								}
+
+							}
+						}
+					}
+				}
+			// Custom template module
+			]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/product/special.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->template = 'default/template/product/special.tpl';]]></search>
+			<add><![CDATA[$this->template = 'default/template/product/special.tpl';
+			}
+
+			// Custom template module
+			$this->load->model('setting/setting');
+
+			$custom_template_module = $this->model_setting_setting->getSetting('custom_template_module');
+			
+			if(!empty($custom_template_module['custom_template_module'])){
+				
+				$this->load->library('custom_template');
+				$custom_template = new CustomTemplate($this->registry);
+				$this->registry->set('custom_template', $custom_template);
+				
+				$customer_group_id = $this->customer->getCustomerGroupId();
+				
+				foreach ($custom_template_module['custom_template_module'] as $key => $module) {
+					if($module['type'] == 0){
+						if ($this->custom_template->filterCommon($module, $customer_group_id)){
+							if ($this->custom_template->filterLayouts($module)){
+
+								if (file_exists(DIR_TEMPLATE .  $module['template_name'])) {
+									$this->template = $module['template_name'];
+								} else {
+									$this->template = DIR_TEMPLATE . 'default' .DIRECTORY_SEPARATOR. $module['template_name'];
+								}
+
+							}
+						}
+					}
+				}
+			// Custom template module
+			]]></add>
+		</operation>
+	</file>
+	<file name="catalog/controller/common/home.php">
+		<operation error="log">
+			<search position="replace"><![CDATA[$this->template = 'default/template/common/home.tpl';]]></search>
+			<add><![CDATA[$this->template = 'default/template/common/home.tpl';
+			}
+
+			// Custom template module
+			$this->load->model('setting/setting');
+
+			$custom_template_module = $this->model_setting_setting->getSetting('custom_template_module');
+			
+			if(!empty($custom_template_module['custom_template_module'])){
+				
+				$this->load->library('custom_template');
+				$custom_template = new CustomTemplate($this->registry);
+				$this->registry->set('custom_template', $custom_template);
+				
+				$customer_group_id = $this->customer->getCustomerGroupId();
+				
+				foreach ($custom_template_module['custom_template_module'] as $key => $module) {
+					if($module['type'] == 0){
+						if ($this->custom_template->filterCommon($module, $customer_group_id)){
+							if ($this->custom_template->filterLayouts($module)){
+
+								if (file_exists(DIR_TEMPLATE .  $module['template_name'])) {
+									$this->template = $module['template_name'];
+								} else {
+									$this->template = DIR_TEMPLATE . 'default' .DIRECTORY_SEPARATOR. $module['template_name'];
+								}
+
+							}
+						}
+					}
+				}
+			// Custom template module
+			]]></add>
+		</operation>
+	</file>
 	<file name="catalog/controller/product/category.php">
 		<operation error="log">
 			<search position="replace"><![CDATA[$this->template = 'default/template/product/category.tpl';]]></search>
@@ -14,16 +204,43 @@
 			$this->load->model('setting/setting');
 
 			$custom_template_module = $this->model_setting_setting->getSetting('custom_template_module');
-			
+
+
 			if(!empty($custom_template_module['custom_template_module'])){
+				
+				$this->load->library('custom_template');
+				$custom_template = new CustomTemplate($this->registry);
+				$this->registry->set('custom_template', $custom_template);
+				
+				$customer_group_id = $this->customer->getCustomerGroupId();
+				
 				foreach ($custom_template_module['custom_template_module'] as $key => $module) {
-					if (($module['type'] == 0) && !empty($module['categories'])) {
-						if (in_array($category_id, $module['categories'])) {
-							if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') .DIRECTORY_SEPARATOR. $module['template_name'])) {
-								$this->template = $this->config->get('config_template') .DIRECTORY_SEPARATOR. $module['template_name'];
-							} else {
-								$this->template = DIR_TEMPLATE . 'default' .DIRECTORY_SEPARATOR. $module['template_name'];
-							}	
+					if($module['type'] == 0){
+						if ($this->custom_template->filterCommon($module, $customer_group_id)){
+							if ($this->custom_template->filterLayouts($module)){
+
+								if (file_exists(DIR_TEMPLATE .  $module['template_name'])) {
+									$this->template = $module['template_name'];
+								} else {
+									$this->template = DIR_TEMPLATE . 'default' .DIRECTORY_SEPARATOR. $module['template_name'];
+								}
+
+							}
+						}
+					}
+				}
+				foreach ($custom_template_module['custom_template_module'] as $key => $module) {
+					if ($module['type'] == 1) {
+						if ($this->custom_template->filterCommon($module, $customer_group_id)){
+							if ($this->custom_template->filterCategories($module, $category_id)) {								
+
+								if (file_exists(DIR_TEMPLATE .  $module['template_name'])) {
+									$this->template = $module['template_name'];
+								} else {
+									$this->template = DIR_TEMPLATE . 'default' .DIRECTORY_SEPARATOR. $module['template_name'];
+								}
+
+							}
 						}
 					}
 				}
@@ -43,44 +260,83 @@
 			$custom_template_module = $this->model_setting_setting->getSetting('custom_template_module');
 
 			if(!empty($custom_template_module['custom_template_module'])){
-				if(isset($this->request->get['path'])){
-					foreach ($custom_template_module['custom_template_module'] as $key => $module) {
-						if (($module['type'] == 4) && !empty($module['product_categories'])) {
-							$category_id = explode('_', $this->request->get['path']);
-							$category_id = (int)end($category_id);
-							if (in_array($category_id, $module['product_categories'])) {
-								if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') .DIRECTORY_SEPARATOR. $module['template_name'])) {
-									$this->template = $this->config->get('config_template') .DIRECTORY_SEPARATOR. $module['template_name'];
+			
+				$this->load->library('custom_template');
+				$custom_template = new CustomTemplate($this->registry);
+				$this->registry->set('custom_template', $custom_template);
+				
+				$customer_group_id = $this->customer->getCustomerGroupId();
+
+				foreach ($custom_template_module['custom_template_module'] as $key => $module) {
+					if($module['type'] == 0){
+						if ($this->custom_template->filterCommon($module, $customer_group_id)){
+							if ($this->custom_template->filterLayouts($module)){
+
+								if (file_exists(DIR_TEMPLATE .  $module['template_name'])) {
+									$this->template = $module['template_name'];
 								} else {
 									$this->template = DIR_TEMPLATE . 'default' .DIRECTORY_SEPARATOR. $module['template_name'];
-								}	
+								}
+
 							}
 						}
 					}
 				}
-	
-				foreach ($custom_template_module['custom_template_module'] as $key => $module) {
-					if (($module['type'] == 5) && !empty($module['product_manufacturers'])) {
-						$manufacturer_id = $product_info['manufacturer_id'];
-						if (in_array($manufacturer_id, $module['product_manufacturers'])) {
-							if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') .DIRECTORY_SEPARATOR. $module['template_name'])) {
-								$this->template = $this->config->get('config_template') .DIRECTORY_SEPARATOR. $module['template_name'];
-							} else {
-								$this->template = DIR_TEMPLATE . 'default' .DIRECTORY_SEPARATOR. $module['template_name'];
-							}	
+
+				if(isset($this->request->get['path'])){
+					foreach ($custom_template_module['custom_template_module'] as $key => $module) {
+						if ($module['type'] == 5) {
+							if ($this->custom_template->filterCommon($module, $customer_group_id)){
+
+								$category_id = explode('_', $this->request->get['path']);
+								$category_id = (int)end($category_id);
+								
+								if ($this->custom_template->filterProductCategories($module, $category_id)){
+
+									if (file_exists(DIR_TEMPLATE . $module['template_name'])) {
+										$this->template = $module['template_name'];
+									} else {
+										$this->template = DIR_TEMPLATE . 'default' .DIRECTORY_SEPARATOR. $module['template_name'];
+									}	
+
+								}
+
+							}
 						}
 					}
-				}	
-				
+				}
+
 				foreach ($custom_template_module['custom_template_module'] as $key => $module) {
-					if (($module['type'] == 1) && !empty($module['products'])) {
-						$products = explode(',', $module['products']);
-						if (in_array($product_id, $products)) {
-							if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') .DIRECTORY_SEPARATOR. $module['template_name'])) {
-								$this->template = $this->config->get('config_template') .DIRECTORY_SEPARATOR. $module['template_name'];
-							} else {
-								$this->template = DIR_TEMPLATE . 'default' .DIRECTORY_SEPARATOR. $module['template_name'];
-							}	
+					if ($module['type'] == 6) {
+						if ($this->custom_template->filterCommon($module, $customer_group_id)){
+
+							$manufacturer_id = $product_info['manufacturer_id'];
+
+							if ($this->custom_template->filterProductManufacturers($manufacturer_id, $module)) {
+
+								if (file_exists(DIR_TEMPLATE . $module['template_name'])) {
+									$this->template = $module['template_name'];
+								} else {
+									$this->template = DIR_TEMPLATE . 'default' .DIRECTORY_SEPARATOR. $module['template_name'];
+								}
+
+							}
+
+						}
+
+					}
+				}	
+
+				foreach ($custom_template_module['custom_template_module'] as $key => $module) {
+					if (($module['type'] == 2) && !empty($module['products'])) {
+						if ($this->custom_template->filterCommon($module, $customer_group_id)){
+							if ($this->custom_template->filterProducts($module)) {
+								if (file_exists(DIR_TEMPLATE . $module['template_name'])) {
+									$this->template = $module['template_name'];
+								} else {
+									$this->template = DIR_TEMPLATE . 'default' .DIRECTORY_SEPARATOR. $module['template_name'];
+								}	
+							}
 						}
 					}
 				}
@@ -99,15 +355,44 @@
 			$this->load->model('setting/setting');
 
 			$custom_template_module = $this->model_setting_setting->getSetting('custom_template_module');
+
+
 			if(!empty($custom_template_module['custom_template_module'])){
+
+				$this->load->library('custom_template');
+				$custom_template = new CustomTemplate($this->registry);
+				$this->registry->set('custom_template', $custom_template);
+				
+				$customer_group_id = $this->customer->getCustomerGroupId();
+
 				foreach ($custom_template_module['custom_template_module'] as $key => $module) {
-					if (($module['type'] == 2) && !empty($module['informations'])) {
-						if (in_array($information_id, $module['informations'])) {
-							if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') .DIRECTORY_SEPARATOR. $module['template_name'])) {
-								$this->template = $this->config->get('config_template') .DIRECTORY_SEPARATOR. $module['template_name'];
-							} else {
-								$this->template = DIR_TEMPLATE . 'default' .DIRECTORY_SEPARATOR. $module['template_name'];
-							}	
+					if($module['type'] == 0){
+						if ($this->custom_template->filterCommon($module, $customer_group_id)){
+							if ($this->custom_template->filterLayouts($module)){
+
+								if (file_exists(DIR_TEMPLATE .  $module['template_name'])) {
+									$this->template = $module['template_name'];
+								} else {
+									$this->template = DIR_TEMPLATE . 'default' .DIRECTORY_SEPARATOR. $module['template_name'];
+								}
+
+							}
+						}
+					}
+				}
+
+				foreach ($custom_template_module['custom_template_module'] as $key => $module) {
+					if ($module['type'] == 3) {
+						if ($this->custom_template->filterCommon($module, $customer_group_id)){
+							if ($this->custom_template->filterInformations($module, $information_id)){
+
+								if (file_exists(DIR_TEMPLATE . $module['template_name'])) {
+									$this->template = $module['template_name'];
+								} else {
+									$this->template = DIR_TEMPLATE . 'default' .DIRECTORY_SEPARATOR. $module['template_name'];
+								}	
+
+							}
 						}
 					}
 				}
@@ -120,20 +405,48 @@
 			<search position="after"><![CDATA[$this->template = 'default/template/product/manufacturer_info.tpl';]]></search>
 			<add><![CDATA[
 			}
-			
+
 			// Custom template module
 			$this->load->model('setting/setting');
 
 			$custom_template_module = $this->model_setting_setting->getSetting('custom_template_module');
+
 			if(!empty($custom_template_module['custom_template_module'])){
+
+				$this->load->library('custom_template');
+				$custom_template = new CustomTemplate($this->registry);
+				$this->registry->set('custom_template', $custom_template);
+				
+				$customer_group_id = $this->customer->getCustomerGroupId();
+				
 				foreach ($custom_template_module['custom_template_module'] as $key => $module) {
-					if (($module['type'] == 3) && !empty($module['manufacturers'])) {
-						if (in_array($manufacturer_id, $module['manufacturers'])) {
-							if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') .DIRECTORY_SEPARATOR. $module['template_name'])) {
-								$this->template = $this->config->get('config_template') .DIRECTORY_SEPARATOR. $module['template_name'];
-							} else {
-								$this->template = DIR_TEMPLATE . 'default' .DIRECTORY_SEPARATOR. $module['template_name'];
-							}	
+					if($module['type'] == 0){
+						if ($this->custom_template->filterCommon($module, $customer_group_id)){
+							if ($this->custom_template->filterLayouts($module)){
+
+								if (file_exists(DIR_TEMPLATE .  $module['template_name'])) {
+									$this->template = $module['template_name'];
+								} else {
+									$this->template = DIR_TEMPLATE . 'default' .DIRECTORY_SEPARATOR. $module['template_name'];
+								}
+
+							}
+						}
+					}
+				}
+
+				foreach ($custom_template_module['custom_template_module'] as $key => $module) {
+					if ($module['type'] == 4) {
+						if ($this->custom_template->filterCommon($module, $customer_group_id)){
+							if ($this->custom_template->filterManufacturers($module, $manufacturer_id)){
+
+								if (file_exists(DIR_TEMPLATE . $module['template_name'])) {
+									$this->template = $module['template_name'];
+								} else {
+									$this->template = DIR_TEMPLATE . 'default' .DIRECTORY_SEPARATOR. $module['template_name'];
+								}	
+
+							}
 						}
 					}
 				}
