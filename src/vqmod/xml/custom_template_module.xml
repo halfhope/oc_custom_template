@@ -254,6 +254,29 @@
 				}	
 
 				foreach ($custom_template_module as $key => $module) {
+					if ($module['type'] == 7) {
+						if ($this->custom_template->filterCommon($module, $customer_group_id)){
+
+							$category_id = explode('_', $this->request->get['path']);
+							$category_id = (int)end($category_id);
+							$manufacturer_id = $product_info['manufacturer_id'];
+
+							if ($this->custom_template->filterProductManufacturers($module, $manufacturer_id) && $this->custom_template->filterProductCategories($module, $category_id)) {
+
+								if (file_exists(DIR_TEMPLATE . $module['template_name'])) {
+									$this->template = $module['template_name'];
+								} else {
+									$this->template = DIR_TEMPLATE . 'default' .DIRECTORY_SEPARATOR. $module['template_name'];
+								}
+
+							}
+
+						}
+
+					}
+				}	
+
+				foreach ($custom_template_module as $key => $module) {
 					if (($module['type'] == 2) && !empty($module['products'])) {
 						if ($this->custom_template->filterCommon($module, $customer_group_id)){
 							if ($this->custom_template->filterProducts($module, $product_id)) {

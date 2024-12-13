@@ -4,7 +4,7 @@
  */
 
 // Heading
-$_['heading_title']        = 'Custom templates <span style="float:right;color:#ddd;">[shtt.blog]</span>';
+$_['heading_title']        = 'Custom templates';
 $_['module_heading_title'] = 'Custom templates';
 $_['text_module']          = 'Modules';
 $_['text_unregistered']    = 'Unregistered';
@@ -29,7 +29,7 @@ $_['entry_customer_group'] = 'Customer groups: <span class="help">If left blank,
 $_['entry_information']    = 'Information pages:';
 $_['entry_manufacturer']   = 'Manufacturers:';
 $_['entry_product']        = 'Products (autocomplete):';
-$_['entry_template']       = 'Template file: <span class="help">The path is relative to the directory:%s <br>E.g. default/template/product/category.tpl</span>';
+$_['entry_template']       = 'Template file: <span class="help">The path is relative to the theme directory. <br>E.g. default/template/product/category.tpl</span>';
 
 //Buttons
 $_['button_check_file']    = 'Check path';

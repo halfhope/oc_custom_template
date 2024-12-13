@@ -34,7 +34,7 @@
         <table class="form" id="form">
           <?php $module_row = 0; ?>
           <?php foreach ($modules as $module): ?>
-          <tr class="module<?php echo $module_row ?>">
+          <tr class="module<?php echo $module_row ?> hidden">
           <input class="module<?php echo $module_row ?>" type="hidden" name="custom_template_module[<?php echo $module_row ?>][enabled]" value="0">
           <input class="module<?php echo $module_row ?>" type="hidden" name="custom_template_module[<?php echo $module_row ?>][layout_id]" value="0">
             <td colspan="2"></td>
@@ -137,7 +137,7 @@
               <input type="hidden" name="custom_template_module[<?php echo $module_row ?>][products]" value="<?php echo $module['products']; ?>" /></td>
               </td>
             </tr>
-            <tr class="product_categories module<?php echo $module_row ?>">
+            <tr class="product_categories pcm module<?php echo $module_row ?>">
               <td><?php echo $entry_category ?></td>
               <td>
                 <div class="scrollbox">
@@ -158,7 +158,7 @@
               <a onclick="$(this).parent().find(':checkbox').attr('checked', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(':checkbox').attr('checked', false);"><?php echo $text_unselect_all; ?></a>
               </td>
             </tr>
-            <tr class="product_manufacturers module<?php echo $module_row ?>">
+            <tr class="product_manufacturers pcm module<?php echo $module_row ?>">
               <td><?php echo $entry_manufacturer ?></td>
               <td>
                 <div class="scrollbox">
@@ -244,9 +244,9 @@
             </tr>
             <tr class="template module<?php echo $module_row ?> general<?php echo $module_row ?>">
               <td><?php printf($entry_template, $template_dir) ?></td>
-              <td><input type="text" name="custom_template_module[<?php echo $module_row ?>][template_name]" value="<?php echo $module['template_name'] ?>">
+              <td><div class="bottom_pnl"><input type="text" name="custom_template_module[<?php echo $module_row ?>][template_name]" value="<?php echo $module['template_name'] ?>">
               <a onclick="checkfile(<?php echo $module_row ?>);" class="button"><?php echo $button_check_file; ?></a><a style="float:right;" onclick="$('.module<?php echo $module_row; ?>').remove();" class="button"><?php echo $button_remove; ?></a>
-              </td>
+              </div></td>
             </tr>
           <?php $module_row++ ?>
 
@@ -260,7 +260,7 @@
   </div>
 </div>
 <script type="text/javascript"><!--
-var toc = ['layouts', 'categories', 'products', 'informations', 'manufacturers', 'product_categories', 'product_manufacturers'];
+var toc = ['layouts', 'categories', 'products', 'informations', 'manufacturers', 'product_categories', 'product_manufacturers', 'pcm'];
 function showActive(value, elem_id){
   $.each(toc, function(index, val) {
     if(value == index){
@@ -383,11 +383,11 @@ function checkfile(elem_id){
   })
   .success(function(data){
     if (data['success']) {
-      $(elem).parent('td').append('<div class="success" style="margin:10px 0px;">'+ data['success'] +'<a class="close"><img src="view/image/delete.png"/></a></div>');
+      $(elem).closest('td').append('<div class="success" style="margin:10px 0px;">'+ data['success'] +'<a class="close"><img src="view/image/delete.png"/></a></div>');
     };
 
     if (data['warning']) {
-      $(elem).parent('td').append('<div class="warning" style="margin:10px 0px;">'+ data['warning'] +'<a class="close"><img src="view/image/delete.png"/></a></div>');
+      $(elem).closest('td').append('<div class="warning" style="margin:10px 0px;">'+ data['warning'] +'<a class="close"><img src="view/image/delete.png"/></a></div>');
     }
     $('a.close').click(function(event) {
       event.preventDefault();
@@ -401,7 +401,7 @@ var module_row = <?php echo $module_row; ?>;
 
 function addModule() {
   html = '';
-  html += '<tr class="module'+ module_row +'">';
+  html += '<tr class="module'+ module_row +' hidden">';
   html += '<input class="module'+ module_row +'" type="hidden" name="custom_template_module['+ module_row +'][enabled]" value="0">';
   html += '<input class="module'+ module_row +'" type="hidden" name="custom_template_module['+ module_row +'][layout_id]" value="0">';        
   html += '<td colspan="2"></td>';
@@ -475,7 +475,7 @@ function addModule() {
   html +='<input type="hidden" name="custom_template_module['+ module_row +'][products]" value="" />';
   html +='</td>';
   html +='</tr>';
-  html +='<tr class="product_categories module'+ module_row +'">';
+  html +='<tr class="product_categories pcm module'+ module_row +'">';
   html +='<td><?php echo $entry_category ?></td>';
   html +='<td>';
   html +='<div class="scrollbox">';
@@ -492,7 +492,7 @@ function addModule() {
   html +='</td>';
   html +='</tr>';
 
-  html +='<tr class="product_manufacturers module'+ module_row +'">';
+  html +='<tr class="product_manufacturers pcm module'+ module_row +'">';
   html +='<td><?php echo $entry_manufacturer ?></td>';
   html +='<td>';
   html +='<div class="scrollbox">';
@@ -562,10 +562,10 @@ function addModule() {
 
   html +='<tr class="template module'+ module_row +' general'+ module_row +'">';
   html +='<td><?php echo $js_entry_template ?></td>';
-  html +='<td><input type="text" name="custom_template_module['+ module_row +'][template_name]">';
+  html +='<td><div class="bottom_pnl"><input type="text" name="custom_template_module['+ module_row +'][template_name]">';
   html +='<a onclick="checkfile('+ module_row +');" class="button"><?php echo $button_check_file; ?></a>';
   html +='<a style="float:right;" onclick="$(\'.module'+ module_row +'\').remove();" class="button"><?php echo $button_remove; ?></a>';
-  html +='</td>';
+  html +='</div></td>';
   html +='</tr>';
   
 	$('#add_module').before(html);
@@ -595,6 +595,10 @@ module_row++;
   background-color: #f7f2ff;
   border-left: 5px solid #c4a0ff;
 }
+.pcm{
+  background-color: #ebebeb;
+  border-left: 5px solid #626262;
+}
 .product_categories{
   background-color: #ffeded;
   border-left: 5px solid #ffcece;
@@ -614,11 +618,36 @@ module_row++;
 a.close{
   float: right;
 }
-select{
-  width: 350px;
+select, input[type="text"]{
+  width: 100%;
+  padding: 5px;
+  outline: none;
 }
-input[type="text"]{
-  width: 340px;
+.scrollbox{
+  width: -webkit-fill-available;
+  width: auto;
+  height: auto;
+  max-height: 500px;
+  overflow-y: scroll;
+  margin-bottom: 7px;
+  min-height: 21px;
+}
+.scrollbox > div{
+  padding: 4px;
+}
+.scrollbox div.odd{
+  background: #f5f5f5;
+}
+tbody> tr.hidden:first-child{
+  display: none;
+}
+.bottom_pnl{
+  display: flex;
+  white-space: nowrap;
+}
+.bottom_pnl .button{
+  padding-top: 7px;
+  margin-left: 5px;
 }
 </style>
 <?php echo $footer; ?>
