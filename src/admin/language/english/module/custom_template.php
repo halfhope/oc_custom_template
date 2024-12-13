@@ -14,7 +14,8 @@ $_['module_types'] = array(
 	1 						=> 'Product template',
 	2 						=> 'Information template',
 	3 						=> 'Manufactuerer template',
-	4 						=> 'Product template on custom categories (SEO only)'
+	4 						=> 'Product template on custom categories (SEO only)',
+	5 						=> 'Product template on custom manufacturers'
 );
 
 //Entry
@@ -22,7 +23,7 @@ $_['entry_module_type'] 	= 'Template type:';
 $_['entry_category'] 		= 'Categries:';
 $_['entry_information']		= 'Informations:';
 $_['entry_manufacturer'] 	= 'Manufactuerers:';
-$_['entry_product'] 		= 'Products (autocomplete):';
+$_['entry_product'] 		= 'Products (autocoplete):';
 $_['entry_template'] 		= 'New template file: <span class="help">%s</span>';
 
 //Success

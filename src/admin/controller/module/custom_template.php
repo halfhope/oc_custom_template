@@ -73,6 +73,9 @@ class ControllerModuleCustomTemplate extends Controller {
 			if (!isset($modules[$key]['manufacturers'])) {
 				$modules[$key]['manufacturers'] = array();
 			}
+			if (!isset($modules[$key]['product_manufacturers'])) {
+				$modules[$key]['product_manufacturers'] = array();
+			}
 			if (!isset($modules[$key]['product_categories'])) {
 				$modules[$key]['product_categories'] = array();
 			}

@@ -142,6 +142,27 @@
               <a onclick="$(this).parent().find(':checkbox').attr('checked', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(':checkbox').attr('checked', false);"><?php echo $text_unselect_all; ?></a>
               </td>
             </tr>
+            <tr class="product_manufacturers module<?php echo $module_row ?>">
+              <td><?php echo $entry_manufacturer ?></td>
+              <td>
+                <div class="scrollbox">
+                <?php $class = 'odd'; ?>
+                <?php foreach ($manufacturers as $manufacturer_key => $manufacturer_data) { ?>
+                <?php $class = ($class == 'even' ? 'odd' : 'even'); ?>
+                <div class="<?php echo $class; ?>">
+                  <?php if (in_array($manufacturer_data['manufacturer_id'], $module['product_manufacturers'])) { ?>
+                  <input type="checkbox" name="custom_template_module[<?php echo $module_row ?>][product_manufacturers][<?php echo $manufacturer_data['manufacturer_id']; ?>]" id="custom_template_module[<?php echo $module_row ?>][product_manufacturers][<?php echo $manufacturer_data['manufacturer_id']; ?>]" value="<?php echo $manufacturer_data['manufacturer_id']; ?>" checked="checked" />
+                  <label for="custom_template_module[<?php echo $module_row ?>][product_manufacturers][<?php echo $manufacturer_data['manufacturer_id']; ?>]"><?php echo $manufacturer_data['name']; ?></label>
+                  <?php } else { ?>
+                  <input type="checkbox" name="custom_template_module[<?php echo $module_row ?>][product_manufacturers][<?php echo $manufacturer_data['manufacturer_id']; ?>]" id="custom_template_module[<?php echo $module_row ?>][product_manufacturers][<?php echo $manufacturer_data['manufacturer_id']; ?>]" value="<?php echo $manufacturer_data['manufacturer_id']; ?>" />
+                  <label for="custom_template_module[<?php echo $module_row ?>][product_manufacturers][<?php echo $manufacturer_data['manufacturer_id']; ?>]"><?php echo $manufacturer_data['name']; ?></label>
+                  <?php } ?>
+                </div>
+                <?php } ?>
+              </div>
+              <a onclick="$(this).parent().find(':checkbox').attr('checked', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(':checkbox').attr('checked', false);"><?php echo $text_unselect_all; ?></a>
+              </td>
+            </tr>
           <tr class="template module<?php echo $module_row ?> common<?php echo $module_row ?>">
             <td><?php printf($entry_template, $template_dir) ?></td>
             <td><input type="text" name="custom_template_module[<?php echo $module_row ?>][template_name]" value="<?php echo $module['template_name'] ?>">
@@ -156,18 +177,18 @@
           </tr>
         </table>
         <table class="form">
-        	<tr>
-        		<td colspan="2">
-        			Вы так же можете поддержить автора модуля: <br>
-        			<ul>
-        				<li>VISA: 4693 9571 4399 2670 </li>
-        				<li>QIWI: +79525210034</li>
-        				<li>Яндекс.Деньги: 410012109593638</li>
-        				<li>WebMoney:R342987398998</li>
-        				<li>PayPal: talgatks@gmail.com</li>
-        			</ul>
-        		</td>
-        	</tr>
+          <tr>
+            <td colspan="2">
+              Вы так же можете поддержить автора модуля: <br>
+              <ul>
+                <li>VISA: 4693 9571 4399 2670 </li>
+                <li>QIWI: +79525210034</li>
+                <li>Яндекс.Деньги: 410012109593638</li>
+                <li>WebMoney:R342987398998</li>
+                <li>PayPal: talgatks@gmail.com</li>
+              </ul>
+            </td>
+          </tr>
         </table>
       </form>
     </div>
@@ -208,33 +229,39 @@ function init_form(){
       switch (parseInt($(this).val())) {
         case 0:
           $('.common'+elem_id).addClass('categories');
-          $('.common'+elem_id).removeClass('products informations manufacturers product_categories');
+          $('.common'+elem_id).removeClass('products informations manufacturers product_categories product_manufacturers');
           $('.categories.module'+elem_id).show();
-          $('.products.module'+elem_id+', .informations.module'+elem_id+', .manufacturers.module'+elem_id+', .product_categories.module'+elem_id).hide();
+          $('.products.module'+elem_id+', .informations.module'+elem_id+', .manufacturers.module'+elem_id+', .product_categories.module'+elem_id+', .product_manufacturers.module'+elem_id).hide();
         break;
         case 1:
           $('.common'+elem_id).addClass('products');
-          $('.common'+elem_id).removeClass('categories informations manufacturers product_categories');
+          $('.common'+elem_id).removeClass('categories informations manufacturers product_categories product_manufacturers');
           $('.products.module'+elem_id).show();
-          $('.categories.module'+elem_id+', .informations.module'+elem_id+', .manufacturers.module'+elem_id+', .product_categories.module'+elem_id).hide();
+          $('.categories.module'+elem_id+', .informations.module'+elem_id+', .manufacturers.module'+elem_id+', .product_categories.module'+elem_id+', .product_manufacturers.module'+elem_id).hide();
         break;
         case 2:
           $('.common'+elem_id).addClass('informations');
-          $('.common'+elem_id).removeClass('categories products manufacturers product_categories');
+          $('.common'+elem_id).removeClass('categories products manufacturers product_categories product_manufacturers');
           $('.informations.module'+elem_id).show();
-          $('.categories.module'+elem_id+', .products.module'+elem_id+', .manufacturers.module'+elem_id+', .product_categories.module'+elem_id).hide();
+          $('.categories.module'+elem_id+', .products.module'+elem_id+', .manufacturers.module'+elem_id+', .product_categories.module'+elem_id+', .product_manufacturers.module'+elem_id).hide();
         break;
         case 3:
           $('.common'+elem_id).addClass('manufacturers');
-          $('.common'+elem_id).removeClass('categories products informations product_categories');
+          $('.common'+elem_id).removeClass('categories products informations product_categories product_manufacturers');
           $('.manufacturers.module'+elem_id).show();
-          $('.categories.module'+elem_id+', .products.module'+elem_id+', .informations.module'+elem_id+', .product_categories.module'+elem_id).hide();
+          $('.categories.module'+elem_id+', .products.module'+elem_id+', .informations.module'+elem_id+', .product_categories.module'+elem_id+', .product_manufacturers.module'+elem_id).hide();
         break; 
         case 4:
           $('.common'+elem_id).addClass('product_categories');
-          $('.common'+elem_id).removeClass('products informations manufacturers categories');
+          $('.common'+elem_id).removeClass('products informations manufacturers categories product_manufacturers');
           $('.product_categories.module'+elem_id).show();
-          $('.categories.module'+elem_id+', .products.module'+elem_id+', .informations.module'+elem_id+', .manufacturers.module'+elem_id).hide();
+          $('.categories.module'+elem_id+', .products.module'+elem_id+', .informations.module'+elem_id+', .manufacturers.module'+elem_id+', .product_manufacturers.module'+elem_id).hide();
+        break;
+        case 5:
+          $('.common'+elem_id).addClass('product_manufacturers');
+          $('.common'+elem_id).removeClass('products informations manufacturers categories product_categories');
+          $('.product_manufacturers.module'+elem_id).show();
+          $('.categories.module'+elem_id+', .products.module'+elem_id+', .informations.module'+elem_id+', .manufacturers.module'+elem_id+', .product_categories.module'+elem_id).hide();
         break;
       }
   });
@@ -388,12 +415,29 @@ function addModule() {
   html +='<a onclick="$(this).parent().find(\':checkbox\').attr(\'checked\', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(\':checkbox\').attr(\'checked\', false);"><?php echo $text_unselect_all; ?></a>';
   html +='</td>';
   html +='</tr>';
+  html +='<tr class="product_manufacturers module'+ module_row +'">';
+  html +='<td><?php echo $entry_manufacturer ?></td>';
+  html +='<td>';
+  html +='<div class="scrollbox">';
+  <?php $class = 'odd'; ?>
+  <?php foreach ($manufacturers as $manufacturer_key => $manufacturer_data) : ?>
+    <?php $class = ($class == 'even' ? 'odd' : 'even'); ?>
+    html +='<div class="<?php echo $class; ?>">';
+    html +='<input type="checkbox" name="custom_template_module['+ module_row +'][product_manufacturers][<?php echo $manufacturer_data['manufacturer_id'] ?>]" id="custom_template_module['+ module_row +'][product_manufacturers][<?php echo $manufacturer_data['manufacturer_id'] ?>]" value="<?php echo $manufacturer_data['manufacturer_id']; ?>" />';
+    html +='<label for="custom_template_module['+ module_row +'][product_manufacturers][<?php echo $manufacturer_data['manufacturer_id'] ?>]"><?php echo addslashes($manufacturer_data['name']); ?></label>';
+    html +='</div>';
+  <?php endforeach ?>
+  html +='</div>';
+  html +='<a onclick="$(this).parent().find(\':checkbox\').attr(\'checked\', true);"><?php echo $text_select_all; ?></a> / <a onclick="$(this).parent().find(\':checkbox\').attr(\'checked\', false);"><?php echo $text_unselect_all; ?></a>';
+  html +='</td>';
+  html +='</tr>';
   html +='<tr class="template module'+ module_row +' common'+ module_row +'">';
   html +='<td><?php echo $js_entry_template ?></td>';
   html +='<td><input type="text" name="custom_template_module['+ module_row +'][template_name]">';
   html +='<a style="float:right;" onclick="$(\'.module<?php echo $module_row; ?>\').remove();" class="button"><?php echo $button_remove; ?></a>';
   html +='</td>';
   html +='</tr>';
+
 	
 	$('#add_module').before(html);
 
@@ -474,6 +518,10 @@ module_row++;
 .product_categories{
   background-color: #ffeded;
   border-left: 5px solid #ffcece;
+}
+.product_manufacturers{
+  background-color: #CFFFD7;
+  border-left: 5px solid #4D814A;
 }
 .highlight_error{
   border-left: 5px solid #CE4C38;

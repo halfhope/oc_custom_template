@@ -41,12 +41,13 @@
 			$this->load->model('setting/setting');
 
 			$custom_template_module = $this->model_setting_setting->getSetting('custom_template_module');
+
 			if(!empty($custom_template_module['custom_template_module'])){
 				if(isset($this->request->get['path'])){
 					foreach ($custom_template_module['custom_template_module'] as $key => $module) {
 						if (($module['type'] == 4) && !empty($module['product_categories'])) {
 							$category_id = explode('_', $this->request->get['path']);
-							$category_id = end($category_id);
+							$category_id = (int)end($category_id);
 							if (in_array($category_id, $module['product_categories'])) {
 								if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') .DIRECTORY_SEPARATOR. $module['template_name'])) {
 									$this->template = $this->config->get('config_template') .DIRECTORY_SEPARATOR. $module['template_name'];
@@ -57,6 +58,19 @@
 						}
 					}
 				}
+	
+				foreach ($custom_template_module['custom_template_module'] as $key => $module) {
+					if (($module['type'] == 5) && !empty($module['product_manufacturers'])) {
+						$manufacturer_id = $product_info['manufacturer_id'];
+						if (in_array($manufacturer_id, $module['product_manufacturers'])) {
+							if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') .DIRECTORY_SEPARATOR. $module['template_name'])) {
+								$this->template = $this->config->get('config_template') .DIRECTORY_SEPARATOR. $module['template_name'];
+							} else {
+								$this->template = DIR_TEMPLATE . 'default' .DIRECTORY_SEPARATOR. $module['template_name'];
+							}	
+						}
+					}
+				}	
 				
 				foreach ($custom_template_module['custom_template_module'] as $key => $module) {
 					if (($module['type'] == 1) && !empty($module['products'])) {
@@ -129,4 +143,3 @@
 	</file>
 	
 </modification>
-<!-- wr aith -->
